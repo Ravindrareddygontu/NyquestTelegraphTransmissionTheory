@@ -2826,50 +2826,110 @@
 
         function updateStep6(reconstructed, sampling, originalElements) {
             if (samplingChart) samplingChart.destroy();
-            const labels = reconstructed.signal.map((_, i) => (i / 50).toFixed(1));
 
-            // Create sampling points dataset
-            const samplingPoints = [];
-            const samplingLabels = [];
-            sampling.samples.forEach(s => {
-                samplingPoints.push({x: s.sample_index, y: s.value});
+            // Create proper x-axis values for the signal (time in time units)
+            const numSamples = reconstructed.signal.length;
+            const numElements = sampling.samples.length;
+            const samplesPerUnit = numSamples / numElements;
+
+            // Create data points for line chart with x,y coordinates
+            const signalData = reconstructed.signal.map((y, i) => ({
+                x: i / samplesPerUnit,
+                y: y
+            }));
+
+            // Create threshold line
+            const thresholdData = reconstructed.signal.map((_, i) => ({
+                x: i / samplesPerUnit,
+                y: 0.5
+            }));
+
+            // Create sampling points at exact positions
+            // Each sample is at the CENTER of its time unit (element + 0.5)
+            const sampleData = sampling.samples.map((s, i) => ({
+                x: i + 0.5,  // Center of each time unit
+                y: s.value
+            }));
+
+            // Colors for sample points
+            const sampleColors = sampling.samples.map((s, i) => {
+                const originalVal = originalElements[i]?.value !== undefined ? originalElements[i].value : originalElements[i];
+                return s.decoded === originalVal ? '#10b981' : '#ef4444';
             });
 
             samplingChart = new Chart(document.getElementById('samplingChart'), {
-                type: 'line',
+                type: 'scatter',
                 data: {
-                    labels: labels,
                     datasets: [
                         {
                             label: 'Received Signal',
-                            data: reconstructed.signal,
+                            data: signalData,
                             borderColor: '#3b82f6',
                             borderWidth: 1.5,
                             fill: false,
-                            pointRadius: 0
+                            pointRadius: 0,
+                            showLine: true,
+                            type: 'line'
                         },
                         {
                             label: 'Threshold (0.5)',
-                            data: Array(reconstructed.signal.length).fill(0.5),
+                            data: thresholdData,
                             borderColor: '#ef4444',
                             borderWidth: 1,
                             borderDash: [5, 5],
                             fill: false,
-                            pointRadius: 0
+                            pointRadius: 0,
+                            showLine: true,
+                            type: 'line'
                         },
                         {
                             label: 'Sample Points',
-                            data: sampling.samples.map(s => ({x: (s.sample_index / 50).toFixed(1), y: s.value})),
+                            data: sampleData,
                             borderColor: 'transparent',
-                            backgroundColor: sampling.samples.map((s, i) =>
-                                s.decoded === originalElements[i] ? '#10b981' : '#ef4444'),
-                            pointRadius: 6,
-                            showLine: false,
-                            type: 'scatter'
+                            backgroundColor: sampleColors,
+                            pointRadius: 8,
+                            pointHoverRadius: 10,
+                            showLine: false
                         }
                     ]
                 },
-                options: {...chartConfig, plugins: {legend: {display: true, position: 'top'}}}
+                options: {
+                    ...chartConfig,
+                    plugins: {
+                        legend: {display: true, position: 'top'},
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    if (context.datasetIndex === 2) {
+                                        const idx = context.dataIndex;
+                                        const sample = sampling.samples[idx];
+                                        const decoded = sample.decoded;
+                                        const originalVal = originalElements[idx]?.value !== undefined ? originalElements[idx].value : originalElements[idx];
+                                        const status = decoded === originalVal ? '✓ Correct' : '✗ Error';
+                                        return `Element ${idx}: value=${sample.value.toFixed(3)}, decoded=${decoded} ${status}`;
+                                    }
+                                    return context.dataset.label + ': ' + context.parsed.y.toFixed(3);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            title: {display: true, text: 'Time Unit'},
+                            min: 0,
+                            max: numElements,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        },
+                        y: {
+                            min: -0.2,
+                            max: 1.2,
+                            title: {display: true, text: 'Amplitude'}
+                        }
+                    }
+                }
             });
 
             // Calculate decoded bits and error status
