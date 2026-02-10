@@ -660,8 +660,14 @@
 
         // Toggle step panels
         function toggleStep(num) {
-            const step = document.getElementById('step' + num);
-            step.classList.toggle('open');
+            // Handle both 'step1', 'step2' format and direct IDs like 'summary'
+            let step = document.getElementById('step' + num);
+            if (!step) {
+                step = document.getElementById(num);
+            }
+            if (step) {
+                step.classList.toggle('open');
+            }
         }
 
         // Toggle concept panels
