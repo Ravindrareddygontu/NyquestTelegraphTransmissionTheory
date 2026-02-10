@@ -533,23 +533,21 @@
             transition: all 0.3s ease;
         }
         .tx-sender {
-            background: #eff6ff;
-            border: 1px solid #3b82f6;
+            background: #f9fafb;
+            border: 1px solid #6b7280;
         }
         .tx-sender.active {
-            background: #3b82f6;
-            box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+            background: #374151;
         }
         .tx-sender.active .tx-icon, .tx-sender.active .tx-label, .tx-sender.active .tx-status {
             color: white;
         }
         .tx-receiver {
-            background: #ecfdf5;
-            border: 1px solid #10b981;
+            background: #f9fafb;
+            border: 1px solid #6b7280;
         }
         .tx-receiver.active {
-            background: #10b981;
-            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+            background: #374151;
         }
         .tx-receiver.active .tx-icon, .tx-receiver.active .tx-label, .tx-receiver.active .tx-status {
             color: white;
@@ -589,9 +587,8 @@
             left: -100px;
             width: 80px;
             height: 40px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            background: #3b82f6;
             border-radius: 8px;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6), 0 0 30px rgba(139, 92, 246, 0.3);
             transition: left 3s ease-in-out, background 1s ease;
             display: flex;
             align-items: center;
@@ -601,8 +598,7 @@
             left: calc(100% + 20px);
         }
         .tx-signal-packet.filtered {
-            background: linear-gradient(135deg, #f59e0b, #10b981);
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.6), 0 0 30px rgba(16, 185, 129, 0.3);
+            background: #374151;
         }
         .tx-filter-zone {
             position: absolute;
@@ -662,16 +658,14 @@
             margin-bottom: 20px;
         }
         .tx-compare-box {
-            background: white;
-            border-radius: 12px;
+            background: #f9fafb;
+            border-radius: 6px;
             padding: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
         }
         .dark-mode .tx-compare-box { background: rgba(0,0,0,0.2); }
-        .tx-compare-box:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.12); }
-        .tx-before { border: 2px solid #3b82f6; }
-        .tx-after { border: 2px solid #10b981; }
+        .tx-before { border-left: 3px solid #3b82f6; }
+        .tx-after { border-left: 3px solid #6b7280; }
         .tx-compare-header {
             display: flex;
             align-items: center;
@@ -693,31 +687,31 @@
             display: inline-flex;
             align-items: center;
             font-size: 1.5em;
-            color: #f59e0b;
+            color: #6b7280;
             animation: arrowPulse 1.5s ease-in-out infinite;
         }
         @keyframes arrowPulse {
             0%, 100% { transform: translateX(0); opacity: 1; }
             50% { transform: translateX(5px); opacity: 0.7; }
         }
-        .tx-arrow-label { font-size: 0.7em; color: #d97706; font-weight: 600; margin-top: 4px; }
+        .tx-arrow-label { font-size: 0.7em; color: #6b7280; font-weight: 600; margin-top: 4px; }
 
         /* Transformation View */
         .tx-transform-view {
-            background: white;
-            border-radius: 12px;
+            background: #f9fafb;
+            border-radius: 6px;
             padding: 12px;
             margin-bottom: 16px;
-            border: 2px solid #8b5cf6;
-            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.1);
+            border: 1px solid #e5e7eb;
         }
         .dark-mode .tx-transform-view { background: rgba(0,0,0,0.2); }
         .tx-transform-header {
             font-weight: 600;
             font-size: 0.9em;
-            color: #7c3aed;
+            color: #374151;
             margin-bottom: 8px;
         }
+        .dark-mode .tx-transform-header { color: #e5e7eb; }
         .tx-transform-header span { margin-right: 6px; }
         .tx-transform-chart { height: 120px; }
         .tx-transform-legend {
@@ -950,10 +944,10 @@
         .formula-main {
             font-size: 1.1em;
             font-weight: 600;
-            color: #059669;
+            color: #3b82f6;
             margin-bottom: 4px;
         }
-        .dark-mode .formula-main { color: #6ee7b7; }
+        .dark-mode .formula-main { color: #60a5fa; }
         .formula-desc {
             font-size: 0.8em;
             color: #6b7280;
@@ -2079,8 +2073,8 @@
                         </div>
                         <div class="tx-transform-legend">
                             <span class="legend-item"><span class="legend-dot" style="background:#3b82f6;"></span> Original</span>
-                            <span class="legend-item"><span class="legend-dot" style="background:#f59e0b;"></span> Transforming</span>
-                            <span class="legend-item"><span class="legend-dot" style="background:#10b981;"></span> Final</span>
+                            <span class="legend-item"><span class="legend-dot" style="background:#6b7280;"></span> Transforming</span>
+                            <span class="legend-item"><span class="legend-dot" style="background:#374151;"></span> Final</span>
                         </div>
                     </div>
 
@@ -2195,13 +2189,13 @@
                             <div class="tx-observe-item">
                                 <span class="tx-observe-num">2</span>
                                 <div class="tx-observe-text">
-                                    <strong>Filter Zone:</strong> Orange zone shows frequency filtering
+                                    <strong>Filter Zone:</strong> Gray zone shows frequency filtering
                                 </div>
                             </div>
                             <div class="tx-observe-item">
                                 <span class="tx-observe-num">3</span>
                                 <div class="tx-observe-text">
-                                    <strong>Color Change:</strong> Blue (original) → Green (filtered)
+                                    <strong>Color Change:</strong> Blue (original) → Gray (filtered)
                                 </div>
                             </div>
                             <div class="tx-observe-item">
@@ -4071,32 +4065,31 @@
                 </div>
 
                 <!-- Bandwidth Analysis Box -->
-                <div style="background: ${isBandwidthSufficient ? 'linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%)' : 'linear-gradient(135deg, #fee2e2 0%, #fef2f2 100%)'};
-                            border: 2px solid ${isBandwidthSufficient ? '#10b981' : '#ef4444'};
-                            border-radius: 12px; padding: 16px; margin: 16px 0;">
-                    <h4 style="margin: 0 0 12px 0; color: ${isBandwidthSufficient ? '#059669' : '#dc2626'};">
-                        ${isBandwidthSufficient ? '✓ Bandwidth Analysis: SUFFICIENT' : '✗ Bandwidth Analysis: INSUFFICIENT'}
+                <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-left: 3px solid ${isBandwidthSufficient ? '#3b82f6' : '#6b7280'};
+                            border-radius: 6px; padding: 14px; margin: 14px 0;">
+                    <h4 style="margin: 0 0 10px 0; color: #374151; font-size: 0.95em;">
+                        ${isBandwidthSufficient ? 'Bandwidth Analysis: SUFFICIENT' : 'Bandwidth Analysis: INSUFFICIENT'}
                     </h4>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center;">
-                        <div style="background: white; padding: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                            <div style="font-size: 0.8em; color: #6b7280;">Signal Elements (S)</div>
-                            <div style="font-size: 1.5em; font-weight: bold; color: #3b82f6;">${numElements}</div>
-                            <div style="font-size: 0.75em; color: #9ca3af;">symbols to transmit</div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: center;">
+                        <div style="background: white; padding: 10px; border-radius: 6px; border: 1px solid #e5e7eb;">
+                            <div style="font-size: 0.75em; color: #6b7280;">Signal Elements (S)</div>
+                            <div style="font-size: 1.3em; font-weight: 600; color: #374151;">${numElements}</div>
+                            <div style="font-size: 0.7em; color: #9ca3af;">symbols to transmit</div>
                         </div>
-                        <div style="background: white; padding: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                            <div style="font-size: 0.8em; color: #6b7280;">Min Required (B<sub>min</sub> = S/2)</div>
-                            <div style="font-size: 1.5em; font-weight: bold; color: #f59e0b;">${minBandwidth} Hz</div>
-                            <div style="font-size: 0.75em; color: #9ca3af;">Nyquist limit</div>
+                        <div style="background: white; padding: 10px; border-radius: 6px; border: 1px solid #e5e7eb;">
+                            <div style="font-size: 0.75em; color: #6b7280;">Min Required (B<sub>min</sub> = S/2)</div>
+                            <div style="font-size: 1.3em; font-weight: 600; color: #3b82f6;">${minBandwidth} Hz</div>
+                            <div style="font-size: 0.7em; color: #9ca3af;">Nyquist limit</div>
                         </div>
-                        <div style="background: white; padding: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                            <div style="font-size: 0.8em; color: #6b7280;">Channel Bandwidth (B)</div>
-                            <div style="font-size: 1.5em; font-weight: bold; color: ${isBandwidthSufficient ? '#10b981' : '#ef4444'};">${channelBW} Hz</div>
-                            <div style="font-size: 0.75em; color: #9ca3af;">${isBandwidthSufficient ? 'OK' : 'Too low!'}</div>
+                        <div style="background: white; padding: 10px; border-radius: 6px; border: 1px solid #e5e7eb;">
+                            <div style="font-size: 0.75em; color: #6b7280;">Channel Bandwidth (B)</div>
+                            <div style="font-size: 1.3em; font-weight: 600; color: #374151;">${channelBW} Hz</div>
+                            <div style="font-size: 0.7em; color: #9ca3af;">${isBandwidthSufficient ? 'OK' : 'Too low!'}</div>
                         </div>
                     </div>
-                    <div style="margin-top: 12px; padding: 10px; background: white; border-radius: 8px; text-align: center;">
+                    <div style="margin-top: 10px; padding: 8px; background: white; border-radius: 6px; text-align: center; font-size: 0.85em; border: 1px solid #e5e7eb;">
                         <strong>Nyquist Formula:</strong> B<sub>min</sub> = S / 2 → ${numElements} / 2 = ${minBandwidth} Hz
-                        ${!isBandwidthSufficient ? `<br><span style="color: #ef4444;">You need at least ${minBandwidth - channelBW} more Hz of bandwidth!</span>` : ''}
+                        ${!isBandwidthSufficient ? `<br><span style="color: #6b7280;">You need at least ${minBandwidth - channelBW} more Hz of bandwidth!</span>` : ''}
                     </div>
                 </div>
 
