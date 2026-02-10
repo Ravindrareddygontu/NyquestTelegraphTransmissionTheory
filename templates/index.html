@@ -486,6 +486,280 @@
         .section-divider::after { right: 0; }
         .concept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin: 16px 0; }
 
+        /* Transmission Line Animation Styles */
+        .transmission-line-container {
+            margin-top: 24px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0fdf4 100%);
+            border-radius: 16px;
+            border: 2px solid #0ea5e9;
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.15);
+        }
+        .dark-mode .transmission-line-container {
+            background: linear-gradient(135deg, #1e3a5f 0%, #1e3a5f 50%, #064e3b 100%);
+            border-color: #0ea5e9;
+        }
+        .tx-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0 0 20px 0;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #0369a1;
+        }
+        .tx-header span { font-size: 1.3em; margin-right: 8px; }
+        .dark-mode .tx-header { color: #7dd3fc; }
+        .replay-btn {
+            padding: 6px 14px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .replay-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Transmission Line Wire */
+        .tx-line-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .dark-mode .tx-line-wrapper {
+            background: rgba(0,0,0,0.2);
+        }
+        .tx-endpoint {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 12px;
+            min-width: 90px;
+            transition: all 0.3s ease;
+        }
+        .tx-sender {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border: 2px solid #3b82f6;
+        }
+        .tx-sender.active {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+        .tx-sender.active .tx-icon, .tx-sender.active .tx-label, .tx-sender.active .tx-status {
+            color: white;
+        }
+        .tx-receiver {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border: 2px solid #10b981;
+        }
+        .tx-receiver.active {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+        }
+        .tx-receiver.active .tx-icon, .tx-receiver.active .tx-label, .tx-receiver.active .tx-status {
+            color: white;
+        }
+        .tx-icon { font-size: 2em; margin-bottom: 4px; }
+        .tx-label { font-size: 0.75em; font-weight: 600; color: #374151; }
+        .tx-status { font-size: 0.65em; color: #6b7280; margin-top: 4px; padding: 2px 8px; background: rgba(255,255,255,0.5); border-radius: 10px; }
+
+        /* The Wire */
+        .tx-wire-container { flex: 1; position: relative; }
+        .tx-wire {
+            height: 50px;
+            background: linear-gradient(180deg, #e5e7eb 0%, #d1d5db 50%, #e5e7eb 100%);
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #9ca3af;
+        }
+        .dark-mode .tx-wire {
+            background: linear-gradient(180deg, #374151 0%, #4b5563 50%, #374151 100%);
+            border-color: #6b7280;
+        }
+        .tx-wire-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 20px,
+                rgba(0,0,0,0.03) 20px,
+                rgba(0,0,0,0.03) 40px
+            );
+        }
+        .tx-signal-packet {
+            position: absolute;
+            top: 5px;
+            left: -100px;
+            width: 80px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6), 0 0 30px rgba(139, 92, 246, 0.3);
+            transition: left 3s ease-in-out, background 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tx-signal-packet.traveling {
+            left: calc(100% + 20px);
+        }
+        .tx-signal-packet.filtered {
+            background: linear-gradient(135deg, #f59e0b, #10b981);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.6), 0 0 30px rgba(16, 185, 129, 0.3);
+        }
+        .tx-filter-zone {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 4px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        .tx-filter-zone.active {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        .tx-filter-zone.active .filter-icon, .tx-filter-zone.active .filter-label {
+            color: white;
+        }
+        .filter-icon { font-size: 1.2em; }
+        .filter-label { font-size: 0.6em; font-weight: 600; color: #92400e; white-space: nowrap; }
+
+        /* Progress Bar */
+        .tx-progress-bar {
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .tx-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3b82f6, #f59e0b, #10b981);
+            border-radius: 3px;
+            transition: width 3s ease-in-out;
+        }
+        .tx-progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65em;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        /* Before/After Comparison */
+        .tx-comparison {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .tx-compare-box {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        .dark-mode .tx-compare-box { background: rgba(0,0,0,0.2); }
+        .tx-compare-box:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.12); }
+        .tx-before { border: 2px solid #3b82f6; }
+        .tx-after { border: 2px solid #10b981; }
+        .tx-compare-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        .dark-mode .tx-compare-header { color: #e5e7eb; }
+        .tx-compare-icon { font-size: 1.2em; }
+        .tx-chart-wrapper { height: 80px; background: #f9fafb; border-radius: 8px; padding: 4px; }
+        .dark-mode .tx-chart-wrapper { background: rgba(0,0,0,0.3); }
+        .tx-compare-desc { font-size: 0.7em; color: #6b7280; text-align: center; margin-top: 8px; }
+
+        /* Animated Arrow */
+        .tx-arrow-container { text-align: center; }
+        .tx-animated-arrow {
+            display: inline-flex;
+            align-items: center;
+            font-size: 1.5em;
+            color: #f59e0b;
+            animation: arrowPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes arrowPulse {
+            0%, 100% { transform: translateX(0); opacity: 1; }
+            50% { transform: translateX(5px); opacity: 0.7; }
+        }
+        .tx-arrow-label { font-size: 0.7em; color: #d97706; font-weight: 600; margin-top: 4px; }
+
+        /* Transformation View */
+        .tx-transform-view {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 2px solid #8b5cf6;
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.1);
+        }
+        .dark-mode .tx-transform-view { background: rgba(0,0,0,0.2); }
+        .tx-transform-header {
+            font-weight: 600;
+            font-size: 0.9em;
+            color: #7c3aed;
+            margin-bottom: 8px;
+        }
+        .tx-transform-header span { margin-right: 6px; }
+        .tx-transform-chart { height: 120px; }
+        .tx-transform-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 8px;
+        }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75em; color: #6b7280; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+        /* Explanation Box */
+        .tx-explanation {
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #fef3c7, #fef9c3);
+            border-radius: 10px;
+            border-left: 4px solid #f59e0b;
+            font-size: 0.85em;
+            color: #92400e;
+        }
+        .dark-mode .tx-explanation {
+            background: linear-gradient(135deg, #422006, #451a03);
+            color: #fcd34d;
+        }
+
         /* Confetti Animation */
         .confetti-container {
             position: fixed;
@@ -1423,83 +1697,108 @@
                 </div>
                 <div id="step4-content"></div>
 
-                <!-- NEW: Signal Through Transmission Line Visualization -->
-                <div style="margin-top: 24px; padding: 16px; background: linear-gradient(135deg, #1e293b 0%, #334155 100%); border-radius: 12px; border: 2px solid #475569;">
-                    <h4 style="color: #f8fafc; margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 1.3em;">📡</span> Signal Through Transmission Line
+                <!-- NEW: Animated Signal Through Transmission Line Visualization -->
+                <div class="transmission-line-container" id="transmissionLineContainer">
+                    <h4 class="tx-header">
+                        <span>📡</span> Live Signal Transmission
+                        <button id="replayTransmission" class="replay-btn" onclick="replayTransmissionAnimation()">
+                            🔄 Replay
+                        </button>
                     </h4>
 
-                    <!-- Transmission Line Diagram -->
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
-                        <div style="background: #3b82f6; color: white; padding: 8px 12px; border-radius: 8px; font-size: 0.85em; font-weight: bold;">
-                            TX<br><span style="font-size: 0.7em;">Transmitter</span>
+                    <!-- Animated Transmission Line -->
+                    <div class="tx-line-wrapper">
+                        <!-- Transmitter -->
+                        <div class="tx-endpoint tx-sender" id="txSender">
+                            <div class="tx-icon">📻</div>
+                            <div class="tx-label">Transmitter</div>
+                            <div class="tx-status" id="txStatus">Ready</div>
                         </div>
-                        <div style="flex: 1; height: 4px; background: linear-gradient(90deg, #3b82f6, #f59e0b, #10b981); border-radius: 2px; position: relative;">
-                            <div style="position: absolute; top: -20px; left: 10%; font-size: 0.7em; color: #94a3b8;">Input</div>
-                            <div style="position: absolute; top: -20px; left: 45%; font-size: 0.7em; color: #fbbf24;">Filter</div>
-                            <div style="position: absolute; top: -20px; right: 10%; font-size: 0.7em; color: #94a3b8;">Output</div>
+
+                        <!-- The Wire/Channel -->
+                        <div class="tx-wire-container">
+                            <!-- Wire with animated signal -->
+                            <div class="tx-wire">
+                                <div class="tx-wire-bg"></div>
+                                <div class="tx-signal-packet" id="signalPacket">
+                                    <canvas id="packetWaveCanvas" width="80" height="40"></canvas>
+                                </div>
+                                <!-- Filter zone -->
+                                <div class="tx-filter-zone" id="filterZone">
+                                    <div class="filter-icon">⚡</div>
+                                    <div class="filter-label" id="filterLabel">Channel Filter</div>
+                                </div>
+                            </div>
+
+                            <!-- Progress indicator -->
+                            <div class="tx-progress-bar">
+                                <div class="tx-progress-fill" id="txProgressFill"></div>
+                            </div>
+                            <div class="tx-progress-labels">
+                                <span>0%</span>
+                                <span>Filtering...</span>
+                                <span>100%</span>
+                            </div>
                         </div>
-                        <div style="background: #10b981; color: white; padding: 8px 12px; border-radius: 8px; font-size: 0.85em; font-weight: bold;">
-                            RX<br><span style="font-size: 0.7em;">Receiver</span>
+
+                        <!-- Receiver -->
+                        <div class="tx-endpoint tx-receiver" id="txReceiver">
+                            <div class="tx-icon">📱</div>
+                            <div class="tx-label">Receiver</div>
+                            <div class="tx-status" id="rxStatus">Waiting</div>
                         </div>
                     </div>
 
-                    <!-- Three-stage signal comparison -->
-                    <div style="display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 8px; align-items: center;">
-                        <!-- Input Signal -->
-                        <div style="background: #1e3a5f; border: 2px solid #3b82f6; border-radius: 10px; padding: 12px;">
-                            <div style="color: #60a5fa; font-size: 0.8em; font-weight: bold; margin-bottom: 8px; text-align: center;">
-                                ① Input Signal (Sharp Edges)
+                    <!-- Before/After Comparison -->
+                    <div class="tx-comparison">
+                        <div class="tx-compare-box tx-before">
+                            <div class="tx-compare-header">
+                                <span class="tx-compare-icon">📤</span>
+                                <span>Signal Sent</span>
                             </div>
-                            <div class="chart-container" style="height: 100px; background: #0f172a; border-radius: 6px; padding: 4px;">
+                            <div class="tx-chart-wrapper">
                                 <canvas id="txInputChart"></canvas>
                             </div>
-                            <div style="color: #94a3b8; font-size: 0.7em; text-align: center; margin-top: 6px;">
-                                All frequencies present
-                            </div>
+                            <div class="tx-compare-desc">Sharp rectangular edges • All frequencies</div>
                         </div>
 
-                        <!-- Arrow 1 -->
-                        <div style="color: #f59e0b; font-size: 1.5em; text-align: center;">
-                            ⟶<br>
-                            <span style="font-size: 0.5em; display: block;">Filter</span>
+                        <div class="tx-arrow-container">
+                            <div class="tx-animated-arrow">
+                                <span class="arrow-body">━━━</span>
+                                <span class="arrow-head">▶</span>
+                            </div>
+                            <div class="tx-arrow-label" id="channelEffectLabel">Through Channel</div>
                         </div>
 
-                        <!-- Channel Effect -->
-                        <div style="background: #422006; border: 2px solid #f59e0b; border-radius: 10px; padding: 12px;">
-                            <div style="color: #fbbf24; font-size: 0.8em; font-weight: bold; margin-bottom: 8px; text-align: center;">
-                                ② Inside Channel (Filtering)
+                        <div class="tx-compare-box tx-after">
+                            <div class="tx-compare-header">
+                                <span class="tx-compare-icon">📥</span>
+                                <span>Signal Received</span>
                             </div>
-                            <div class="chart-container" style="height: 100px; background: #1c1917; border-radius: 6px; padding: 4px;">
-                                <canvas id="txChannelChart"></canvas>
-                            </div>
-                            <div style="color: #94a3b8; font-size: 0.7em; text-align: center; margin-top: 6px;" id="channelEffectLabel">
-                                High frequencies attenuated
-                            </div>
-                        </div>
-
-                        <!-- Arrow 2 -->
-                        <div style="color: #10b981; font-size: 1.5em; text-align: center;">
-                            ⟶<br>
-                            <span style="font-size: 0.5em; display: block;">Output</span>
-                        </div>
-
-                        <!-- Output Signal -->
-                        <div style="background: #064e3b; border: 2px solid #10b981; border-radius: 10px; padding: 12px;">
-                            <div style="color: #34d399; font-size: 0.8em; font-weight: bold; margin-bottom: 8px; text-align: center;">
-                                ③ Output Signal (Smeared)
-                            </div>
-                            <div class="chart-container" style="height: 100px; background: #0f172a; border-radius: 6px; padding: 4px;">
+                            <div class="tx-chart-wrapper">
                                 <canvas id="txOutputChart"></canvas>
                             </div>
-                            <div style="color: #94a3b8; font-size: 0.7em; text-align: center; margin-top: 6px;">
-                                Edges rounded/smeared
-                            </div>
+                            <div class="tx-compare-desc" id="rxSignalDesc">Smeared edges • High frequencies lost</div>
                         </div>
                     </div>
 
-                    <!-- Explanation based on filter type -->
-                    <div id="transmissionLineExplanation" style="margin-top: 12px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px; color: #e2e8f0; font-size: 0.85em;">
+                    <!-- Real-time transformation view -->
+                    <div class="tx-transform-view">
+                        <div class="tx-transform-header">
+                            <span>🔬</span> Signal Transformation (watch the edges!)
+                        </div>
+                        <div class="tx-transform-chart">
+                            <canvas id="txChannelChart"></canvas>
+                        </div>
+                        <div class="tx-transform-legend">
+                            <span class="legend-item"><span class="legend-dot" style="background:#3b82f6;"></span> Original</span>
+                            <span class="legend-item"><span class="legend-dot" style="background:#f59e0b;"></span> Transforming</span>
+                            <span class="legend-item"><span class="legend-dot" style="background:#10b981;"></span> Final</span>
+                        </div>
+                    </div>
+
+                    <!-- Explanation -->
+                    <div class="tx-explanation" id="transmissionLineExplanation">
                     </div>
                 </div>
 
@@ -2876,53 +3175,37 @@
             `;
         }
 
+        // Store transmission data for replay
+        let txAnimationData = null;
+        let txAnimationId = null;
+
         function updateTransmissionLine(originalSignal, reconstructedSignal, channelType, bandwidth) {
+            // Store data for replay
+            txAnimationData = { originalSignal, reconstructedSignal, channelType, bandwidth };
+
             // Destroy existing charts
             if (txInputChart) txInputChart.destroy();
             if (txChannelChart) txChannelChart.destroy();
             if (txOutputChart) txOutputChart.destroy();
+            if (txAnimationId) cancelAnimationFrame(txAnimationId);
 
             const numPoints = originalSignal.length;
             const labels = originalSignal.map((_, i) => i);
 
-            // Create a "mid-filter" signal - partially filtered
-            // This shows what happens inside the channel
-            const midFilterSignal = originalSignal.map((v, i) => {
-                // Blend between original and reconstructed (50% filtered)
-                return v * 0.5 + reconstructedSignal[i] * 0.5;
-            });
-
-            // Common chart options for transmission line charts
+            // Common chart options
             const txChartOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                },
+                plugins: { legend: { display: false } },
                 scales: {
                     x: { display: false },
-                    y: {
-                        display: true,
-                        min: -0.1,
-                        max: 1.1,
-                        ticks: {
-                            color: '#94a3b8',
-                            font: { size: 9 },
-                            stepSize: 0.5
-                        },
-                        grid: {
-                            color: 'rgba(148, 163, 184, 0.2)'
-                        }
-                    }
+                    y: { display: false, min: -0.2, max: 1.2 }
                 },
-                elements: {
-                    point: { radius: 0 },
-                    line: { borderWidth: 2 }
-                },
-                animation: { duration: 500 }
+                elements: { point: { radius: 0 }, line: { borderWidth: 2 } },
+                animation: false
             };
 
-            // Input signal chart (original rectangular wave)
+            // Input signal chart
             txInputChart = new Chart(document.getElementById('txInputChart'), {
                 type: 'line',
                 data: {
@@ -2930,7 +3213,7 @@
                     datasets: [{
                         data: originalSignal,
                         borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
                         fill: true,
                         tension: 0
                     }]
@@ -2938,35 +3221,50 @@
                 options: txChartOptions
             });
 
-            // Channel effect chart (mid-filter - showing filtering in progress)
+            // Transformation chart (shows animated transition)
             txChannelChart = new Chart(document.getElementById('txChannelChart'), {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [
                         {
-                            label: 'Original (fading)',
-                            data: originalSignal,
-                            borderColor: 'rgba(59, 130, 246, 0.3)',
+                            label: 'Original',
+                            data: [...originalSignal],
+                            borderColor: 'rgba(59, 130, 246, 0.4)',
                             borderWidth: 1,
-                            borderDash: [3, 3],
+                            borderDash: [4, 4],
                             fill: false,
                             tension: 0
                         },
                         {
-                            label: 'Filtering',
-                            data: midFilterSignal,
+                            label: 'Transforming',
+                            data: [...originalSignal],
                             borderColor: '#f59e0b',
-                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            backgroundColor: 'rgba(245, 158, 11, 0.15)',
                             fill: true,
-                            tension: 0.2
+                            tension: 0.1
+                        },
+                        {
+                            label: 'Final',
+                            data: [...reconstructedSignal],
+                            borderColor: '#10b981',
+                            borderWidth: 1.5,
+                            borderDash: [2, 2],
+                            fill: false,
+                            tension: 0.1
                         }
                     ]
                 },
-                options: txChartOptions
+                options: {
+                    ...txChartOptions,
+                    scales: {
+                        x: { display: false },
+                        y: { display: true, min: -0.2, max: 1.2, ticks: { display: false }, grid: { color: 'rgba(0,0,0,0.05)' } }
+                    }
+                }
             });
 
-            // Output signal chart (fully filtered/reconstructed)
+            // Output signal chart
             txOutputChart = new Chart(document.getElementById('txOutputChart'), {
                 type: 'line',
                 data: {
@@ -2974,35 +3272,171 @@
                     datasets: [{
                         data: reconstructedSignal,
                         borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
                         fill: true,
-                        tension: 0.2
+                        tension: 0.1
                     }]
                 },
                 options: txChartOptions
             });
 
-            // Update explanation based on filter type
-            let explanation = '';
-            if (channelType === 'ideal') {
-                explanation = `<strong>Ideal Filter:</strong> Sharp cutoff at B=${bandwidth} Hz.
-                    High frequencies are completely removed, but no phase distortion.
-                    Notice how edges become rounded but transitions remain symmetric.`;
-            } else if (channelType === 'rc') {
-                explanation = `<strong>RC Filter:</strong> Gradual attenuation with phase shift.
-                    Each frequency component is delayed differently, causing the sharp edges to
-                    "smear" over time. Notice the asymmetric transitions and slower rise/fall times.`;
-            } else if (channelType === 'butterworth') {
-                explanation = `<strong>Butterworth Filter:</strong> Flat passband with steeper rolloff.
-                    The non-linear phase response causes ringing and overshoot at transitions.
-                    Notice the oscillations near the edges of each pulse.`;
+            // Update filter label
+            const filterLabels = {
+                'ideal': 'Ideal Filter (B=' + bandwidth + ' Hz)',
+                'rc': 'RC Filter (B=' + bandwidth + ' Hz)',
+                'butterworth': 'Butterworth (B=' + bandwidth + ' Hz)'
+            };
+            document.getElementById('filterLabel').textContent = filterLabels[channelType] || 'Channel Filter';
+            document.getElementById('channelEffectLabel').textContent =
+                channelType === 'ideal' ? 'Sharp cutoff' :
+                channelType === 'rc' ? 'RC: Phase shift' : 'Butterworth: Flat passband';
+
+            // Update received signal description
+            const rxDescs = {
+                'ideal': 'Rounded edges • Symmetric transitions',
+                'rc': 'Smeared edges • Asymmetric rise/fall',
+                'butterworth': 'Ringing • Overshoot at edges'
+            };
+            document.getElementById('rxSignalDesc').textContent = rxDescs[channelType] || 'Filtered signal';
+
+            // Update explanation
+            const explanations = {
+                'ideal': `<strong>⚡ Ideal Filter:</strong> Perfect brick-wall cutoff at B=${bandwidth} Hz. All frequencies below B pass unchanged, all above are blocked. No phase distortion means symmetric rounding of edges.`,
+                'rc': `<strong>⚡ RC Filter:</strong> Gradual rolloff with phase shift φ = -arctan(f/B). Higher frequencies are delayed more, causing asymmetric "smearing" of transitions. Rise time ≈ 2.2/B seconds.`,
+                'butterworth': `<strong>⚡ Butterworth Filter:</strong> Maximally flat passband with steeper rolloff. Non-linear phase causes group delay variation, resulting in ringing and overshoot near signal transitions.`
+            };
+            document.getElementById('transmissionLineExplanation').innerHTML = explanations[channelType] || '';
+
+            // Start the animation
+            startTransmissionAnimation(originalSignal, reconstructedSignal, channelType);
+        }
+
+        function startTransmissionAnimation(originalSignal, reconstructedSignal, channelType) {
+            // Reset UI state
+            const txSender = document.getElementById('txSender');
+            const txReceiver = document.getElementById('txReceiver');
+            const filterZone = document.getElementById('filterZone');
+            const signalPacket = document.getElementById('signalPacket');
+            const progressFill = document.getElementById('txProgressFill');
+            const txStatus = document.getElementById('txStatus');
+            const rxStatus = document.getElementById('rxStatus');
+
+            // Reset classes
+            txSender.classList.remove('active');
+            txReceiver.classList.remove('active');
+            filterZone.classList.remove('active');
+            signalPacket.classList.remove('traveling', 'filtered');
+            progressFill.style.width = '0%';
+            txStatus.textContent = 'Ready';
+            rxStatus.textContent = 'Waiting';
+
+            // Draw mini waveform on packet
+            drawPacketWave(originalSignal.slice(0, 20), false);
+
+            // Animation timeline
+            const animationDuration = 3000; // 3 seconds
+            let startTime = null;
+
+            function animate(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const elapsed = timestamp - startTime;
+                const progress = Math.min(elapsed / animationDuration, 1);
+
+                // Update progress bar
+                progressFill.style.width = (progress * 100) + '%';
+
+                // Phase 1: Transmitter active (0-20%)
+                if (progress < 0.2) {
+                    txSender.classList.add('active');
+                    txStatus.textContent = 'Sending...';
+                }
+
+                // Phase 2: Signal traveling (20-50%)
+                if (progress >= 0.15 && progress < 0.5) {
+                    signalPacket.classList.add('traveling');
+                }
+
+                // Phase 3: Filter active (40-70%)
+                if (progress >= 0.4 && progress < 0.7) {
+                    filterZone.classList.add('active');
+                    signalPacket.classList.add('filtered');
+                    drawPacketWave(reconstructedSignal.slice(0, 20), true);
+
+                    // Animate the transformation chart
+                    const filterProgress = (progress - 0.4) / 0.3;
+                    updateTransformChart(originalSignal, reconstructedSignal, filterProgress);
+                }
+
+                // Phase 4: Signal arrives (70-100%)
+                if (progress >= 0.7) {
+                    filterZone.classList.remove('active');
+                    txSender.classList.remove('active');
+                    txStatus.textContent = 'Sent ✓';
+                }
+
+                // Phase 5: Receiver active (85-100%)
+                if (progress >= 0.85) {
+                    txReceiver.classList.add('active');
+                    rxStatus.textContent = 'Received ✓';
+                }
+
+                if (progress < 1) {
+                    txAnimationId = requestAnimationFrame(animate);
+                } else {
+                    // Animation complete - show final state
+                    updateTransformChart(originalSignal, reconstructedSignal, 1);
+                }
             }
 
-            document.getElementById('transmissionLineExplanation').innerHTML = explanation;
-            document.getElementById('channelEffectLabel').textContent =
-                channelType === 'ideal' ? 'Sharp frequency cutoff' :
-                channelType === 'rc' ? 'Gradual rolloff + phase shift' :
-                'Flat passband + phase distortion';
+            // Start animation after a brief delay
+            setTimeout(() => {
+                txAnimationId = requestAnimationFrame(animate);
+            }, 300);
+        }
+
+        function drawPacketWave(signalSlice, isFiltered) {
+            const canvas = document.getElementById('packetWaveCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+            ctx.beginPath();
+            ctx.strokeStyle = isFiltered ? '#10b981' : '#ffffff';
+            ctx.lineWidth = 2;
+
+            const step = w / signalSlice.length;
+            signalSlice.forEach((v, i) => {
+                const x = i * step;
+                const y = h - (v * 0.7 + 0.15) * h;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+        }
+
+        function updateTransformChart(originalSignal, reconstructedSignal, progress) {
+            if (!txChannelChart) return;
+
+            // Interpolate between original and reconstructed
+            const transformedData = originalSignal.map((v, i) => {
+                return v * (1 - progress) + reconstructedSignal[i] * progress;
+            });
+
+            txChannelChart.data.datasets[1].data = transformedData;
+            txChannelChart.update('none');
+        }
+
+        function replayTransmissionAnimation() {
+            if (txAnimationData) {
+                updateTransmissionLine(
+                    txAnimationData.originalSignal,
+                    txAnimationData.reconstructedSignal,
+                    txAnimationData.channelType,
+                    txAnimationData.bandwidth
+                );
+            }
         }
 
         function updateStep5(original, reconstructed) {
