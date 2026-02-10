@@ -1025,33 +1025,33 @@
                 <div class="flow-title">📡 Signal Transmission Pipeline</div>
                 <div class="flow-steps">
                     <div class="flow-step active" data-step="1">
-                        <div class="flow-icon">📝</div>
-                        <div class="flow-label">Message</div>
+                        <div class="flow-icon">✉️</div>
+                        <div class="flow-label">Message Input</div>
                     </div>
-                    <div class="flow-arrow">→</div>
+                    <div class="flow-arrow">⟶</div>
                     <div class="flow-step" data-step="2">
-                        <div class="flow-icon">📊</div>
-                        <div class="flow-label">Rectangular Wave</div>
+                        <div class="flow-icon">⚡</div>
+                        <div class="flow-label">Signal Generation</div>
                     </div>
-                    <div class="flow-arrow">→</div>
+                    <div class="flow-arrow">⟶</div>
                     <div class="flow-step" data-step="3">
-                        <div class="flow-icon">🎵</div>
-                        <div class="flow-label">Frequency Components</div>
+                        <div class="flow-icon">🌊</div>
+                        <div class="flow-label">Fourier Transform</div>
                     </div>
-                    <div class="flow-arrow">→</div>
+                    <div class="flow-arrow">⟶</div>
                     <div class="flow-step" data-step="4">
-                        <div class="flow-icon">📡</div>
-                        <div class="flow-label">Channel Filter</div>
+                        <div class="flow-icon">🛰️</div>
+                        <div class="flow-label">Channel Transit</div>
                     </div>
-                    <div class="flow-arrow">→</div>
+                    <div class="flow-arrow">⟶</div>
                     <div class="flow-step" data-step="5">
-                        <div class="flow-icon">🔄</div>
-                        <div class="flow-label">Reconstruct</div>
+                        <div class="flow-icon">🔮</div>
+                        <div class="flow-label">Reconstruction</div>
                     </div>
-                    <div class="flow-arrow">→</div>
+                    <div class="flow-arrow">⟶</div>
                     <div class="flow-step" data-step="6">
-                        <div class="flow-icon">✅</div>
-                        <div class="flow-label">Decode</div>
+                        <div class="flow-icon">🎯</div>
+                        <div class="flow-label">Decode & Verify</div>
                     </div>
                 </div>
             </div>
@@ -1060,8 +1060,8 @@
         <!-- Step 1: Encoding -->
         <div class="step open" id="step1">
             <div class="step-header" onclick="toggleStep(1)">
-                <span class="step-number">1</span>
-                <span class="step-title">Text to Morse Code Encoding</span>
+                <span class="step-number">①</span>
+                <span class="step-title">✉️ Text to Morse Code Encoding</span>
             </div>
             <div class="step-content">
                 <div class="info-panel">
@@ -1080,34 +1080,34 @@
                 <div class="arrow-line"></div>
                 <div class="arrow-head">▼</div>
             </div>
-            <div class="step-connector-label">Bits → Electrical Signal</div>
+            <div class="step-connector-label">⓪①② ⟹ ⚡ Signal</div>
         </div>
 
         <!-- Step 2: Signal Generation -->
         <div class="step" id="step2">
             <div class="step-header" onclick="toggleStep(2)">
-                <span class="step-number">2</span>
-                <span class="step-title">Rectangular Wave Generation (DC Telegraph)</span>
+                <span class="step-number">②</span>
+                <span class="step-title">⚡ Rectangular Wave Generation (DC Telegraph)</span>
             </div>
             <div class="step-content">
                 <!-- What Happens Here -->
                 <div class="what-happens-box">
-                    <h4>💡 What happens here?</h4>
+                    <h4>🔬 What happens here?</h4>
                     <p>We convert the binary message (0s and 1s) into an <strong>electrical signal</strong>.
-                    Each bit becomes a voltage level: <strong>1 = high voltage</strong>, <strong>0 = low voltage</strong>.
-                    This creates a "staircase" or rectangular wave pattern.</p>
+                    Each bit becomes a voltage level: <strong>⬆️ 1 = high voltage</strong>, <strong>⬇️ 0 = low voltage</strong>.
+                    This creates a "staircase" or rectangular wave pattern ▁▃▁▃▃</p>
                 </div>
 
                 <!-- Input/Output Visual -->
                 <div class="io-visual" id="step2-io">
                     <div class="io-box input-box">
-                        <div class="io-label">Input (from Step 1)</div>
-                        <div class="io-value" id="step2-input">Binary: 10110</div>
+                        <div class="io-label">📥 Input (from Step 1)</div>
+                        <div class="io-value" id="step2-input">⓪①①⓪① Binary</div>
                     </div>
-                    <div class="io-arrow">➜</div>
+                    <div class="io-arrow">⟹</div>
                     <div class="io-box output-box">
-                        <div class="io-label">Output</div>
-                        <div class="io-value">Rectangular Wave ▃▅▃▅▅</div>
+                        <div class="io-label">📤 Output</div>
+                        <div class="io-value">⚡ Rectangular Wave ▂▆▂▆▆</div>
                     </div>
                 </div>
 
@@ -1122,9 +1122,9 @@
 
                 <!-- Connection to Next Step -->
                 <div class="next-step-box">
-                    <h4>➡️ Connection to Step 3</h4>
-                    <p>This rectangular wave contains <strong>sharp edges</strong> (sudden transitions).
-                    To understand how the channel will affect it, we need to break it down into its <strong>frequency components</strong> using Fourier analysis.</p>
+                    <h4>⏭️ Connection to Step 3</h4>
+                    <p>This rectangular wave contains <strong>sharp edges ⚡</strong> (sudden transitions).
+                    To understand how the channel will affect it, we need to break it down into its <strong>frequency components 🎼</strong> using Fourier analysis.</p>
                 </div>
             </div>
         </div>
@@ -1135,34 +1135,34 @@
                 <div class="arrow-line"></div>
                 <div class="arrow-head">▼</div>
             </div>
-            <div class="step-connector-label">Analyze Frequencies</div>
+            <div class="step-connector-label">∿ Analyze Frequencies 🎼</div>
         </div>
 
         <!-- Step 3: Fourier Decomposition -->
         <div class="step" id="step3">
             <div class="step-header" onclick="toggleStep(3)">
-                <span class="step-number">3</span>
-                <span class="step-title">Fourier Series Decomposition</span>
+                <span class="step-number">③</span>
+                <span class="step-title">🌊 Fourier Series Decomposition</span>
             </div>
             <div class="step-content">
                 <!-- What Happens Here -->
                 <div class="what-happens-box">
-                    <h4>💡 What happens here?</h4>
-                    <p>We break down the rectangular wave into <strong>simple sine waves</strong> of different frequencies.
-                    Think of it like splitting white light into a rainbow! The sharp corners require <strong>high-frequency components</strong>,
+                    <h4>🔬 What happens here?</h4>
+                    <p>We break down the rectangular wave into <strong>simple sine waves ∿∿∿</strong> of different frequencies.
+                    Think of it like splitting white light into a rainbow 🌈! The sharp corners require <strong>high-frequency components</strong>,
                     while the flat parts are represented by <strong>low-frequency components</strong>.</p>
                 </div>
 
                 <!-- Input/Output Visual -->
                 <div class="io-visual">
                     <div class="io-box input-box">
-                        <div class="io-label">Input (from Step 2)</div>
-                        <div class="io-value">Rectangular Wave ▃▅▃▅▅</div>
+                        <div class="io-label">📥 Input (from Step 2)</div>
+                        <div class="io-value">⚡ Rectangular Wave ▂▆▂▆▆</div>
                     </div>
-                    <div class="io-arrow">➜</div>
+                    <div class="io-arrow">⟹</div>
                     <div class="io-box output-box">
-                        <div class="io-label">Output</div>
-                        <div class="io-value">Frequency Spectrum 📊</div>
+                        <div class="io-label">📤 Output</div>
+                        <div class="io-value">🌊 Frequency Spectrum ▁▂▃▄▅</div>
                     </div>
                 </div>
 
@@ -1189,9 +1189,9 @@
 
                 <!-- Connection to Next Step -->
                 <div class="next-step-box">
-                    <h4>➡️ Connection to Step 4</h4>
-                    <p>Now that we know which frequencies are in our signal, we can see what happens when the
-                    <strong>communication channel</strong> blocks some of them. Real channels have <strong>limited bandwidth</strong>
+                    <h4>⏭️ Connection to Step 4</h4>
+                    <p>Now that we know which frequencies are in our signal 📈, we can see what happens when the
+                    <strong>communication channel 🛰️</strong> blocks some of them. Real channels have <strong>limited bandwidth ⊘</strong>
                     and cannot pass all frequencies.</p>
                 </div>
             </div>
@@ -1203,34 +1203,34 @@
                 <div class="arrow-line"></div>
                 <div class="arrow-head">▼</div>
             </div>
-            <div class="step-connector-label">Send Through Channel</div>
+            <div class="step-connector-label">📡 Transmit via Channel</div>
         </div>
 
         <!-- Step 4: Channel Transmission -->
         <div class="step" id="step4">
             <div class="step-header" onclick="toggleStep(4)">
-                <span class="step-number">4</span>
-                <span class="step-title">Channel Transmission (Bandwidth Limiting)</span>
+                <span class="step-number">④</span>
+                <span class="step-title">🛰️ Channel Transmission (Bandwidth Limiting)</span>
             </div>
             <div class="step-content">
                 <!-- What Happens Here -->
                 <div class="what-happens-box">
-                    <h4>💡 What happens here?</h4>
-                    <p>The signal travels through a <strong>communication channel</strong> (wire, radio, fiber optic).
+                    <h4>🔬 What happens here?</h4>
+                    <p>The signal travels through a <strong>communication channel</strong> 📶 (wire, radio, fiber optic).
                     Every channel has a <strong>maximum frequency it can carry</strong> (bandwidth).
-                    High frequencies get <strong>blocked or weakened</strong>, like how a wall muffles high-pitched sounds!</p>
+                    High frequencies get <strong>blocked ⛔ or weakened</strong>, like how a wall muffles high-pitched sounds 🔇!</p>
                 </div>
 
                 <!-- Input/Output Visual -->
                 <div class="io-visual">
                     <div class="io-box input-box">
-                        <div class="io-label">Input (from Step 3)</div>
-                        <div class="io-value">All Frequencies 🎵🎶🎵</div>
+                        <div class="io-label">📥 Input (from Step 3)</div>
+                        <div class="io-value">🌊 All Frequencies ▁▂▃▄▅▆▇</div>
                     </div>
-                    <div class="io-arrow">📡</div>
+                    <div class="io-arrow">🛰️</div>
                     <div class="io-box output-box">
-                        <div class="io-label">Output</div>
-                        <div class="io-value">Limited Frequencies 🎵</div>
+                        <div class="io-label">📤 Output</div>
+                        <div class="io-value">🔇 Limited Frequencies ▁▂▃░░░░</div>
                     </div>
                 </div>
 
@@ -1245,9 +1245,9 @@
 
                 <!-- Connection to Next Step -->
                 <div class="next-step-box">
-                    <h4>➡️ Connection to Step 5</h4>
-                    <p>With some frequency components removed, the signal at the receiver won't look exactly like the original.
-                    Let's see what the <strong>reconstructed signal</strong> looks like!</p>
+                    <h4>⏭️ Connection to Step 5</h4>
+                    <p>With some frequency components removed ✂️, the signal at the receiver won't look exactly like the original.
+                    Let's see what the <strong>reconstructed signal 🔮</strong> looks like!</p>
                 </div>
             </div>
         </div>
@@ -1258,34 +1258,34 @@
                 <div class="arrow-line"></div>
                 <div class="arrow-head">▼</div>
             </div>
-            <div class="step-connector-label">Received Signal</div>
+            <div class="step-connector-label">📻 Received Signal 〰️</div>
         </div>
 
         <!-- Step 5: Signal Reconstruction -->
         <div class="step" id="step5">
             <div class="step-header" onclick="toggleStep(5)">
-                <span class="step-number">5</span>
-                <span class="step-title">Signal Reconstruction at Receiver</span>
+                <span class="step-number">⑤</span>
+                <span class="step-title">🔮 Signal Reconstruction at Receiver</span>
             </div>
             <div class="step-content">
                 <!-- What Happens Here -->
                 <div class="what-happens-box">
-                    <h4>💡 What happens here?</h4>
-                    <p>At the receiver, we combine the frequency components that <strong>made it through the channel</strong>.
-                    The result looks <strong>smoother</strong> than the original rectangular wave because the sharp edges
-                    (high frequencies) were removed. Compare the <strong>green line</strong> (received) with the <strong>blue line</strong> (original)!</p>
+                    <h4>🔬 What happens here?</h4>
+                    <p>At the receiver 📻, we combine the frequency components that <strong>made it through the channel</strong>.
+                    The result looks <strong>smoother ∼∼∼</strong> than the original rectangular wave because the sharp edges
+                    (high frequencies) were removed. Compare the <strong style="color:#10b981;">🟢 green line</strong> (received) with the <strong style="color:#3b82f6;">🔵 blue line</strong> (original)!</p>
                 </div>
 
                 <!-- Input/Output Visual -->
                 <div class="io-visual">
                     <div class="io-box input-box">
-                        <div class="io-label">Input (from Step 4)</div>
-                        <div class="io-value">Limited Frequencies 🎵</div>
+                        <div class="io-label">📥 Input (from Step 4)</div>
+                        <div class="io-value">🔇 Limited Frequencies ▁▂▃░░</div>
                     </div>
-                    <div class="io-arrow">➜</div>
+                    <div class="io-arrow">⟹</div>
                     <div class="io-box output-box">
-                        <div class="io-label">Output</div>
-                        <div class="io-value">Smooth Wave 〰️</div>
+                        <div class="io-label">📤 Output</div>
+                        <div class="io-value">🔮 Smooth Wave ∿∿∿∿</div>
                     </div>
                 </div>
 
@@ -1300,9 +1300,9 @@
 
                 <!-- Connection to Next Step -->
                 <div class="next-step-box">
-                    <h4>➡️ Connection to Step 6</h4>
-                    <p>The signal looks different, but can we still <strong>read the original message</strong>?
-                    Nyquist's key insight: if we sample at the <strong>right moments</strong> (center of each bit),
+                    <h4>⏭️ Connection to Step 6</h4>
+                    <p>The signal looks different 〰️, but can we still <strong>read the original message 📖</strong>?
+                    Nyquist's key insight 🧠: if we sample at the <strong>right moments ⏱️</strong> (center of each bit),
                     we can still decode correctly!</p>
                 </div>
             </div>
@@ -1314,35 +1314,35 @@
                 <div class="arrow-line"></div>
                 <div class="arrow-head">▼</div>
             </div>
-            <div class="step-connector-label">Sample & Decide</div>
+            <div class="step-connector-label">⏱️ Sample & Decide 🎯</div>
         </div>
 
         <!-- Step 6: Sampling and Decoding -->
         <div class="step" id="step6">
             <div class="step-header" onclick="toggleStep(6)">
-                <span class="step-number">6</span>
-                <span class="step-title">Sampling and Decoding</span>
+                <span class="step-number">⑥</span>
+                <span class="step-title">🎯 Sampling and Decoding</span>
             </div>
             <div class="step-content">
                 <!-- What Happens Here -->
                 <div class="what-happens-box">
-                    <h4>💡 What happens here?</h4>
-                    <p>We <strong>sample</strong> the received signal at the <strong>center of each time slot</strong>
-                    (marked with dots on the chart). Then we make a decision: if the value is <strong>&gt; 0.5, it's a 1</strong>;
-                    if <strong>&lt; 0.5, it's a 0</strong>. This is Nyquist's brilliant insight: even distorted signals
+                    <h4>🔬 What happens here?</h4>
+                    <p>We <strong>sample ⏱️</strong> the received signal at the <strong>center of each time slot</strong>
+                    (marked with dots ● on the chart). Then we make a decision: if the value is <strong>⬆️ &gt; 0.5 → it's a 1</strong>;
+                    if <strong>⬇️ &lt; 0.5 → it's a 0</strong>. This is Nyquist's brilliant insight 💡: even distorted signals
                     can be decoded correctly if sampled at the right time!</p>
                 </div>
 
                 <!-- Input/Output Visual -->
                 <div class="io-visual">
                     <div class="io-box input-box">
-                        <div class="io-label">Input (from Step 5)</div>
-                        <div class="io-value">Smooth Wave 〰️</div>
+                        <div class="io-label">📥 Input (from Step 5)</div>
+                        <div class="io-value">🔮 Smooth Wave ∿∿∿∿</div>
                     </div>
-                    <div class="io-arrow">➜</div>
+                    <div class="io-arrow">⟹</div>
                     <div class="io-box output-box">
-                        <div class="io-label">Output</div>
-                        <div class="io-value" id="step6-output">Binary: 10110 ✓</div>
+                        <div class="io-label">📤 Output</div>
+                        <div class="io-value" id="step6-output">🎯 Binary: ①⓪①①⓪ ✓</div>
                     </div>
                 </div>
 
@@ -1357,9 +1357,9 @@
 
                 <!-- Connection to Next Step -->
                 <div class="next-step-box">
-                    <h4>➡️ Connection to Step 7</h4>
-                    <p>Let's compare the <strong>original message</strong> with the <strong>decoded message</strong>
-                    and analyze any errors. This will show us the limits of the communication system!</p>
+                    <h4>⏭️ Connection to Step 7</h4>
+                    <p>Let's compare the <strong>original message 📤</strong> with the <strong>decoded message 📥</strong>
+                    and analyze any errors ❌. This will show us the limits of the communication system ⚖️!</p>
                 </div>
             </div>
         </div>
@@ -1370,22 +1370,22 @@
                 <div class="arrow-line"></div>
                 <div class="arrow-head">▼</div>
             </div>
-            <div class="step-connector-label">Compare Results</div>
+            <div class="step-connector-label">⚖️ Compare & Verify ✓</div>
         </div>
 
         <!-- Step 7: Results -->
         <div class="step" id="step7">
             <div class="step-header" onclick="toggleStep(7)">
-                <span class="step-number">7</span>
-                <span class="step-title">Transmission Analysis</span>
+                <span class="step-number">⑦</span>
+                <span class="step-title">📊 Transmission Analysis</span>
             </div>
             <div class="step-content">
                 <!-- What Happens Here -->
                 <div class="what-happens-box">
-                    <h4>💡 What happens here?</h4>
-                    <p>We compare the <strong>original message</strong> with the <strong>decoded message</strong>
-                    and calculate the <strong>error rate</strong>. This tells us if our channel has
-                    <strong>sufficient bandwidth</strong> for reliable communication at this speed.</p>
+                    <h4>🔬 What happens here?</h4>
+                    <p>We compare the <strong>original message 📤</strong> with the <strong>decoded message 📥</strong>
+                    and calculate the <strong>error rate 📊</strong>. This tells us if our channel has
+                    <strong>sufficient bandwidth ✅</strong> for reliable communication at this speed ⚡.</p>
                 </div>
 
                 <div id="step7-content"></div>
@@ -1398,8 +1398,8 @@
         <!-- Concept 1: Shape Factor vs Discrimination Factor -->
         <div class="step" id="concept1">
             <div class="step-header" onclick="toggleConcept(1)">
-                <span class="step-number" style="background: #059669;">A</span>
-                <span class="step-title">Shape Factor and Discrimination Factor</span>
+                <span class="step-number" style="background: #059669;">Ⓐ</span>
+                <span class="step-title">🔷 Shape Factor and Discrimination Factor</span>
             </div>
             <div class="step-content">
                 <div class="info-panel">
@@ -1435,8 +1435,8 @@
         <!-- Concept 2: Band Redundancy -->
         <div class="step" id="concept2">
             <div class="step-header" onclick="toggleConcept(2)">
-                <span class="step-number" style="background: #059669;">B</span>
-                <span class="step-title">Band Redundancy</span>
+                <span class="step-number" style="background: #059669;">Ⓑ</span>
+                <span class="step-title">🔶 Band Redundancy</span>
             </div>
             <div class="step-content">
                 <div class="info-panel">
@@ -1457,8 +1457,8 @@
         <!-- Concept 3: Nondistorting Waves -->
         <div class="step" id="concept3">
             <div class="step-header" onclick="toggleConcept(3)">
-                <span class="step-number" style="background: #059669;">C</span>
-                <span class="step-title">Nondistorting Waves</span>
+                <span class="step-number" style="background: #059669;">Ⓒ</span>
+                <span class="step-title">🔹 Nondistorting Waves</span>
             </div>
             <div class="step-content">
                 <div class="info-panel">
@@ -1479,8 +1479,8 @@
         <!-- Concept 4: Ideal Shape Factors -->
         <div class="step" id="concept4">
             <div class="step-header" onclick="toggleConcept(4)">
-                <span class="step-number" style="background: #059669;">D</span>
-                <span class="step-title">Ideal Shape Factors (Nyquist's Figure 2)</span>
+                <span class="step-number" style="background: #059669;">Ⓓ</span>
+                <span class="step-title">📐 Ideal Shape Factors (Nyquist's Figure 2)</span>
             </div>
             <div class="step-content">
                 <div class="info-panel">
@@ -1497,8 +1497,8 @@
         <!-- Concept 5: Progressive Harmonic Building -->
         <div class="step" id="concept5">
             <div class="step-header" onclick="toggleConcept(5)">
-                <span class="step-number" style="background: #059669;">E</span>
-                <span class="step-title">Progressive Harmonic Building</span>
+                <span class="step-number" style="background: #059669;">Ⓔ</span>
+                <span class="step-title">🎼 Progressive Harmonic Building</span>
             </div>
             <div class="step-content">
                 <div class="info-panel">
@@ -1520,8 +1520,8 @@
         <!-- Concept 6: Carrier Wave Modulation -->
         <div class="step" id="concept6">
             <div class="step-header" onclick="toggleConcept(6)">
-                <span class="step-number" style="background: #059669;">F</span>
-                <span class="step-title">Carrier Wave Modulation and Sidebands</span>
+                <span class="step-number" style="background: #059669;">Ⓕ</span>
+                <span class="step-title">📻 Carrier Wave Modulation and Sidebands</span>
             </div>
             <div class="step-content">
                 <div class="info-panel">
@@ -1555,8 +1555,8 @@
         <!-- Concept 7: Single Sideband -->
         <div class="step" id="concept7">
             <div class="step-header" onclick="toggleConcept(7)">
-                <span class="step-number" style="background: #059669;">G</span>
-                <span class="step-title">Single Sideband and Phase Discrimination</span>
+                <span class="step-number" style="background: #059669;">Ⓖ</span>
+                <span class="step-title">📶 Single Sideband and Phase Discrimination</span>
             </div>
             <div class="step-content">
                 <div class="info-panel">
@@ -1579,8 +1579,8 @@
         <!-- Concept 8: Eye Diagram -->
         <div class="step" id="concept8">
             <div class="step-header" onclick="toggleConcept(8)">
-                <span class="step-number" style="background: #059669;">H</span>
-                <span class="step-title">Eye Diagram and Intersymbol Interference</span>
+                <span class="step-number" style="background: #059669;">Ⓗ</span>
+                <span class="step-title">👁️ Eye Diagram and Intersymbol Interference</span>
             </div>
             <div class="step-content">
                 <div class="info-panel">
@@ -1610,8 +1610,8 @@
         <!-- Historical Timeline -->
         <div class="step" id="timeline">
             <div class="step-header" onclick="toggleStep('timeline')">
-                <span class="step-number" style="background: #f59e0b;">⏱</span>
-                <span class="step-title">Historical Context: The Road to Nyquist</span>
+                <span class="step-number" style="background: #f59e0b;">⏳</span>
+                <span class="step-title">🏛️ Historical Context: The Road to Nyquist</span>
             </div>
             <div class="step-content">
                 <div class="timeline">
@@ -1685,8 +1685,8 @@
         <!-- Summary Section -->
         <div class="step" id="summary">
             <div class="step-header" onclick="toggleStep('summary')">
-                <span class="step-number" style="background: #7c3aed;">Σ</span>
-                <span class="step-title">Summary: Nyquist's Key Contributions</span>
+                <span class="step-number" style="background: #7c3aed;">∑</span>
+                <span class="step-title">📜 Summary: Nyquist's Key Contributions</span>
             </div>
             <div class="step-content">
                 <div class="concept-grid">
@@ -1732,8 +1732,8 @@
         <!-- Quiz Section -->
         <div class="step" id="quiz">
             <div class="step-header" onclick="toggleStep('quiz')">
-                <span class="step-number" style="background: #ec4899;">?</span>
-                <span class="step-title">Test Your Knowledge: Quick Quiz</span>
+                <span class="step-number" style="background: #ec4899;">❓</span>
+                <span class="step-title">🧠 Test Your Knowledge: Quick Quiz</span>
             </div>
             <div class="step-content">
                 <div id="quizContainer">
@@ -1752,8 +1752,8 @@
         <!-- Morse Code Practice -->
         <div class="step" id="practice">
             <div class="step-header" onclick="toggleStep('practice')">
-                <span class="step-number" style="background: #14b8a6;">⌨</span>
-                <span class="step-title">Practice: Decode Morse Code</span>
+                <span class="step-number" style="background: #14b8a6;">⌨️</span>
+                <span class="step-title">🎮 Practice: Decode Morse Code</span>
             </div>
             <div class="step-content">
                 <div style="text-align: center; padding: 20px;">
