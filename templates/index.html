@@ -43,29 +43,14 @@
             transition: background 0.3s ease, color 0.3s ease;
         }
         .header {
-            background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+            background: #1e3a5f;
             color: white;
             padding: 20px;
             text-align: center;
             position: relative;
-            overflow: hidden;
         }
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            animation: headerPattern 20s linear infinite;
-        }
-        @keyframes headerPattern {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(60px); }
-        }
-        .header h1 { font-size: 1.6em; font-weight: 700; margin-bottom: 4px; position: relative; z-index: 1; }
-        .header p { font-size: 0.9em; opacity: 0.9; position: relative; z-index: 1; }
+        .header h1 { font-size: 1.6em; font-weight: 700; margin-bottom: 4px; }
+        .header p { font-size: 0.9em; opacity: 0.9; }
         .header-controls {
             position: absolute;
             top: 20px;
@@ -216,18 +201,17 @@
             background: var(--bg-primary);
         }
         .step-number {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            width: 28px;
+            height: 28px;
+            background: #374151;
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9em;
-            font-weight: 700;
-            margin-right: 14px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 12px;
         }
         .step-title { font-weight: 600; color: var(--accent); flex: 1; transition: color 0.3s; }
         .step-content { padding: 24px; display: none; background: var(--bg-secondary); }
@@ -1135,18 +1119,19 @@
         }
 
         .concept-card {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 20px;
-            transition: all 0.3s ease;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 14px;
         }
-        .concept-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        body.dark-mode .concept-card {
+            background: rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.1);
         }
-        .concept-card h4 { color: var(--accent); margin-bottom: 10px; font-size: 1em; }
-        .concept-card p { font-size: 0.9em; color: var(--text-secondary); }
+        .concept-card h4 { color: #374151; margin-bottom: 8px; font-size: 0.95em; font-weight: 600; }
+        body.dark-mode .concept-card h4 { color: #e5e7eb; }
+        .concept-card p { font-size: 0.85em; color: #6b7280; line-height: 1.4; }
+        body.dark-mode .concept-card p { color: #d1d5db; }
 
         /* Audio Controls */
         .audio-controls {
@@ -1750,8 +1735,8 @@
         <!-- Step 1: Encoding -->
         <div class="step open" id="step1">
             <div class="step-header" onclick="toggleStep(1)">
-                <span class="step-number">①</span>
-                <span class="step-title">✉️ Text to Morse Code Encoding</span>
+                <span class="step-number">1</span>
+                <span class="step-title">Text to Morse Code Encoding</span>
             </div>
             <div class="step-content">
                 <div class="info-panel">
@@ -1776,8 +1761,8 @@
         <!-- Step 2: Signal Generation -->
         <div class="step" id="step2">
             <div class="step-header" onclick="toggleStep(2)">
-                <span class="step-number">②</span>
-                <span class="step-title">⚡ Rectangular Wave Generation (DC Telegraph)</span>
+                <span class="step-number">2</span>
+                <span class="step-title">Rectangular Wave Generation (DC Telegraph)</span>
             </div>
             <div class="step-content">
                 <!-- What Happens Here -->
@@ -1831,8 +1816,8 @@
         <!-- Step 3: Fourier Decomposition -->
         <div class="step" id="step3">
             <div class="step-header" onclick="toggleStep(3)">
-                <span class="step-number">③</span>
-                <span class="step-title">🌊 Fourier Series Decomposition</span>
+                <span class="step-number">3</span>
+                <span class="step-title">Fourier Series Decomposition</span>
             </div>
             <div class="step-content">
                 <!-- What Happens Here -->
@@ -1899,8 +1884,8 @@
         <!-- Step 4: Channel Transmission -->
         <div class="step" id="step4">
             <div class="step-header" onclick="toggleStep(4)">
-                <span class="step-number">④</span>
-                <span class="step-title">🛰️ Channel Transmission (Bandwidth Limiting)</span>
+                <span class="step-number">4</span>
+                <span class="step-title">Channel Transmission (Bandwidth Limiting)</span>
             </div>
             <div class="step-content">
                 <!-- What Happens Here -->
@@ -1978,7 +1963,7 @@
         <!-- Step 5: Live Signal Transmission -->
         <div class="step" id="step5">
             <div class="step-header" onclick="toggleStep(5)">
-                <span class="step-number">⑤</span>
+                <span class="step-number">5</span>
                 <span class="step-title">Live Signal Transmission Through Channel</span>
             </div>
             <div class="step-content">
@@ -2250,8 +2235,8 @@
         <!-- Step 6: Signal Reconstruction -->
         <div class="step" id="step6">
             <div class="step-header" onclick="toggleStep(6)">
-                <span class="step-number">⑥</span>
-                <span class="step-title">🔮 Signal Reconstruction at Receiver</span>
+                <span class="step-number">6</span>
+                <span class="step-title">Signal Reconstruction at Receiver</span>
             </div>
             <div class="step-content">
                 <!-- What Happens Here -->
@@ -2306,8 +2291,8 @@
         <!-- Step 7: Sampling and Decoding -->
         <div class="step" id="step7">
             <div class="step-header" onclick="toggleStep(7)">
-                <span class="step-number">⑦</span>
-                <span class="step-title">🎯 Sampling and Decoding</span>
+                <span class="step-number">7</span>
+                <span class="step-title">Sampling and Decoding</span>
             </div>
             <div class="step-content">
                 <!-- What Happens Here -->
@@ -2362,8 +2347,8 @@
         <!-- Step 8: Results -->
         <div class="step" id="step8">
             <div class="step-header" onclick="toggleStep(8)">
-                <span class="step-number">⑧</span>
-                <span class="step-title">📊 Transmission Analysis</span>
+                <span class="step-number">8</span>
+                <span class="step-title">Transmission Analysis</span>
             </div>
             <div class="step-content">
                 <!-- What Happens Here -->
@@ -2384,7 +2369,7 @@
         <!-- Concept 1: Shape Factor vs Discrimination Factor -->
         <div class="step" id="concept1">
             <div class="step-header" onclick="toggleConcept(1)">
-                <span class="step-number" style="background: #059669;">Ⓐ</span>
+                <span class="step-number">A</span>
                 <span class="step-title">Shape Factor and Discrimination Factor</span>
             </div>
             <div class="step-content">
@@ -2421,7 +2406,7 @@
         <!-- Concept 2: Band Redundancy -->
         <div class="step" id="concept2">
             <div class="step-header" onclick="toggleConcept(2)">
-                <span class="step-number" style="background: #059669;">Ⓑ</span>
+                <span class="step-number">B</span>
                 <span class="step-title">Band Redundancy</span>
             </div>
             <div class="step-content">
@@ -2443,7 +2428,7 @@
         <!-- Concept 3: Nondistorting Waves -->
         <div class="step" id="concept3">
             <div class="step-header" onclick="toggleConcept(3)">
-                <span class="step-number" style="background: #059669;">Ⓒ</span>
+                <span class="step-number">C</span>
                 <span class="step-title">Nondistorting Waves</span>
             </div>
             <div class="step-content">
@@ -2465,7 +2450,7 @@
         <!-- Concept 4: Ideal Shape Factors -->
         <div class="step" id="concept4">
             <div class="step-header" onclick="toggleConcept(4)">
-                <span class="step-number" style="background: #059669;">Ⓓ</span>
+                <span class="step-number">D</span>
                 <span class="step-title">Ideal Shape Factors (Nyquist's Figure 2)</span>
             </div>
             <div class="step-content">
@@ -2483,7 +2468,7 @@
         <!-- Concept 5: Progressive Harmonic Building -->
         <div class="step" id="concept5">
             <div class="step-header" onclick="toggleConcept(5)">
-                <span class="step-number" style="background: #059669;">Ⓔ</span>
+                <span class="step-number">E</span>
                 <span class="step-title">Progressive Harmonic Building</span>
             </div>
             <div class="step-content">
@@ -2506,7 +2491,7 @@
         <!-- Concept 6: Carrier Wave Modulation -->
         <div class="step" id="concept6">
             <div class="step-header" onclick="toggleConcept(6)">
-                <span class="step-number" style="background: #059669;">Ⓕ</span>
+                <span class="step-number">F</span>
                 <span class="step-title">Carrier Wave Modulation and Sidebands</span>
             </div>
             <div class="step-content">
@@ -2541,7 +2526,7 @@
         <!-- Concept 7: Single Sideband -->
         <div class="step" id="concept7">
             <div class="step-header" onclick="toggleConcept(7)">
-                <span class="step-number" style="background: #059669;">Ⓖ</span>
+                <span class="step-number">G</span>
                 <span class="step-title">Single Sideband and Phase Discrimination</span>
             </div>
             <div class="step-content">
@@ -2565,7 +2550,7 @@
         <!-- Concept 8: Eye Diagram -->
         <div class="step" id="concept8">
             <div class="step-header" onclick="toggleConcept(8)">
-                <span class="step-number" style="background: #059669;">Ⓗ</span>
+                <span class="step-number">H</span>
                 <span class="step-title">Eye Diagram and Intersymbol Interference</span>
             </div>
             <div class="step-content">
@@ -2596,8 +2581,8 @@
         <!-- Historical Timeline -->
         <div class="step" id="timeline">
             <div class="step-header" onclick="toggleStep('timeline')">
-                <span class="step-number" style="background: #f59e0b;">⏳</span>
-                <span class="step-title">🏛️ Historical Context: The Road to Nyquist</span>
+                <span class="step-number">T</span>
+                <span class="step-title">Historical Context: The Road to Nyquist</span>
             </div>
             <div class="step-content">
                 <div class="timeline">
@@ -2671,8 +2656,8 @@
         <!-- Summary Section -->
         <div class="step" id="summary">
             <div class="step-header" onclick="toggleStep('summary')">
-                <span class="step-number" style="background: #7c3aed;">∑</span>
-                <span class="step-title">📜 Summary: Nyquist's Key Contributions</span>
+                <span class="step-number">S</span>
+                <span class="step-title">Summary: Nyquist's Key Contributions</span>
             </div>
             <div class="step-content">
                 <div class="concept-grid">
@@ -2718,8 +2703,8 @@
         <!-- Quiz Section -->
         <div class="step" id="quiz">
             <div class="step-header" onclick="toggleStep('quiz')">
-                <span class="step-number" style="background: #ec4899;">❓</span>
-                <span class="step-title">🧠 Test Your Knowledge: Quick Quiz</span>
+                <span class="step-number">Q</span>
+                <span class="step-title">Test Your Knowledge: Quick Quiz</span>
             </div>
             <div class="step-content">
                 <div id="quizContainer">
@@ -2738,8 +2723,8 @@
         <!-- Morse Code Practice -->
         <div class="step" id="practice">
             <div class="step-header" onclick="toggleStep('practice')">
-                <span class="step-number" style="background: #14b8a6;">⌨️</span>
-                <span class="step-title">🎮 Practice: Decode Morse Code</span>
+                <span class="step-number">P</span>
+                <span class="step-title">Practice: Decode Morse Code</span>
             </div>
             <div class="step-content">
                 <div style="text-align: center; padding: 20px;">
