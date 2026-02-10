@@ -334,6 +334,135 @@
         .slider-group { display: flex; align-items: center; gap: 12px; }
         .slider-group input[type="range"] { flex: 1; accent-color: var(--accent); }
         .slider-value { min-width: 40px; text-align: right; font-weight: 600; color: var(--accent); }
+
+        /* Bandwidth Control Styles */
+        .bandwidth-control {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        .bandwidth-slider-container {
+            flex: 1;
+            min-width: 140px;
+        }
+        .bandwidth-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, #ef4444 0%, #f59e0b 30%, #10b981 60%, #10b981 100%);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+        .bandwidth-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid var(--accent);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            transition: transform 0.15s ease;
+        }
+        .bandwidth-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+        .bandwidth-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid var(--accent);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .bandwidth-ticks {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65em;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            padding: 0 2px;
+        }
+        .bandwidth-display {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .bandwidth-current, .bandwidth-required {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: var(--bg-secondary);
+        }
+        .bandwidth-current {
+            border: 2px solid var(--accent);
+        }
+        .bandwidth-required {
+            border: 2px solid #f59e0b;
+        }
+        .bandwidth-label {
+            font-size: 0.7em;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .bandwidth-value {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--text-primary);
+            min-width: 28px;
+            text-align: right;
+        }
+        .bandwidth-unit {
+            font-size: 0.75em;
+            color: var(--text-secondary);
+        }
+        .bandwidth-warning {
+            display: none;
+            margin-top: 8px;
+            padding: 6px 10px;
+            background: linear-gradient(135deg, #fee2e2, #fef2f2);
+            border: 1px solid #fca5a5;
+            border-radius: 6px;
+            color: #dc2626;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-align: center;
+        }
+        .bandwidth-ok {
+            display: none;
+            margin-top: 8px;
+            padding: 6px 10px;
+            background: linear-gradient(135deg, #d1fae5, #ecfdf5);
+            border: 1px solid #6ee7b7;
+            border-radius: 6px;
+            color: #059669;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-align: center;
+        }
+        .bandwidth-current.insufficient {
+            border-color: #ef4444;
+        }
+        .bandwidth-current.insufficient .bandwidth-value {
+            color: #ef4444;
+        }
+        .bandwidth-current.sufficient {
+            border-color: #10b981;
+        }
+        .bandwidth-current.sufficient .bandwidth-value {
+            color: #10b981;
+        }
         table { width: 100%; border-collapse: collapse; font-size: 0.85em; margin: 12px 0; }
         th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
         th { background: var(--bg-tertiary); font-weight: 600; color: var(--text-primary); }
@@ -1002,18 +1131,37 @@
                     <label>Message Text</label>
                     <input type="text" id="inputText" value="SOS" placeholder="Enter text to transmit">
                 </div>
-                <div class="input-group">
+                <div class="input-group" style="min-width: 280px;">
                     <label>📶 Channel Bandwidth (B)</label>
-                    <div class="slider-group">
-                        <input type="range" id="bandwidth" min="3" max="30" value="15" style="width: 120px;">
-                        <span id="bandwidthValue" class="slider-value" style="min-width: 40px; font-weight: bold; color: #3b82f6;">15 Hz</span>
+                    <div class="bandwidth-control">
+                        <div class="bandwidth-slider-container">
+                            <input type="range" id="bandwidth" min="5" max="100" value="15" class="bandwidth-slider">
+                            <div class="bandwidth-ticks">
+                                <span>5</span>
+                                <span>25</span>
+                                <span>50</span>
+                                <span>75</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+                        <div class="bandwidth-display">
+                            <div class="bandwidth-current">
+                                <span class="bandwidth-label">Channel</span>
+                                <span id="bandwidthValue" class="bandwidth-value">15</span>
+                                <span class="bandwidth-unit">Hz</span>
+                            </div>
+                            <div class="bandwidth-required">
+                                <span class="bandwidth-label">Required</span>
+                                <span id="minBandwidthValue" class="bandwidth-value">--</span>
+                                <span class="bandwidth-unit">Hz</span>
+                            </div>
+                        </div>
                     </div>
-                    <div id="bandwidthRequirement" style="font-size: 0.75em; margin-top: 4px;">
-                        <span style="color: #6b7280;">Required: </span>
-                        <span id="minBandwidthValue" style="font-weight: bold; color: #10b981;">--</span>
+                    <div id="bandwidthWarning" class="bandwidth-warning">
+                        ⚠️ Bandwidth insufficient - errors expected
                     </div>
-                    <div id="bandwidthWarning" style="display: none; font-size: 0.75em; color: #ef4444; margin-top: 2px; font-weight: bold;">
-                        ⚠️ B too low! Errors expected.
+                    <div id="bandwidthOk" class="bandwidth-ok">
+                        ✓ Bandwidth sufficient
                     </div>
                 </div>
                 <div class="input-group">
@@ -2232,23 +2380,28 @@
             const currentBandwidth = parseInt(document.getElementById('bandwidth').value);
             const minBandwidth = calculateMinBandwidth(text);
 
-            document.getElementById('minBandwidthValue').textContent = minBandwidth + ' Hz (min)';
+            document.getElementById('minBandwidthValue').textContent = minBandwidth;
+            document.getElementById('bandwidthValue').textContent = currentBandwidth;
 
             const warningEl = document.getElementById('bandwidthWarning');
-            const bandwidthValueEl = document.getElementById('bandwidthValue');
+            const okEl = document.getElementById('bandwidthOk');
+            const currentContainer = document.querySelector('.bandwidth-current');
 
             if (currentBandwidth < minBandwidth) {
                 warningEl.style.display = 'block';
-                bandwidthValueEl.style.color = '#ef4444'; // red
+                okEl.style.display = 'none';
+                currentContainer.classList.remove('sufficient');
+                currentContainer.classList.add('insufficient');
             } else {
                 warningEl.style.display = 'none';
-                bandwidthValueEl.style.color = '#10b981'; // green
+                okEl.style.display = 'block';
+                currentContainer.classList.remove('insufficient');
+                currentContainer.classList.add('sufficient');
             }
         }
 
         // Update bandwidth display
         document.getElementById('bandwidth').addEventListener('input', function() {
-            document.getElementById('bandwidthValue').textContent = this.value + ' Hz';
             updateBandwidthRequirement();
         });
 
