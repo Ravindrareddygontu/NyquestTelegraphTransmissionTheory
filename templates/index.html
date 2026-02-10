@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegraph Transmission Theory - Interactive Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #1f2937;
+            line-height: 1.5;
+        }
+        .header {
+            background: #1e3a5f;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 { font-size: 1.4em; font-weight: 600; margin-bottom: 4px; }
+        .header p { font-size: 0.85em; opacity: 0.85; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        .input-section {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .input-row {
+            display: flex;
+            gap: 16px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+        .input-group { display: flex; flex-direction: column; gap: 6px; }
+        .input-group label {
+            font-size: 0.75em;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .input-group input, .input-group select {
+            padding: 10px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #1e3a5f;
+        }
+        .btn {
+            padding: 10px 24px;
+            background: #1e3a5f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .btn:hover { background: #2d4a6f; }
+        .step {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            padding: 14px 20px;
+            background: #fafbfc;
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+        }
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: #1e3a5f;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+        .step-title { font-weight: 600; color: #1e3a5f; flex: 1; }
+        .step-content { padding: 20px; display: none; }
+        .step.open .step-content { display: block; }
+        .step.open .step-header { background: #f0f4f8; }
+        .chart-container { position: relative; height: 180px; margin: 16px 0; }
+        .formula-box {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            padding: 12px 16px;
+            margin: 12px 0;
+            font-family: 'Times New Roman', Georgia, serif;
+        }
+        .formula-box .formula {
+            font-size: 1.1em;
+            color: #1e3a5f;
+        }
+        .formula-box .explanation {
+            font-size: 0.85em;
+            color: #6b7280;
+            margin-top: 6px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .morse-display {
+            font-family: 'Courier New', monospace;
+            font-size: 1.4em;
+            letter-spacing: 4px;
+            padding: 12px 16px;
+            background: #1f2937;
+            color: #10b981;
+            border-radius: 4px;
+            margin: 12px 0;
+        }
+        .signal-elements {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            margin: 12px 0;
+        }
+        .signal-element {
+            width: 12px;
+            height: 24px;
+            border-radius: 2px;
+        }
+        .signal-element.on { background: #1e3a5f; }
+        .signal-element.off { background: #e5e7eb; }
+        .info-panel {
+            background: #f0f7ff;
+            border-left: 3px solid #3b82f6;
+            padding: 12px 16px;
+            margin: 12px 0;
+            font-size: 0.9em;
+        }
+        .result-panel {
+            padding: 16px;
+            border-radius: 4px;
+            margin: 12px 0;
+        }
+        .result-panel.success { background: #ecfdf5; border: 1px solid #10b981; }
+        .result-panel.error { background: #fef2f2; border: 1px solid #ef4444; }
+        .spectrum-bar {
+            display: inline-block;
+            width: 8px;
+            margin-right: 2px;
+            background: #3b82f6;
+            vertical-align: bottom;
+        }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+        .slider-group { display: flex; align-items: center; gap: 12px; }
+        .slider-group input[type="range"] { flex: 1; }
+        .slider-value { min-width: 40px; text-align: right; font-weight: 600; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85em; margin: 12px 0; }
+        th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background: #f8fafc; font-weight: 600; color: #374151; }
+        .section-divider {
+            text-align: center;
+            margin: 32px 0 24px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #1e3a5f;
+            position: relative;
+        }
+        .section-divider::before, .section-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background: #d1d5db;
+        }
+        .section-divider::before { left: 0; }
+        .section-divider::after { right: 0; }
+        .concept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin: 16px 0; }
+        .concept-card {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 16px;
+        }
+        .concept-card h4 { color: #1e3a5f; margin-bottom: 8px; font-size: 0.95em; }
+        .concept-card p { font-size: 0.85em; color: #6b7280; }
+        .tab-container { margin: 16px 0; }
+        .tab-buttons { display: flex; gap: 4px; border-bottom: 1px solid #e5e7eb; }
+        .tab-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.85em;
+            color: #6b7280;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-btn.active { color: #1e3a5f; border-bottom-color: #1e3a5f; }
+        .tab-content { display: none; padding: 16px 0; }
+        .tab-content.active { display: block; }
+        .eye-diagram-canvas { background: #1f2937; border-radius: 4px; }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+        .status-badge.good { background: #dcfce7; color: #166534; }
+        .status-badge.fair { background: #fef3c7; color: #92400e; }
+        .status-badge.poor { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Telegraph Transmission Theory Visualization</h1>
+        <p>Based on Nyquist's "Certain Topics in Telegraph Transmission Theory" (1928)</p>
+    </div>
+
+    <div class="container">
+        <!-- Input Section -->
+        <div class="input-section">
+            <div class="input-row">
+                <div class="input-group" style="flex: 1;">
+                    <label>Message Text</label>
+                    <input type="text" id="inputText" value="SOS" placeholder="Enter text to transmit">
+                </div>
+                <div class="input-group">
+                    <label>Channel Bandwidth</label>
+                    <div class="slider-group">
+                        <input type="range" id="bandwidth" min="3" max="30" value="15">
+                        <span id="bandwidthValue" class="slider-value">15</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Channel Type</label>
+                    <select id="channelType">
+                        <option value="ideal">Ideal (Brick-wall)</option>
+                        <option value="butterworth">Butterworth Filter</option>
+                        <option value="rc">RC Low-pass</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="analyzeSignal()">Transmit Signal</button>
+            </div>
+        </div>
+
+        <!-- Step 1: Encoding -->
+        <div class="step open" id="step1">
+            <div class="step-header" onclick="toggleStep(1)">
+                <span class="step-number">1</span>
+                <span class="step-title">Text to Morse Code Encoding</span>
+            </div>
+            <div class="step-content">
+                <div class="info-panel">
+                    <strong>The Physics:</strong> Telegraph communication converts text into electrical signals.
+                    Morse code uses timing patterns: short pulses (dots) and long pulses (dashes).
+                </div>
+                <div id="step1-content">
+                    <p style="color: #6b7280;">Click "Transmit Signal" to begin the analysis.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Signal Generation -->
+        <div class="step" id="step2">
+            <div class="step-header" onclick="toggleStep(2)">
+                <span class="step-number">2</span>
+                <span class="step-title">Rectangular Wave Generation (DC Telegraph)</span>
+            </div>
+            <div class="step-content">
+                <div class="formula-box">
+                    <div class="formula">f(t) = m<sub>k</sub> for kT ≤ t < (k+1)T</div>
+                    <div class="explanation">The signal takes value m<sub>k</sub> (0 or 1) during each time unit T</div>
+                </div>
+                <div class="chart-container" style="height: 150px;">
+                    <canvas id="rectangularChart"></canvas>
+                </div>
+                <div id="step2-content"></div>
+            </div>
+        </div>
+
+        <!-- Step 3: Fourier Decomposition -->
+        <div class="step" id="step3">
+            <div class="step-header" onclick="toggleStep(3)">
+                <span class="step-number">3</span>
+                <span class="step-title">Fourier Series Decomposition</span>
+            </div>
+            <div class="step-content">
+                <div class="formula-box">
+                    <div class="formula">f(t) = a₀ + Σ[aₖcos(kω₀t) + bₖsin(kω₀t)]</div>
+                    <div class="explanation">Any periodic signal can be expressed as a sum of sinusoidal waves at harmonic frequencies</div>
+                </div>
+                <div class="two-col">
+                    <div>
+                        <strong style="font-size: 0.9em; color: #374151;">Frequency Spectrum</strong>
+                        <div class="chart-container" style="height: 180px;">
+                            <canvas id="spectrumChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <strong style="font-size: 0.9em; color: #374151;">Fourier Coefficients</strong>
+                        <div id="fourierTable" style="max-height: 200px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+                <div class="info-panel">
+                    <strong>Key Insight (Nyquist):</strong> The rectangular wave contains infinite harmonics,
+                    but we only need frequencies up to the signaling rate for correct reconstruction at sampling points.
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Channel Transmission -->
+        <div class="step" id="step4">
+            <div class="step-header" onclick="toggleStep(4)">
+                <span class="step-number">4</span>
+                <span class="step-title">Channel Transmission (Bandwidth Limiting)</span>
+            </div>
+            <div class="step-content">
+                <div class="formula-box">
+                    <div class="formula">H(f) = { 1 if |f| ≤ B, 0 otherwise } (ideal filter)</div>
+                    <div class="explanation">The channel acts as a low-pass filter, blocking frequencies above bandwidth B</div>
+                </div>
+                <div class="chart-container" style="height: 150px;">
+                    <canvas id="channelResponseChart"></canvas>
+                </div>
+                <div id="step4-content"></div>
+            </div>
+        </div>
+
+        <!-- Step 5: Signal Reconstruction -->
+        <div class="step" id="step5">
+            <div class="step-header" onclick="toggleStep(5)">
+                <span class="step-number">5</span>
+                <span class="step-title">Signal Reconstruction at Receiver</span>
+            </div>
+            <div class="step-content">
+                <div class="formula-box">
+                    <div class="formula">f̂(t) = Σ(k=0 to B) [aₖcos(kω₀t) + bₖsin(kω₀t)]</div>
+                    <div class="explanation">Reconstructed signal from limited frequency components</div>
+                </div>
+                <div class="chart-container" style="height: 180px;">
+                    <canvas id="reconstructedChart"></canvas>
+                </div>
+                <div id="step5-content"></div>
+            </div>
+        </div>
+
+        <!-- Step 6: Sampling and Decoding -->
+        <div class="step" id="step6">
+            <div class="step-header" onclick="toggleStep(6)">
+                <span class="step-number">6</span>
+                <span class="step-title">Sampling and Decoding</span>
+            </div>
+            <div class="step-content">
+                <div class="formula-box">
+                    <div class="formula">m̂ₖ = f̂((k + 0.5)T) → threshold → decoded bit</div>
+                    <div class="explanation">Sample at the center of each time unit and compare to threshold (0.5)</div>
+                </div>
+                <div class="chart-container" style="height: 180px;">
+                    <canvas id="samplingChart"></canvas>
+                </div>
+                <div id="step6-content"></div>
+            </div>
+        </div>
+
+        <!-- Step 7: Results -->
+        <div class="step" id="step7">
+            <div class="step-header" onclick="toggleStep(7)">
+                <span class="step-number">7</span>
+                <span class="step-title">Transmission Analysis</span>
+            </div>
+            <div class="step-content">
+                <div id="step7-content"></div>
+            </div>
+        </div>
+
+        <!-- Advanced Concepts Section Divider -->
+        <div class="section-divider">Advanced Concepts from Nyquist's Paper</div>
+
+        <!-- Concept 1: Shape Factor vs Discrimination Factor -->
+        <div class="step" id="concept1">
+            <div class="step-header" onclick="toggleConcept(1)">
+                <span class="step-number" style="background: #059669;">A</span>
+                <span class="step-title">Shape Factor and Discrimination Factor</span>
+            </div>
+            <div class="step-content">
+                <div class="info-panel">
+                    <strong>Nyquist's Key Insight:</strong> Any telegraph signal can be factored into two independent parts:
+                    F(ω) × D(ω), where F is the Shape Factor (wave form) and D is the Discrimination Factor (intelligence).
+                </div>
+                <div class="two-col">
+                    <div>
+                        <h4 style="margin-bottom: 12px; color: #374151;">Shape Factor F(ω)</h4>
+                        <div class="chart-container" style="height: 180px;">
+                            <canvas id="shapeFactorChart"></canvas>
+                        </div>
+                        <div class="formula-box">
+                            <div class="formula">F(ω) = sin(ωT/2)/(ωT/2)</div>
+                            <div class="explanation">For rectangular wave: sinc function. Independent of message content.</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 12px; color: #374151;">Discrimination Factor D(ω)</h4>
+                        <div class="chart-container" style="height: 180px;">
+                            <canvas id="discriminationFactorChart"></canvas>
+                        </div>
+                        <div class="formula-box">
+                            <div class="formula">D(ω) = Σ mₖ · e<sup>-jkωT</sup></div>
+                            <div class="explanation">Depends only on magnitude factors mₖ (the message).</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="concept1-content"></div>
+            </div>
+        </div>
+
+        <!-- Concept 2: Band Redundancy -->
+        <div class="step" id="concept2">
+            <div class="step-header" onclick="toggleConcept(2)">
+                <span class="step-number" style="background: #059669;">B</span>
+                <span class="step-title">Band Redundancy</span>
+            </div>
+            <div class="step-content">
+                <div class="info-panel">
+                    <strong>Fundamental Discovery:</strong> When frequency is divided into bands of width equal to
+                    the signaling speed, each band contains IDENTICAL information. They are mutually redundant.
+                </div>
+                <div class="formula-box">
+                    <div class="formula">Band width = S (signaling speed in symbols/sec)</div>
+                    <div class="explanation">Only ONE band is necessary and sufficient to determine the original signal.</div>
+                </div>
+                <div id="bandRedundancyContent"></div>
+                <div class="chart-container" style="height: 200px;">
+                    <canvas id="bandRedundancyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Concept 3: Nondistorting Waves -->
+        <div class="step" id="concept3">
+            <div class="step-header" onclick="toggleConcept(3)">
+                <span class="step-number" style="background: #059669;">C</span>
+                <span class="step-title">Nondistorting Waves</span>
+            </div>
+            <div class="step-content">
+                <div class="info-panel">
+                    <strong>Key Concept:</strong> A wave can be deformed (not rectangular) but still be "nondistorting"
+                    if it produces correct values at sampling instants.
+                </div>
+                <div class="formula-box">
+                    <div class="formula">Criterion: f̂((k + 0.5)T) ∝ mₖ for all k</div>
+                    <div class="explanation">The value at the mid-instant of each time unit equals the magnitude factor.</div>
+                </div>
+                <div id="nondistortingContent"></div>
+                <div class="chart-container" style="height: 200px;">
+                    <canvas id="nondistortingChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Concept 4: Ideal Shape Factors -->
+        <div class="step" id="concept4">
+            <div class="step-header" onclick="toggleConcept(4)">
+                <span class="step-number" style="background: #059669;">D</span>
+                <span class="step-title">Ideal Shape Factors (Nyquist's Figure 2)</span>
+            </div>
+            <div class="step-content">
+                <div class="info-panel">
+                    <strong>Nyquist's Figure 2:</strong> A family of shape factors that all produce nondistorting waves.
+                    The raised cosine filter is the most commonly used today.
+                </div>
+                <div class="chart-container" style="height: 220px;">
+                    <canvas id="idealShapeChart"></canvas>
+                </div>
+                <div id="idealShapeContent"></div>
+            </div>
+        </div>
+
+        <!-- Concept 5: Progressive Harmonic Building -->
+        <div class="step" id="concept5">
+            <div class="step-header" onclick="toggleConcept(5)">
+                <span class="step-number" style="background: #059669;">E</span>
+                <span class="step-title">Progressive Harmonic Building</span>
+            </div>
+            <div class="step-content">
+                <div class="info-panel">
+                    <strong>Interactive Visualization:</strong> Watch how the signal improves as more harmonics are added.
+                    This demonstrates the relationship between bandwidth and signal fidelity.
+                </div>
+                <div style="margin: 16px 0;">
+                    <label style="font-size: 0.85em; color: #6b7280;">Number of Harmonics: </label>
+                    <input type="range" id="harmonicSlider" min="1" max="25" value="5" style="width: 200px;">
+                    <span id="harmonicValue" style="font-weight: 600;">5</span>
+                </div>
+                <div class="chart-container" style="height: 200px;">
+                    <canvas id="progressiveChart"></canvas>
+                </div>
+                <div id="progressiveContent"></div>
+            </div>
+        </div>
+
+        <!-- Concept 6: Carrier Wave Modulation -->
+        <div class="step" id="concept6">
+            <div class="step-header" onclick="toggleConcept(6)">
+                <span class="step-number" style="background: #059669;">F</span>
+                <span class="step-title">Carrier Wave Modulation and Sidebands</span>
+            </div>
+            <div class="step-content">
+                <div class="info-panel">
+                    <strong>Carrier Telegraphy:</strong> Nyquist showed that amplitude modulation creates
+                    symmetric sidebands, requiring TWICE the bandwidth of DC telegraphy.
+                </div>
+                <div class="tab-container">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" onclick="showCarrierTab('time')">Time Domain</button>
+                        <button class="tab-btn" onclick="showCarrierTab('freq')">Frequency Domain</button>
+                    </div>
+                    <div class="tab-content active" id="carrier-time">
+                        <div class="chart-container" style="height: 280px;">
+                            <canvas id="carrierTimeChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="carrier-freq">
+                        <div class="chart-container" style="height: 200px;">
+                            <canvas id="carrierFreqChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="formula-box">
+                    <div class="formula">s(t) = [1 + m(t)] · cos(ω<sub>c</sub>t) → Upper + Lower Sidebands</div>
+                    <div class="explanation">Baseband B Hz → Carrier needs 2B Hz (one per sideband)</div>
+                </div>
+                <div id="carrierContent"></div>
+            </div>
+        </div>
+
+        <!-- Concept 7: Single Sideband -->
+        <div class="step" id="concept7">
+            <div class="step-header" onclick="toggleConcept(7)">
+                <span class="step-number" style="background: #059669;">G</span>
+                <span class="step-title">Single Sideband and Phase Discrimination</span>
+            </div>
+            <div class="step-content">
+                <div class="info-panel">
+                    <strong>Bandwidth Recovery:</strong> Nyquist described two methods to overcome carrier inefficiency:
+                    <br>1. <strong>Single Sideband (SSB):</strong> Transmit only one sideband
+                    <br>2. <strong>Phase Discrimination:</strong> Use I and Q components (doubles capacity)
+                </div>
+                <div class="two-col">
+                    <div class="chart-container" style="height: 180px;">
+                        <canvas id="ssbTimeChart"></canvas>
+                    </div>
+                    <div class="chart-container" style="height: 180px;">
+                        <canvas id="ssbFreqChart"></canvas>
+                    </div>
+                </div>
+                <div id="ssbContent"></div>
+            </div>
+        </div>
+
+        <!-- Concept 8: Eye Diagram -->
+        <div class="step" id="concept8">
+            <div class="step-header" onclick="toggleConcept(8)">
+                <span class="step-number" style="background: #059669;">H</span>
+                <span class="step-title">Eye Diagram and Intersymbol Interference</span>
+            </div>
+            <div class="step-content">
+                <div class="info-panel">
+                    <strong>Eye Diagram:</strong> A powerful tool for visualizing signal quality.
+                    Consecutive symbol periods are overlaid to show ISI and timing margins.
+                </div>
+                <div class="two-col">
+                    <div>
+                        <div class="chart-container" style="height: 220px;">
+                            <canvas id="eyeChart" class="eye-diagram-canvas"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 12px; color: #374151;">Eye Metrics</h4>
+                        <div id="eyeMetrics"></div>
+                        <div class="concept-card" style="margin-top: 12px;">
+                            <h4>Interpretation</h4>
+                            <p><strong>Eye Height:</strong> Noise margin - larger is better</p>
+                            <p><strong>Eye Width:</strong> Timing margin for sampling</p>
+                            <p><strong>Crossing Points:</strong> Where transitions occur</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="step" id="summary">
+            <div class="step-header" onclick="toggleStep('summary')">
+                <span class="step-number" style="background: #7c3aed;">Σ</span>
+                <span class="step-title">Summary: Nyquist's Key Contributions</span>
+            </div>
+            <div class="step-content">
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4>1. Nyquist Rate</h4>
+                        <p>S<sub>max</sub> = 2B symbols/second. The fundamental limit relating bandwidth and signaling speed.</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>2. Band Redundancy</h4>
+                        <p>Frequency bands of width S contain identical information. Only one band is needed.</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>3. Shape/Discrimination Separation</h4>
+                        <p>Signal = F(ω) × D(ω). Allows independent analysis of waveform and message.</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>4. Nondistorting Waves</h4>
+                        <p>Deformed waves can still be correct at sampling instants - only those points matter.</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>5. Ideal Shape Factors</h4>
+                        <p>Family of filters (raised cosine) that achieve zero ISI at sampling instants.</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>6. Carrier Inefficiency</h4>
+                        <p>AM requires 2× bandwidth. SSB and phase discrimination restore efficiency.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart instances
+        let rectangularChart, spectrumChart, channelResponseChart, reconstructedChart, samplingChart;
+        let shapeFactorChart, discriminationFactorChart, bandRedundancyChart;
+        let nondistortingChart, idealShapeChart, progressiveChart;
+        let carrierTimeChart, carrierFreqChart, ssbTimeChart, ssbFreqChart, eyeChart;
+
+        // Store data for interactive features
+        let currentElements = [];
+        let progressiveData = null;
+
+        // Chart configuration
+        const chartConfig = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            animation: false,
+            scales: {
+                x: { grid: { color: '#e5e7eb' }, ticks: { maxTicksLimit: 10 } },
+                y: { grid: { color: '#e5e7eb' } }
+            },
+            elements: { point: { radius: 0 }, line: { borderWidth: 2 } }
+        };
+
+        // Toggle step panels
+        function toggleStep(num) {
+            const step = document.getElementById('step' + num);
+            step.classList.toggle('open');
+        }
+
+        // Toggle concept panels
+        function toggleConcept(num) {
+            const concept = document.getElementById('concept' + num);
+            concept.classList.toggle('open');
+        }
+
+        // Show carrier tab
+        function showCarrierTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('carrier-' + tab).classList.add('active');
+        }
+
+        // Update bandwidth display
+        document.getElementById('bandwidth').addEventListener('input', function() {
+            document.getElementById('bandwidthValue').textContent = this.value;
+        });
+
+        // Harmonic slider for progressive building
+        document.getElementById('harmonicSlider').addEventListener('input', function() {
+            document.getElementById('harmonicValue').textContent = this.value;
+            if (progressiveData) {
+                updateProgressiveChart(parseInt(this.value));
+            }
+        });
+
+        // Main analysis function
+        async function analyzeSignal() {
+            const text = document.getElementById('inputText').value || 'SOS';
+            const bandwidth = parseInt(document.getElementById('bandwidth').value);
+            const channelType = document.getElementById('channelType').value;
+
+            try {
+                // Fetch all data in parallel
+                const [analysisRes, shapeRes, bandRes, nondistRes, idealRes, progressRes, carrierRes, eyeRes] = await Promise.all([
+                    fetch('/api/full_analysis', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text, bandwidth, channelType, samplesPerUnit: 50, numHarmonics: 30 })
+                    }),
+                    fetch('/api/shape_discrimination', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text, numHarmonics: 30 })
+                    }),
+                    fetch('/api/band_redundancy', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text, numHarmonics: 50 })
+                    }),
+                    fetch('/api/nondistorting_wave', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text, bandwidth })
+                    }),
+                    fetch('/api/ideal_shape_factors'),
+                    fetch('/api/progressive_harmonics', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text, maxHarmonics: 25 })
+                    }),
+                    fetch('/api/carrier_modulation', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text, carrierFreq: 10 })
+                    }),
+                    fetch('/api/eye_diagram', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text, bandwidth, channelType })
+                    })
+                ]);
+
+                const data = await analysisRes.json();
+                const shapeData = await shapeRes.json();
+                const bandData = await bandRes.json();
+                const nondistData = await nondistRes.json();
+                const idealData = await idealRes.json();
+                progressiveData = await progressRes.json();
+                const carrierData = await carrierRes.json();
+                const eyeData = await eyeRes.json();
+
+                currentElements = data.step1_encoding.elements;
+
+                // Open all steps
+                for (let i = 1; i <= 7; i++) {
+                    document.getElementById('step' + i).classList.add('open');
+                }
+
+                // Step 1: Encoding
+                updateStep1(data.step1_encoding);
+
+                // Step 2: Rectangular wave
+                updateStep2(data.step2_rectangular_wave);
+
+                // Step 3: Fourier
+                updateStep3(data.step3_fourier);
+
+                // Step 4: Channel
+                updateStep4(data.step4_channel);
+
+                // Step 5: Reconstruction
+                updateStep5(data.step2_rectangular_wave, data.step5_reconstruction);
+
+                // Step 6: Sampling
+                updateStep6(data.step5_reconstruction, data.step6_sampling, data.step1_encoding.elements);
+
+                // Step 7: Results
+                updateStep7(data);
+
+                // Advanced Concepts
+                updateShapeDiscrimination(shapeData);
+                updateBandRedundancy(bandData);
+                updateNondistorting(nondistData);
+                updateIdealShapes(idealData);
+                updateProgressiveChart(5);
+                updateCarrierModulation(carrierData);
+                updateEyeDiagram(eyeData);
+
+            } catch (err) {
+                console.error('Analysis error:', err);
+            }
+        }
+
+        function updateStep1(encoding) {
+            const content = document.getElementById('step1-content');
+            content.innerHTML = `
+                <div style="margin-bottom: 16px;">
+                    <strong>Input Text:</strong> "${encoding.text}"
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <strong>Morse Code:</strong>
+                    <div class="morse-display">${encoding.morse}</div>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <strong>Signal Elements (${encoding.elements.length} time units):</strong>
+                    <div class="signal-elements">
+                        ${encoding.elements.map(e => `<div class="signal-element ${e ? 'on' : 'off'}"></div>`).join('')}
+                    </div>
+                </div>
+                <table>
+                    <tr><th>Symbol</th><th>Duration</th><th>Representation</th></tr>
+                    <tr><td>Dot (.)</td><td>1 unit</td><td>1</td></tr>
+                    <tr><td>Dash (-)</td><td>3 units</td><td>1,1,1</td></tr>
+                    <tr><td>Inter-element gap</td><td>1 unit</td><td>0</td></tr>
+                    <tr><td>Letter gap</td><td>3 units</td><td>0,0,0</td></tr>
+                    <tr><td>Word gap</td><td>7 units</td><td>0,0,0,0,0,0,0</td></tr>
+                </table>
+            `;
+        }
+
+        function updateStep2(wave) {
+            if (rectangularChart) rectangularChart.destroy();
+            const labels = wave.signal.map((_, i) => (i / 50).toFixed(1));
+            rectangularChart = new Chart(document.getElementById('rectangularChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: wave.signal,
+                        borderColor: '#1e3a5f',
+                        backgroundColor: 'rgba(30, 58, 95, 0.1)',
+                        fill: true,
+                        stepped: true
+                    }]
+                },
+                options: {...chartConfig, scales: {...chartConfig.scales, y: {min: -0.2, max: 1.2}}}
+            });
+        }
+
+        function updateStep3(fourier) {
+            // Spectrum chart
+            if (spectrumChart) spectrumChart.destroy();
+            const displayComps = fourier.components.slice(0, 20);
+            spectrumChart = new Chart(document.getElementById('spectrumChart'), {
+                type: 'bar',
+                data: {
+                    labels: displayComps.map(c => c.k),
+                    datasets: [{
+                        data: displayComps.map(c => c.magnitude),
+                        backgroundColor: displayComps.map(c => c.magnitude > 0.05 ? '#3b82f6' : '#cbd5e1')
+                    }]
+                },
+                options: {...chartConfig, scales: {...chartConfig.scales, x: {title: {display: true, text: 'Harmonic (k)'}}}}
+            });
+
+            // Fourier table
+            const tableHtml = `<table>
+                <tr><th>k</th><th>a<sub>k</sub></th><th>b<sub>k</sub></th><th>|C<sub>k</sub>|</th></tr>
+                ${fourier.components.slice(0, 10).map(c => `
+                    <tr>
+                        <td>${c.k}</td>
+                        <td>${c.a_k.toFixed(4)}</td>
+                        <td>${c.b_k.toFixed(4)}</td>
+                        <td>${c.magnitude.toFixed(4)}</td>
+                    </tr>
+                `).join('')}
+            </table>`;
+            document.getElementById('fourierTable').innerHTML = tableHtml;
+        }
+
+        function updateStep4(channel) {
+            // Channel response chart
+            if (channelResponseChart) channelResponseChart.destroy();
+            const freqs = channel.effects.slice(0, 25);
+            channelResponseChart = new Chart(document.getElementById('channelResponseChart'), {
+                type: 'bar',
+                data: {
+                    labels: freqs.map(e => e.harmonic),
+                    datasets: [{
+                        label: 'Attenuation',
+                        data: freqs.map(e => e.attenuation),
+                        backgroundColor: freqs.map(e => e.attenuation > 0.5 ? '#10b981' : e.attenuation > 0 ? '#f59e0b' : '#ef4444')
+                    }]
+                },
+                options: {...chartConfig, scales: {...chartConfig.scales, y: {min: 0, max: 1.1}}}
+            });
+
+            document.getElementById('step4-content').innerHTML = `
+                <div class="info-panel">
+                    <strong>Channel:</strong> ${channel.channel_type} filter with bandwidth B = ${channel.bandwidth}<br>
+                    <strong>Effect:</strong> Harmonics k > ${channel.bandwidth} are ${channel.channel_type === 'ideal' ? 'completely blocked' : 'attenuated'}
+                </div>
+            `;
+        }
+
+        function updateStep5(original, reconstructed) {
+            if (reconstructedChart) reconstructedChart.destroy();
+            const labels = original.signal.map((_, i) => (i / 50).toFixed(1));
+            reconstructedChart = new Chart(document.getElementById('reconstructedChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Original',
+                            data: original.signal,
+                            borderColor: '#d1d5db',
+                            borderWidth: 1,
+                            stepped: true,
+                            fill: false
+                        },
+                        {
+                            label: 'Reconstructed',
+                            data: reconstructed.signal,
+                            borderColor: '#059669',
+                            borderWidth: 2,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {...chartConfig, plugins: {legend: {display: true, position: 'top'}}}
+            });
+
+            document.getElementById('step5-content').innerHTML = `
+                <div class="info-panel">
+                    <strong>Observation:</strong> The reconstructed signal (green) shows rounding at transitions
+                    due to missing high-frequency components. However, at sampling instants (center of each time unit),
+                    the value should still be close to the original if bandwidth is sufficient.
+                </div>
+            `;
+        }
+
+        function updateStep6(reconstructed, sampling, originalElements) {
+            if (samplingChart) samplingChart.destroy();
+            const labels = reconstructed.signal.map((_, i) => (i / 50).toFixed(1));
+
+            // Create sampling points dataset
+            const samplingPoints = [];
+            const samplingLabels = [];
+            sampling.samples.forEach(s => {
+                samplingPoints.push({x: s.sample_index, y: s.value});
+            });
+
+            samplingChart = new Chart(document.getElementById('samplingChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Received Signal',
+                            data: reconstructed.signal,
+                            borderColor: '#3b82f6',
+                            borderWidth: 1.5,
+                            fill: false,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Threshold (0.5)',
+                            data: Array(reconstructed.signal.length).fill(0.5),
+                            borderColor: '#ef4444',
+                            borderWidth: 1,
+                            borderDash: [5, 5],
+                            fill: false,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Sample Points',
+                            data: sampling.samples.map(s => ({x: (s.sample_index / 50).toFixed(1), y: s.value})),
+                            borderColor: 'transparent',
+                            backgroundColor: sampling.samples.map((s, i) =>
+                                s.decoded === originalElements[i] ? '#10b981' : '#ef4444'),
+                            pointRadius: 6,
+                            showLine: false,
+                            type: 'scatter'
+                        }
+                    ]
+                },
+                options: {...chartConfig, plugins: {legend: {display: true, position: 'top'}}}
+            });
+
+            document.getElementById('step6-content').innerHTML = `
+                <div class="info-panel">
+                    <strong>Sampling:</strong> At the center of each time unit, we sample the received signal
+                    and compare to threshold 0.5.<br>
+                    <strong>Decision:</strong> If sample > 0.5 → decoded as 1, otherwise → decoded as 0<br>
+                    <span style="color: #10b981;">● Green = correctly decoded</span>,
+                    <span style="color: #ef4444;">● Red = error</span>
+                </div>
+            `;
+        }
+
+        function updateStep7(data) {
+            const analysis = data.step7_analysis;
+            const encoding = data.step1_encoding;
+            const nyquist = data.nyquist_info;
+
+            const isSuccess = analysis.success;
+
+            document.getElementById('step7-content').innerHTML = `
+                <div class="result-panel ${isSuccess ? 'success' : 'error'}">
+                    <strong>${isSuccess ? 'Transmission Successful' : 'Transmission Errors Detected'}</strong><br>
+                    Errors: ${analysis.errors} out of ${encoding.elements.length} elements
+                    (${(analysis.error_rate * 100).toFixed(1)}% error rate)
+                </div>
+
+                <div class="two-col">
+                    <div>
+                        <h4 style="margin-bottom: 12px; color: #374151;">Nyquist's Key Result</h4>
+                        <div class="formula-box">
+                            <div class="formula">S<sub>max</sub> = 2B symbols/second</div>
+                            <div class="explanation">Maximum signaling speed through a channel of bandwidth B Hz</div>
+                        </div>
+                        <p style="font-size: 0.9em; color: #6b7280; margin-top: 8px;">
+                            This means for a bandwidth of ${data.step4_channel.bandwidth} Hz,
+                            you can transmit up to ${data.step4_channel.bandwidth * 2} symbols/second
+                            without intersymbol interference at sampling instants.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 12px; color: #374151;">Intersymbol Interference (ISI)</h4>
+                        <table>
+                            <tr><th>Element</th><th>Sampled Value</th><th>Expected</th><th>ISI</th></tr>
+                            ${analysis.isi.slice(0, 8).map(item => `
+                                <tr>
+                                    <td>${item.element}</td>
+                                    <td>${item.actual_value.toFixed(3)}</td>
+                                    <td>${item.ideal_value}</td>
+                                    <td>${item.isi_percent.toFixed(1)}%</td>
+                                </tr>
+                            `).join('')}
+                        </table>
+                    </div>
+                </div>
+
+                <div class="info-panel" style="margin-top: 16px;">
+                    <strong>Physical Interpretation:</strong> When bandwidth is limited, sharp transitions in the
+                    rectangular wave get "smeared" across time, causing interference between adjacent symbols.
+                    Nyquist showed that special pulse shapes (like the sinc function) can achieve zero ISI at
+                    sampling instants while using minimum bandwidth.
+                </div>
+            `;
+        }
+
+        // ========== Advanced Concept Update Functions ==========
+
+        function updateShapeDiscrimination(data) {
+            // Shape Factor Chart
+            if (shapeFactorChart) shapeFactorChart.destroy();
+            const shapeData = data.shape_factors.slice(0, 20);
+            shapeFactorChart = new Chart(document.getElementById('shapeFactorChart'), {
+                type: 'bar',
+                data: {
+                    labels: shapeData.map(s => s.k),
+                    datasets: [{
+                        data: shapeData.map(s => s.magnitude),
+                        backgroundColor: '#3b82f6'
+                    }]
+                },
+                options: {...chartConfig, scales: {...chartConfig.scales,
+                    x: {title: {display: true, text: 'Harmonic k'}},
+                    y: {title: {display: true, text: '|F(ω)|'}}
+                }}
+            });
+
+            // Discrimination Factor Chart
+            if (discriminationFactorChart) discriminationFactorChart.destroy();
+            const discData = data.discrimination_factors.slice(0, 20);
+            discriminationFactorChart = new Chart(document.getElementById('discriminationFactorChart'), {
+                type: 'bar',
+                data: {
+                    labels: discData.map(d => d.k),
+                    datasets: [{
+                        data: discData.map(d => d.magnitude),
+                        backgroundColor: '#10b981'
+                    }]
+                },
+                options: {...chartConfig, scales: {...chartConfig.scales,
+                    x: {title: {display: true, text: 'Harmonic k'}},
+                    y: {title: {display: true, text: '|D(ω)|'}}
+                }}
+            });
+
+            document.getElementById('concept1-content').innerHTML = `
+                <div class="info-panel">
+                    <strong>Key Insight:</strong> ${data.explanation.key_insight}
+                </div>
+            `;
+        }
+
+        function updateBandRedundancy(data) {
+            if (bandRedundancyChart) bandRedundancyChart.destroy();
+
+            // Create grouped bar chart showing bands
+            const bands = data.bands;
+            const datasets = bands.map((band, idx) => ({
+                label: `Band ${band.band_index} (${band.frequency_range})`,
+                data: band.components.map(c => c.magnitude),
+                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'][idx % 5]
+            }));
+
+            const maxLen = Math.max(...bands.map(b => b.components.length));
+            const labels = Array.from({length: maxLen}, (_, i) => i);
+
+            bandRedundancyChart = new Chart(document.getElementById('bandRedundancyChart'), {
+                type: 'bar',
+                data: { labels, datasets },
+                options: {
+                    ...chartConfig,
+                    plugins: {legend: {display: true, position: 'top'}},
+                    scales: {
+                        x: {title: {display: true, text: 'Position in Band'}},
+                        y: {title: {display: true, text: 'Magnitude'}}
+                    }
+                }
+            });
+
+            document.getElementById('bandRedundancyContent').innerHTML = `
+                <div class="info-panel">
+                    <strong>Observation:</strong> Notice how the magnitude pattern repeats across bands.
+                    Signaling speed = ${data.signaling_speed} elements, so bands of width ${data.signaling_speed}
+                    contain redundant information.
+                </div>
+            `;
+        }
+
+        function updateNondistorting(data) {
+            if (nondistortingChart) nondistortingChart.destroy();
+
+            const original = data.original;
+            const labels = original.map((_, i) => (i / 50).toFixed(1));
+
+            const datasets = [
+                {
+                    label: 'Original',
+                    data: original,
+                    borderColor: '#1f2937',
+                    borderWidth: 1,
+                    stepped: true
+                }
+            ];
+
+            data.waves.forEach((wave, idx) => {
+                const colors = ['#3b82f6', '#f59e0b', '#10b981'];
+                datasets.push({
+                    label: `B=${wave.bandwidth} (${wave.is_nondistorting ? 'OK' : wave.errors + ' errors'})`,
+                    data: wave.signal,
+                    borderColor: colors[idx % 3],
+                    borderWidth: 1.5,
+                    borderDash: wave.is_nondistorting ? [] : [5, 5]
+                });
+            });
+
+            nondistortingChart = new Chart(document.getElementById('nondistortingChart'), {
+                type: 'line',
+                data: { labels, datasets },
+                options: {
+                    ...chartConfig,
+                    plugins: {legend: {display: true, position: 'top'}}
+                }
+            });
+
+            document.getElementById('nondistortingContent').innerHTML = `
+                <div class="concept-grid">
+                    ${data.waves.map(w => `
+                        <div class="concept-card">
+                            <h4>Bandwidth = ${w.bandwidth}</h4>
+                            <p>Errors: ${w.errors}</p>
+                            <p>Status: <span class="status-badge ${w.is_nondistorting ? 'good' : 'poor'}">
+                                ${w.is_nondistorting ? 'Nondistorting' : 'Distorting'}
+                            </span></p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function updateIdealShapes(data) {
+            if (idealShapeChart) idealShapeChart.destroy();
+
+            const shapes = data.shapes;
+            const datasets = shapes.map((shape, idx) => ({
+                label: shape.name,
+                data: shape.y,
+                borderColor: ['#1e3a5f', '#3b82f6', '#10b981', '#f59e0b'][idx % 4],
+                borderWidth: idx === 0 ? 2 : 1.5,
+                fill: false,
+                pointRadius: 0
+            }));
+
+            idealShapeChart = new Chart(document.getElementById('idealShapeChart'), {
+                type: 'line',
+                data: {
+                    labels: shapes[0].x.map(x => x.toFixed(2)),
+                    datasets
+                },
+                options: {
+                    ...chartConfig,
+                    plugins: {legend: {display: true, position: 'top'}},
+                    scales: {
+                        x: {title: {display: true, text: 'Normalized Frequency (ω/ω_s)'}},
+                        y: {title: {display: true, text: 'H(ω)'}}
+                    }
+                }
+            });
+
+            document.getElementById('idealShapeContent').innerHTML = `
+                <div class="concept-grid">
+                    ${shapes.map(s => `
+                        <div class="concept-card">
+                            <h4>${s.name}</h4>
+                            <p>${s.description}</p>
+                            <p style="font-family: 'Times New Roman', serif; color: #1e3a5f;">${s.formula}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function updateProgressiveChart(numHarmonics) {
+            if (!progressiveData) return;
+            if (progressiveChart) progressiveChart.destroy();
+
+            const original = progressiveData.original;
+            const step = progressiveData.steps.find(s => s.num_harmonics >= numHarmonics) ||
+                         progressiveData.steps[progressiveData.steps.length - 1];
+
+            const labels = original.map((_, i) => (i / 50).toFixed(1));
+
+            progressiveChart = new Chart(document.getElementById('progressiveChart'), {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [
+                        {
+                            label: 'Original',
+                            data: original,
+                            borderColor: '#d1d5db',
+                            borderWidth: 1,
+                            stepped: true
+                        },
+                        {
+                            label: `${step.num_harmonics} harmonics`,
+                            data: step.signal,
+                            borderColor: step.errors === 0 ? '#10b981' : '#ef4444',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    ...chartConfig,
+                    plugins: {legend: {display: true, position: 'top'}}
+                }
+            });
+
+            document.getElementById('progressiveContent').innerHTML = `
+                <div class="info-panel">
+                    <strong>Harmonics:</strong> ${step.num_harmonics} |
+                    <strong>MSE:</strong> ${step.mse.toFixed(4)} |
+                    <strong>Errors:</strong> ${step.errors} |
+                    <strong>Nyquist Ratio:</strong> ${step.nyquist_ratio.toFixed(2)} |
+                    <span class="status-badge ${step.bandwidth_sufficient ? 'good' : 'poor'}">
+                        ${step.bandwidth_sufficient ? 'Sufficient BW' : 'Insufficient BW'}
+                    </span>
+                </div>
+            `;
+        }
+
+        function updateCarrierModulation(data) {
+            // Time domain chart
+            if (carrierTimeChart) carrierTimeChart.destroy();
+            const timeLabels = data.time.slice(0, 200).map(t => t.toFixed(2));
+
+            carrierTimeChart = new Chart(document.getElementById('carrierTimeChart'), {
+                type: 'line',
+                data: {
+                    labels: timeLabels,
+                    datasets: [
+                        {
+                            label: 'Baseband',
+                            data: data.baseband.slice(0, 200),
+                            borderColor: '#6b7280',
+                            borderWidth: 1,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Carrier',
+                            data: data.carrier.slice(0, 200),
+                            borderColor: '#3b82f6',
+                            borderWidth: 1,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Modulated (AM)',
+                            data: data.modulated.slice(0, 200),
+                            borderColor: '#10b981',
+                            borderWidth: 1.5,
+                            pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    ...chartConfig,
+                    plugins: {legend: {display: true, position: 'top'}}
+                }
+            });
+
+            // Frequency domain chart
+            if (carrierFreqChart) carrierFreqChart.destroy();
+            carrierFreqChart = new Chart(document.getElementById('carrierFreqChart'), {
+                type: 'bar',
+                data: {
+                    labels: data.frequencies.map(f => f.toFixed(1)),
+                    datasets: [
+                        {
+                            label: 'Modulated Spectrum',
+                            data: data.modulated_spectrum,
+                            backgroundColor: '#10b981'
+                        }
+                    ]
+                },
+                options: {
+                    ...chartConfig,
+                    plugins: {legend: {display: true}},
+                    scales: {
+                        x: {title: {display: true, text: 'Frequency'}},
+                        y: {title: {display: true, text: 'Magnitude'}}
+                    }
+                }
+            });
+
+            document.getElementById('carrierContent').innerHTML = `
+                <div class="info-panel">
+                    <strong>Carrier Frequency:</strong> ${data.carrier_frequency} |
+                    <strong>Observation:</strong> Upper and lower sidebands are visible around the carrier.
+                    ${data.explanation.bandwidth}
+                </div>
+            `;
+        }
+
+        function updateEyeDiagram(data) {
+            if (eyeChart) eyeChart.destroy();
+
+            if (!data.traces || data.traces.length === 0) {
+                document.getElementById('eyeMetrics').innerHTML = '<p>No eye diagram data</p>';
+                return;
+            }
+
+            const labels = data.time_axis;
+            const datasets = data.traces.slice(0, 20).map((trace, idx) => ({
+                data: trace,
+                borderColor: `rgba(59, 130, 246, ${0.3 + idx * 0.03})`,
+                borderWidth: 1,
+                pointRadius: 0,
+                fill: false
+            }));
+
+            eyeChart = new Chart(document.getElementById('eyeChart'), {
+                type: 'line',
+                data: { labels, datasets },
+                options: {
+                    ...chartConfig,
+                    plugins: {legend: {display: false}},
+                    scales: {
+                        x: {
+                            grid: {color: 'rgba(255,255,255,0.1)'},
+                            ticks: {color: '#9ca3af'},
+                            title: {display: true, text: 'Time (samples)', color: '#9ca3af'}
+                        },
+                        y: {
+                            grid: {color: 'rgba(255,255,255,0.1)'},
+                            ticks: {color: '#9ca3af'},
+                            min: -0.5,
+                            max: 1.5
+                        }
+                    }
+                }
+            });
+
+            const m = data.metrics;
+            document.getElementById('eyeMetrics').innerHTML = `
+                <table>
+                    <tr><th>Metric</th><th>Value</th></tr>
+                    <tr><td>Eye Height</td><td>${m.eye_height.toFixed(3)}</td></tr>
+                    <tr><td>Eye Opening</td><td>${m.eye_opening_percent.toFixed(1)}%</td></tr>
+                    <tr><td>Min High</td><td>${m.min_high.toFixed(3)}</td></tr>
+                    <tr><td>Max Low</td><td>${m.max_low.toFixed(3)}</td></tr>
+                    <tr><td>Quality</td><td><span class="status-badge ${m.quality.toLowerCase()}">${m.quality}</span></td></tr>
+                </table>
+            `;
+        }
+    </script>
+</body>
+</html>
