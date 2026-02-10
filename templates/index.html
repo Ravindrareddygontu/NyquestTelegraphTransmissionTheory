@@ -1003,11 +1003,12 @@
                     <input type="text" id="inputText" value="SOS" placeholder="Enter text to transmit">
                 </div>
                 <div class="input-group">
-                    <label>Channel Bandwidth</label>
+                    <label>📶 Channel Bandwidth (B)</label>
                     <div class="slider-group">
-                        <input type="range" id="bandwidth" min="3" max="30" value="15">
-                        <span id="bandwidthValue" class="slider-value">15</span>
+                        <input type="range" id="bandwidth" min="3" max="30" value="15" style="width: 120px;">
+                        <span id="bandwidthValue" class="slider-value" style="min-width: 40px; font-weight: bold; color: #3b82f6;">15 Hz</span>
                     </div>
+                    <small style="color: #6b7280; font-size: 0.75em;">↔️ Drag to change!</small>
                 </div>
                 <div class="input-group">
                     <label>Channel Type</label>
@@ -1092,10 +1093,10 @@
             <div class="step-content">
                 <!-- What Happens Here -->
                 <div class="what-happens-box">
-                    <h4>🔬 What happens here?</h4>
+                    <h4>What happens here?</h4>
                     <p>We convert the binary message (0s and 1s) into an <strong>electrical signal</strong>.
-                    Each bit becomes a voltage level: <strong>⬆️ 1 = high voltage</strong>, <strong>⬇️ 0 = low voltage</strong>.
-                    This creates a "staircase" or rectangular wave pattern ▁▃▁▃▃</p>
+                    Each bit becomes a voltage level: <strong>1 = high voltage</strong>, <strong>0 = low voltage</strong>.
+                    This creates a "staircase" or rectangular wave pattern.</p>
                 </div>
 
                 <!-- Input/Output Visual -->
@@ -1122,9 +1123,9 @@
 
                 <!-- Connection to Next Step -->
                 <div class="next-step-box">
-                    <h4>⏭️ Connection to Step 3</h4>
-                    <p>This rectangular wave contains <strong>sharp edges ⚡</strong> (sudden transitions).
-                    To understand how the channel will affect it, we need to break it down into its <strong>frequency components 🎼</strong> using Fourier analysis.</p>
+                    <h4>Connection to Step 3</h4>
+                    <p>This rectangular wave contains <strong>sharp edges</strong> (sudden transitions).
+                    To understand how the channel will affect it, we need to break it down into its <strong>frequency components</strong> using Fourier analysis.</p>
                 </div>
             </div>
         </div>
@@ -1147,9 +1148,9 @@
             <div class="step-content">
                 <!-- What Happens Here -->
                 <div class="what-happens-box">
-                    <h4>🔬 What happens here?</h4>
-                    <p>We break down the rectangular wave into <strong>simple sine waves ∿∿∿</strong> of different frequencies.
-                    Think of it like splitting white light into a rainbow 🌈! The sharp corners require <strong>high-frequency components</strong>,
+                    <h4>What happens here?</h4>
+                    <p>We break down the rectangular wave into <strong>simple sine waves</strong> of different frequencies.
+                    Think of it like splitting white light into a rainbow. The sharp corners require <strong>high-frequency components</strong>,
                     while the flat parts are represented by <strong>low-frequency components</strong>.</p>
                 </div>
 
@@ -1189,9 +1190,9 @@
 
                 <!-- Connection to Next Step -->
                 <div class="next-step-box">
-                    <h4>⏭️ Connection to Step 4</h4>
-                    <p>Now that we know which frequencies are in our signal 📈, we can see what happens when the
-                    <strong>communication channel 🛰️</strong> blocks some of them. Real channels have <strong>limited bandwidth ⊘</strong>
+                    <h4>Connection to Step 4</h4>
+                    <p>Now that we know which frequencies are in our signal, we can see what happens when the
+                    <strong>communication channel</strong> blocks some of them. Real channels have <strong>limited bandwidth</strong>
                     and cannot pass all frequencies.</p>
                 </div>
             </div>
@@ -1215,10 +1216,10 @@
             <div class="step-content">
                 <!-- What Happens Here -->
                 <div class="what-happens-box">
-                    <h4>🔬 What happens here?</h4>
-                    <p>The signal travels through a <strong>communication channel</strong> 📶 (wire, radio, fiber optic).
+                    <h4>What happens here?</h4>
+                    <p>The signal travels through a <strong>communication channel</strong> (wire, radio, fiber optic).
                     Every channel has a <strong>maximum frequency it can carry</strong> (bandwidth).
-                    High frequencies get <strong>blocked ⛔ or weakened</strong>, like how a wall muffles high-pitched sounds 🔇!</p>
+                    High frequencies get <strong>blocked or weakened</strong>, like how a wall muffles high-pitched sounds.</p>
                 </div>
 
                 <!-- Input/Output Visual -->
@@ -1245,9 +1246,9 @@
 
                 <!-- Connection to Next Step -->
                 <div class="next-step-box">
-                    <h4>⏭️ Connection to Step 5</h4>
-                    <p>With some frequency components removed ✂️, the signal at the receiver won't look exactly like the original.
-                    Let's see what the <strong>reconstructed signal 🔮</strong> looks like!</p>
+                    <h4>Connection to Step 5</h4>
+                    <p>With some frequency components removed, the signal at the receiver won't look exactly like the original.
+                    Let's see what the <strong>reconstructed signal</strong> looks like.</p>
                 </div>
             </div>
         </div>
@@ -1270,10 +1271,10 @@
             <div class="step-content">
                 <!-- What Happens Here -->
                 <div class="what-happens-box">
-                    <h4>🔬 What happens here?</h4>
-                    <p>At the receiver 📻, we combine the frequency components that <strong>made it through the channel</strong>.
-                    The result looks <strong>smoother ∼∼∼</strong> than the original rectangular wave because the sharp edges
-                    (high frequencies) were removed. Compare the <strong style="color:#10b981;">🟢 green line</strong> (received) with the <strong style="color:#3b82f6;">🔵 blue line</strong> (original)!</p>
+                    <h4>What happens here?</h4>
+                    <p>At the receiver, we combine the frequency components that <strong>made it through the channel</strong>.
+                    The result looks <strong>smoother</strong> than the original rectangular wave because the sharp edges
+                    (high frequencies) were removed. Compare the <strong style="color:#10b981;">green line</strong> (received) with the <strong style="color:#3b82f6;">blue line</strong> (original).</p>
                 </div>
 
                 <!-- Input/Output Visual -->
@@ -1300,10 +1301,10 @@
 
                 <!-- Connection to Next Step -->
                 <div class="next-step-box">
-                    <h4>⏭️ Connection to Step 6</h4>
-                    <p>The signal looks different 〰️, but can we still <strong>read the original message 📖</strong>?
-                    Nyquist's key insight 🧠: if we sample at the <strong>right moments ⏱️</strong> (center of each bit),
-                    we can still decode correctly!</p>
+                    <h4>Connection to Step 6</h4>
+                    <p>The signal looks different, but can we still <strong>read the original message</strong>?
+                    Nyquist's key insight: if we sample at the <strong>right moments</strong> (center of each bit),
+                    we can still decode correctly.</p>
                 </div>
             </div>
         </div>
@@ -1326,11 +1327,11 @@
             <div class="step-content">
                 <!-- What Happens Here -->
                 <div class="what-happens-box">
-                    <h4>🔬 What happens here?</h4>
-                    <p>We <strong>sample ⏱️</strong> the received signal at the <strong>center of each time slot</strong>
-                    (marked with dots ● on the chart). Then we make a decision: if the value is <strong>⬆️ &gt; 0.5 → it's a 1</strong>;
-                    if <strong>⬇️ &lt; 0.5 → it's a 0</strong>. This is Nyquist's brilliant insight 💡: even distorted signals
-                    can be decoded correctly if sampled at the right time!</p>
+                    <h4>What happens here?</h4>
+                    <p>We <strong>sample</strong> the received signal at the <strong>center of each time slot</strong>
+                    (marked with dots on the chart). Then we make a decision: if the value is <strong>&gt; 0.5, it's a 1</strong>;
+                    if <strong>&lt; 0.5, it's a 0</strong>. This is Nyquist's brilliant insight: even distorted signals
+                    can be decoded correctly if sampled at the right time.</p>
                 </div>
 
                 <!-- Input/Output Visual -->
@@ -1357,9 +1358,9 @@
 
                 <!-- Connection to Next Step -->
                 <div class="next-step-box">
-                    <h4>⏭️ Connection to Step 7</h4>
-                    <p>Let's compare the <strong>original message 📤</strong> with the <strong>decoded message 📥</strong>
-                    and analyze any errors ❌. This will show us the limits of the communication system ⚖️!</p>
+                    <h4>Connection to Step 7</h4>
+                    <p>Let's compare the <strong>original message</strong> with the <strong>decoded message</strong>
+                    and analyze any errors. This will show us the limits of the communication system.</p>
                 </div>
             </div>
         </div>
@@ -1382,10 +1383,10 @@
             <div class="step-content">
                 <!-- What Happens Here -->
                 <div class="what-happens-box">
-                    <h4>🔬 What happens here?</h4>
-                    <p>We compare the <strong>original message 📤</strong> with the <strong>decoded message 📥</strong>
-                    and calculate the <strong>error rate 📊</strong>. This tells us if our channel has
-                    <strong>sufficient bandwidth ✅</strong> for reliable communication at this speed ⚡.</p>
+                    <h4>What happens here?</h4>
+                    <p>We compare the <strong>original message</strong> with the <strong>decoded message</strong>
+                    and calculate the <strong>error rate</strong>. This tells us if our channel has
+                    <strong>sufficient bandwidth</strong> for reliable communication at this signaling speed.</p>
                 </div>
 
                 <div id="step7-content"></div>
