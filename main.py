@@ -152,6 +152,18 @@ def apply_channel_effects(components, bandwidth, channel_type='ideal', noise_lev
     """
     Simulate channel transmission effects.
     Returns filtered components and explanation of what happened.
+
+    Key insight: RC/RLC filters introduce BOTH magnitude attenuation AND phase shift.
+    The phase shift causes different frequencies to arrive at different times,
+    which "smears" the sharp edges of rectangular waves.
+
+    For RC filter: H(jω) = 1 / (1 + jω/ωc)
+        - Magnitude: |H| = 1 / sqrt(1 + (ω/ωc)²)
+        - Phase: φ = -arctan(ω/ωc)
+
+    For Butterworth (2nd order): H(jω) = 1 / (1 + j√2(ω/ωc) - (ω/ωc)²)
+        - Magnitude: |H| = 1 / sqrt(1 + (ω/ωc)^4)
+        - Phase: φ = -arctan(√2(ω/ωc) / (1 - (ω/ωc)²))
     """
     filtered = []
     channel_effects = []
@@ -160,31 +172,62 @@ def apply_channel_effects(components, bandwidth, channel_type='ideal', noise_lev
         new_comp = comp.copy()
         k = comp['k']
 
+        # Normalized frequency ratio
+        freq_ratio = k / max(bandwidth, 0.1)
+
         if channel_type == 'ideal':
-            # Brick-wall filter
+            # Brick-wall filter - no phase shift (ideal)
             if k <= bandwidth:
                 attenuation = 1.0
+                phase_shift = 0.0
                 effect = 'passed'
             else:
                 attenuation = 0.0
+                phase_shift = 0.0
                 effect = 'blocked'
+
         elif channel_type == 'butterworth':
-            # Butterworth low-pass (smooth rolloff)
+            # Butterworth low-pass (2nd order) - smooth rolloff with phase shift
             order = 2
-            attenuation = 1.0 / np.sqrt(1 + (k / max(bandwidth, 0.1))**(2 * order))
-            effect = f'attenuated to {attenuation:.2%}'
+            attenuation = 1.0 / np.sqrt(1 + freq_ratio**(2 * order))
+            # Phase shift for 2nd order Butterworth
+            # φ = -arctan(√2 * x / (1 - x²)) where x = ω/ωc
+            if abs(1 - freq_ratio**2) < 0.001:
+                phase_shift = -np.pi / 2  # At resonance
+            else:
+                phase_shift = -np.arctan2(np.sqrt(2) * freq_ratio, 1 - freq_ratio**2)
+            effect = f'attenuated to {attenuation:.1%}, phase shift {np.degrees(phase_shift):.1f}°'
+
         elif channel_type == 'rc':
-            # RC low-pass filter
-            attenuation = 1.0 / np.sqrt(1 + (k / max(bandwidth, 0.1))**2)
-            effect = f'attenuated to {attenuation:.2%}'
+            # RC low-pass filter - introduces significant phase shift
+            attenuation = 1.0 / np.sqrt(1 + freq_ratio**2)
+            # Phase shift: φ = -arctan(ω/ωc)
+            phase_shift = -np.arctan(freq_ratio)
+            effect = f'attenuated to {attenuation:.1%}, phase shift {np.degrees(phase_shift):.1f}°'
+
         else:
             attenuation = 1.0
+            phase_shift = 0.0
             effect = 'passed'
 
-        new_comp['a_k'] *= attenuation
-        new_comp['b_k'] *= attenuation
+        # Apply magnitude attenuation
         new_comp['magnitude'] *= attenuation
         new_comp['attenuation'] = attenuation
+        new_comp['phase_shift'] = phase_shift
+
+        # Apply phase shift by rotating the Fourier coefficients
+        # Original: a_k * cos(kωt) + b_k * sin(kωt)
+        # With phase shift φ: a_k' * cos(kωt) + b_k' * sin(kωt)
+        # where a_k' = a_k * cos(φ) + b_k * sin(φ)
+        #       b_k' = -a_k * sin(φ) + b_k * cos(φ)
+        if k > 0:
+            a_k_orig = comp['a_k'] * attenuation
+            b_k_orig = comp['b_k'] * attenuation
+            new_comp['a_k'] = a_k_orig * np.cos(phase_shift) + b_k_orig * np.sin(phase_shift)
+            new_comp['b_k'] = -a_k_orig * np.sin(phase_shift) + b_k_orig * np.cos(phase_shift)
+        else:
+            new_comp['a_k'] *= attenuation
+            new_comp['b_k'] *= attenuation
 
         filtered.append(new_comp)
         channel_effects.append({
@@ -192,6 +235,7 @@ def apply_channel_effects(components, bandwidth, channel_type='ideal', noise_lev
             'original_magnitude': comp['magnitude'],
             'filtered_magnitude': new_comp['magnitude'],
             'attenuation': attenuation,
+            'phase_shift_deg': float(np.degrees(phase_shift)) if 'phase_shift' in dir() else 0,
             'effect': effect
         })
 

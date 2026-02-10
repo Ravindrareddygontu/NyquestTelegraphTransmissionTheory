@@ -1374,6 +1374,9 @@
                     <p>The signal travels through a <strong>communication channel</strong> (wire, radio, fiber optic).
                     Every channel has a <strong>maximum frequency it can carry</strong> (bandwidth).
                     High frequencies get <strong>blocked or weakened</strong>, like how a wall muffles high-pitched sounds.</p>
+                    <p style="margin-top: 8px;"><strong>Key insight:</strong> Real filters (RC, Butterworth) also introduce
+                    <strong>phase shifts</strong> - different frequencies arrive at different times. This causes the
+                    sharp rectangular edges to become "smeared" or spread out over time.</p>
                 </div>
 
                 <!-- Input/Output Visual -->
@@ -1385,13 +1388,35 @@
                     <div class="io-arrow">🛰️</div>
                     <div class="io-box output-box">
                         <div class="io-label">📤 Output</div>
-                        <div class="io-value">🔇 Limited Frequencies ▁▂▃░░░░</div>
+                        <div class="io-value">🔇 Limited + Phase-shifted ▁▂▃░░░░</div>
+                    </div>
+                </div>
+
+                <!-- Filter Type Comparison -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0;">
+                    <div style="background: linear-gradient(135deg, #d1fae5, #ecfdf5); border: 2px solid #10b981; border-radius: 10px; padding: 12px; text-align: center;">
+                        <div style="font-weight: bold; color: #059669;">Ideal Filter</div>
+                        <div style="font-size: 0.85em; color: #047857;">Sharp cutoff</div>
+                        <div style="font-size: 0.8em; color: #6b7280;">No phase shift</div>
+                        <div style="font-size: 1.5em; margin-top: 4px;">▁▁▁▁░░░</div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #fef3c7, #fffbeb); border: 2px solid #f59e0b; border-radius: 10px; padding: 12px; text-align: center;">
+                        <div style="font-weight: bold; color: #d97706;">RC Filter</div>
+                        <div style="font-size: 0.85em; color: #b45309;">Gradual rolloff</div>
+                        <div style="font-size: 0.8em; color: #6b7280;">Phase: -arctan(f/B)</div>
+                        <div style="font-size: 1.5em; margin-top: 4px;">▁▂▃▄▅▆▇</div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #ede9fe, #f5f3ff); border: 2px solid #8b5cf6; border-radius: 10px; padding: 12px; text-align: center;">
+                        <div style="font-weight: bold; color: #7c3aed;">Butterworth</div>
+                        <div style="font-size: 0.85em; color: #6d28d9;">Flat passband</div>
+                        <div style="font-size: 0.8em; color: #6b7280;">Non-linear phase</div>
+                        <div style="font-size: 1.5em; margin-top: 4px;">▁▁▂▄▆▇█</div>
                     </div>
                 </div>
 
                 <div class="formula-box">
-                    <div class="formula">H(f) = { 1 if |f| ≤ B, 0 otherwise } (ideal filter)</div>
-                    <div class="explanation">The channel acts as a low-pass filter, blocking frequencies above bandwidth B</div>
+                    <div class="formula">H(f) = |H(f)| × e<sup>jφ(f)</sup></div>
+                    <div class="explanation">Channel response has both magnitude |H(f)| and phase φ(f) components</div>
                 </div>
                 <div class="chart-container" style="height: 150px;">
                     <canvas id="channelResponseChart"></canvas>
@@ -2655,27 +2680,110 @@
         }
 
         function updateStep4(channel) {
-            // Channel response chart
+            // Channel response chart - show both magnitude and phase
             if (channelResponseChart) channelResponseChart.destroy();
             const freqs = channel.effects.slice(0, 25);
+
+            // Check if we have phase shift data (RC/Butterworth filters)
+            const hasPhaseShift = channel.channel_type !== 'ideal' && freqs.some(e => e.phase_shift_deg !== 0);
+
             channelResponseChart = new Chart(document.getElementById('channelResponseChart'), {
                 type: 'bar',
                 data: {
-                    labels: freqs.map(e => e.harmonic),
+                    labels: freqs.map(e => 'k=' + e.harmonic),
                     datasets: [{
-                        label: 'Attenuation',
+                        label: 'Magnitude Response',
                         data: freqs.map(e => e.attenuation),
-                        backgroundColor: freqs.map(e => e.attenuation > 0.5 ? '#10b981' : e.attenuation > 0 ? '#f59e0b' : '#ef4444')
+                        backgroundColor: freqs.map(e => e.attenuation > 0.5 ? '#10b981' : e.attenuation > 0.1 ? '#f59e0b' : '#ef4444'),
+                        yAxisID: 'y'
                     }]
                 },
-                options: {...chartConfig, scales: {...chartConfig.scales, y: {min: 0, max: 1.1}}}
+                options: {
+                    ...chartConfig,
+                    scales: {
+                        ...chartConfig.scales,
+                        y: {min: 0, max: 1.1, title: {display: true, text: 'Magnitude |H(f)|'}}
+                    }
+                }
             });
+
+            // Build phase shift table for RC/Butterworth
+            let phaseTable = '';
+            if (hasPhaseShift) {
+                const phaseData = freqs.filter(e => e.harmonic > 0).slice(0, 10);
+                phaseTable = `
+                    <div style="margin-top: 16px;">
+                        <h4 style="margin-bottom: 8px; color: #7c3aed;">Phase Shift by Harmonic (causes time smearing)</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            ${phaseData.map(e => `
+                                <div style="background: linear-gradient(135deg, #ede9fe, #f5f3ff);
+                                            border: 1px solid #c4b5fd; border-radius: 8px;
+                                            padding: 8px 12px; text-align: center; min-width: 70px;">
+                                    <div style="font-size: 0.75em; color: #6b7280;">k = ${e.harmonic}</div>
+                                    <div style="font-size: 1.1em; font-weight: bold; color: #7c3aed;">
+                                        ${e.phase_shift_deg.toFixed(1)}°
+                                    </div>
+                                    <div style="font-size: 0.7em; color: #9ca3af;">
+                                        ${(e.attenuation * 100).toFixed(0)}% mag
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Explanation based on filter type
+            let filterExplanation = '';
+            if (channel.channel_type === 'ideal') {
+                filterExplanation = `
+                    <div class="info-panel" style="border-left: 4px solid #10b981;">
+                        <strong>Ideal (Brick-wall) Filter:</strong><br>
+                        • Harmonics k ≤ ${channel.bandwidth} pass completely (100%)<br>
+                        • Harmonics k > ${channel.bandwidth} are completely blocked (0%)<br>
+                        • <strong>No phase shift</strong> - all frequencies arrive at the same time<br>
+                        • Sharp cutoff, but physically unrealizable
+                    </div>
+                `;
+            } else if (channel.channel_type === 'rc') {
+                filterExplanation = `
+                    <div class="info-panel" style="border-left: 4px solid #f59e0b;">
+                        <strong>RC Low-pass Filter:</strong><br>
+                        • Gradual rolloff: |H(f)| = 1 / √(1 + (f/B)²)<br>
+                        • <strong>Phase shift: φ = -arctan(f/B)</strong><br>
+                        • Higher frequencies are delayed more → <strong>time smearing</strong><br>
+                        • Sharp edges become rounded, transitions spread over time
+                    </div>
+                    <div class="info-panel" style="background: #fef3c7; border-left: 4px solid #f59e0b; margin-top: 8px;">
+                        <strong>Why smearing occurs:</strong> Each harmonic arrives at a different time due to
+                        frequency-dependent delay. The k=1 harmonic might arrive on time, but k=10 arrives
+                        later. When combined, the sharp rectangular edges become "smeared" or rounded.
+                    </div>
+                `;
+            } else if (channel.channel_type === 'butterworth') {
+                filterExplanation = `
+                    <div class="info-panel" style="border-left: 4px solid #8b5cf6;">
+                        <strong>Butterworth Filter (2nd order):</strong><br>
+                        • Maximally flat passband: |H(f)| = 1 / √(1 + (f/B)⁴)<br>
+                        • <strong>Phase shift: φ = -arctan(√2·f/B / (1-(f/B)²))</strong><br>
+                        • Steeper rolloff than RC, but still causes phase distortion<br>
+                        • Better magnitude response, but more complex phase behavior
+                    </div>
+                    <div class="info-panel" style="background: #ede9fe; border-left: 4px solid #8b5cf6; margin-top: 8px;">
+                        <strong>Time-domain effect:</strong> The non-linear phase response causes different
+                        frequencies to travel at different speeds (group delay). This distorts the
+                        rectangular wave shape, causing overshoot and ringing at transitions.
+                    </div>
+                `;
+            }
 
             document.getElementById('step4-content').innerHTML = `
                 <div class="info-panel">
-                    <strong>Channel:</strong> ${channel.channel_type} filter with bandwidth B = ${channel.bandwidth}<br>
-                    <strong>Effect:</strong> Harmonics k > ${channel.bandwidth} are ${channel.channel_type === 'ideal' ? 'completely blocked' : 'attenuated'}
+                    <strong>Channel:</strong> ${channel.channel_type.toUpperCase()} filter |
+                    <strong>Bandwidth B =</strong> ${channel.bandwidth} Hz
                 </div>
+                ${filterExplanation}
+                ${phaseTable}
             `;
         }
 
