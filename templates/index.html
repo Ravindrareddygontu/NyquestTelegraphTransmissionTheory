@@ -1423,6 +1423,86 @@
                 </div>
                 <div id="step4-content"></div>
 
+                <!-- NEW: Signal Through Transmission Line Visualization -->
+                <div style="margin-top: 24px; padding: 16px; background: linear-gradient(135deg, #1e293b 0%, #334155 100%); border-radius: 12px; border: 2px solid #475569;">
+                    <h4 style="color: #f8fafc; margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 1.3em;">📡</span> Signal Through Transmission Line
+                    </h4>
+
+                    <!-- Transmission Line Diagram -->
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+                        <div style="background: #3b82f6; color: white; padding: 8px 12px; border-radius: 8px; font-size: 0.85em; font-weight: bold;">
+                            TX<br><span style="font-size: 0.7em;">Transmitter</span>
+                        </div>
+                        <div style="flex: 1; height: 4px; background: linear-gradient(90deg, #3b82f6, #f59e0b, #10b981); border-radius: 2px; position: relative;">
+                            <div style="position: absolute; top: -20px; left: 10%; font-size: 0.7em; color: #94a3b8;">Input</div>
+                            <div style="position: absolute; top: -20px; left: 45%; font-size: 0.7em; color: #fbbf24;">Filter</div>
+                            <div style="position: absolute; top: -20px; right: 10%; font-size: 0.7em; color: #94a3b8;">Output</div>
+                        </div>
+                        <div style="background: #10b981; color: white; padding: 8px 12px; border-radius: 8px; font-size: 0.85em; font-weight: bold;">
+                            RX<br><span style="font-size: 0.7em;">Receiver</span>
+                        </div>
+                    </div>
+
+                    <!-- Three-stage signal comparison -->
+                    <div style="display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 8px; align-items: center;">
+                        <!-- Input Signal -->
+                        <div style="background: #1e3a5f; border: 2px solid #3b82f6; border-radius: 10px; padding: 12px;">
+                            <div style="color: #60a5fa; font-size: 0.8em; font-weight: bold; margin-bottom: 8px; text-align: center;">
+                                ① Input Signal (Sharp Edges)
+                            </div>
+                            <div class="chart-container" style="height: 100px; background: #0f172a; border-radius: 6px; padding: 4px;">
+                                <canvas id="txInputChart"></canvas>
+                            </div>
+                            <div style="color: #94a3b8; font-size: 0.7em; text-align: center; margin-top: 6px;">
+                                All frequencies present
+                            </div>
+                        </div>
+
+                        <!-- Arrow 1 -->
+                        <div style="color: #f59e0b; font-size: 1.5em; text-align: center;">
+                            ⟶<br>
+                            <span style="font-size: 0.5em; display: block;">Filter</span>
+                        </div>
+
+                        <!-- Channel Effect -->
+                        <div style="background: #422006; border: 2px solid #f59e0b; border-radius: 10px; padding: 12px;">
+                            <div style="color: #fbbf24; font-size: 0.8em; font-weight: bold; margin-bottom: 8px; text-align: center;">
+                                ② Inside Channel (Filtering)
+                            </div>
+                            <div class="chart-container" style="height: 100px; background: #1c1917; border-radius: 6px; padding: 4px;">
+                                <canvas id="txChannelChart"></canvas>
+                            </div>
+                            <div style="color: #94a3b8; font-size: 0.7em; text-align: center; margin-top: 6px;" id="channelEffectLabel">
+                                High frequencies attenuated
+                            </div>
+                        </div>
+
+                        <!-- Arrow 2 -->
+                        <div style="color: #10b981; font-size: 1.5em; text-align: center;">
+                            ⟶<br>
+                            <span style="font-size: 0.5em; display: block;">Output</span>
+                        </div>
+
+                        <!-- Output Signal -->
+                        <div style="background: #064e3b; border: 2px solid #10b981; border-radius: 10px; padding: 12px;">
+                            <div style="color: #34d399; font-size: 0.8em; font-weight: bold; margin-bottom: 8px; text-align: center;">
+                                ③ Output Signal (Smeared)
+                            </div>
+                            <div class="chart-container" style="height: 100px; background: #0f172a; border-radius: 6px; padding: 4px;">
+                                <canvas id="txOutputChart"></canvas>
+                            </div>
+                            <div style="color: #94a3b8; font-size: 0.7em; text-align: center; margin-top: 6px;">
+                                Edges rounded/smeared
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Explanation based on filter type -->
+                    <div id="transmissionLineExplanation" style="margin-top: 12px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px; color: #e2e8f0; font-size: 0.85em;">
+                    </div>
+                </div>
+
                 <!-- Connection to Next Step -->
                 <div class="next-step-box">
                     <h4>Connection to Step 5</h4>
@@ -1957,6 +2037,7 @@
         let shapeFactorChart, discriminationFactorChart, bandRedundancyChart;
         let nondistortingChart, idealShapeChart, progressiveChart;
         let carrierTimeChart, carrierFreqChart, ssbTimeChart, ssbFreqChart, eyeChart;
+        let txInputChart, txChannelChart, txOutputChart;  // Transmission line visualization
 
         // Store data for interactive features
         let currentElements = [];
@@ -2535,6 +2616,14 @@
                 // Step 4: Channel
                 updateStep4(data.step4_channel);
 
+                // Transmission Line Visualization (signal through channel)
+                updateTransmissionLine(
+                    data.step2_rectangular_wave.signal,
+                    data.step5_reconstruction.signal,
+                    data.step4_channel.channel_type,
+                    data.step4_channel.bandwidth
+                );
+
                 // Step 5: Reconstruction
                 updateStep5(data.step2_rectangular_wave, data.step5_reconstruction);
 
@@ -2785,6 +2874,135 @@
                 ${filterExplanation}
                 ${phaseTable}
             `;
+        }
+
+        function updateTransmissionLine(originalSignal, reconstructedSignal, channelType, bandwidth) {
+            // Destroy existing charts
+            if (txInputChart) txInputChart.destroy();
+            if (txChannelChart) txChannelChart.destroy();
+            if (txOutputChart) txOutputChart.destroy();
+
+            const numPoints = originalSignal.length;
+            const labels = originalSignal.map((_, i) => i);
+
+            // Create a "mid-filter" signal - partially filtered
+            // This shows what happens inside the channel
+            const midFilterSignal = originalSignal.map((v, i) => {
+                // Blend between original and reconstructed (50% filtered)
+                return v * 0.5 + reconstructedSignal[i] * 0.5;
+            });
+
+            // Common chart options for transmission line charts
+            const txChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { display: false },
+                    y: {
+                        display: true,
+                        min: -0.1,
+                        max: 1.1,
+                        ticks: {
+                            color: '#94a3b8',
+                            font: { size: 9 },
+                            stepSize: 0.5
+                        },
+                        grid: {
+                            color: 'rgba(148, 163, 184, 0.2)'
+                        }
+                    }
+                },
+                elements: {
+                    point: { radius: 0 },
+                    line: { borderWidth: 2 }
+                },
+                animation: { duration: 500 }
+            };
+
+            // Input signal chart (original rectangular wave)
+            txInputChart = new Chart(document.getElementById('txInputChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: originalSignal,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0
+                    }]
+                },
+                options: txChartOptions
+            });
+
+            // Channel effect chart (mid-filter - showing filtering in progress)
+            txChannelChart = new Chart(document.getElementById('txChannelChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Original (fading)',
+                            data: originalSignal,
+                            borderColor: 'rgba(59, 130, 246, 0.3)',
+                            borderWidth: 1,
+                            borderDash: [3, 3],
+                            fill: false,
+                            tension: 0
+                        },
+                        {
+                            label: 'Filtering',
+                            data: midFilterSignal,
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            fill: true,
+                            tension: 0.2
+                        }
+                    ]
+                },
+                options: txChartOptions
+            });
+
+            // Output signal chart (fully filtered/reconstructed)
+            txOutputChart = new Chart(document.getElementById('txOutputChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: reconstructedSignal,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.2
+                    }]
+                },
+                options: txChartOptions
+            });
+
+            // Update explanation based on filter type
+            let explanation = '';
+            if (channelType === 'ideal') {
+                explanation = `<strong>Ideal Filter:</strong> Sharp cutoff at B=${bandwidth} Hz.
+                    High frequencies are completely removed, but no phase distortion.
+                    Notice how edges become rounded but transitions remain symmetric.`;
+            } else if (channelType === 'rc') {
+                explanation = `<strong>RC Filter:</strong> Gradual attenuation with phase shift.
+                    Each frequency component is delayed differently, causing the sharp edges to
+                    "smear" over time. Notice the asymmetric transitions and slower rise/fall times.`;
+            } else if (channelType === 'butterworth') {
+                explanation = `<strong>Butterworth Filter:</strong> Flat passband with steeper rolloff.
+                    The non-linear phase response causes ringing and overshoot at transitions.
+                    Notice the oscillations near the edges of each pulse.`;
+            }
+
+            document.getElementById('transmissionLineExplanation').innerHTML = explanation;
+            document.getElementById('channelEffectLabel').textContent =
+                channelType === 'ideal' ? 'Sharp frequency cutoff' :
+                channelType === 'rc' ? 'Gradual rolloff + phase shift' :
+                'Flat passband + phase distortion';
         }
 
         function updateStep5(original, reconstructed) {
