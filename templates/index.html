@@ -192,6 +192,306 @@
         }
         .concept-card h4 { color: #1e3a5f; margin-bottom: 8px; font-size: 0.95em; }
         .concept-card p { font-size: 0.85em; color: #6b7280; }
+
+        /* Audio Controls */
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 100%);
+            border-radius: 8px;
+        }
+        .audio-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            transition: all 0.2s;
+        }
+        .audio-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
+        .audio-btn.playing { background: #10b981; border-color: #10b981; animation: pulse 1s infinite; }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+        }
+        .audio-waveform {
+            flex: 1;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .waveform-bar {
+            width: 4px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 2px;
+            transition: height 0.1s;
+        }
+        .audio-speed {
+            color: white;
+            font-size: 0.85em;
+        }
+        .audio-speed select {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        /* Live Signal Animation */
+        .signal-animation-container {
+            position: relative;
+            height: 120px;
+            background: #0f172a;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 16px 0;
+        }
+        .signal-trace {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .signal-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #10b981, 0 0 40px #10b981;
+            transform: translate(-50%, -50%);
+            transition: all 0.05s linear;
+        }
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .signal-label {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            color: #10b981;
+            font-size: 0.75em;
+            font-family: monospace;
+        }
+
+        /* Telegraph Key Animation */
+        .telegraph-key {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 100%);
+            border-radius: 12px;
+            margin: 16px 0;
+        }
+        .key-base {
+            width: 200px;
+            height: 60px;
+            background: linear-gradient(180deg, #8b4513 0%, #654321 100%);
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .key-lever {
+            position: absolute;
+            width: 120px;
+            height: 12px;
+            background: linear-gradient(180deg, #c0c0c0 0%, #808080 100%);
+            border-radius: 6px;
+            top: 10px;
+            left: 40px;
+            transform-origin: left center;
+            transition: transform 0.1s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .key-lever.pressed { transform: rotate(5deg); }
+        .key-knob {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: radial-gradient(circle at 30% 30%, #2a2a2a, #000);
+            border-radius: 50%;
+            right: -8px;
+            top: -6px;
+        }
+        .key-light {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #333;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+            transition: all 0.1s;
+        }
+        .key-light.on {
+            background: #ff4444;
+            box-shadow: 0 0 20px #ff4444, 0 0 40px #ff4444;
+        }
+        .key-speaker {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #1a1a1a 0%, #0a0a0a 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #333;
+        }
+        .speaker-cone {
+            width: 40px;
+            height: 40px;
+            background: repeating-radial-gradient(circle, #222 0px, #222 2px, #333 2px, #333 4px);
+            border-radius: 50%;
+        }
+
+        /* Transmission Progress */
+        .transmission-progress {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        .progress-stage {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            color: #6b7280;
+            background: #e5e7eb;
+            transition: all 0.3s;
+        }
+        .progress-stage.active {
+            background: #1e3a5f;
+            color: white;
+            transform: scale(1.05);
+        }
+        .progress-stage.complete {
+            background: #10b981;
+            color: white;
+        }
+        .progress-arrow {
+            color: #d1d5db;
+            font-size: 1.2em;
+        }
+
+        /* Interactive Spectrum */
+        .spectrum-interactive {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            height: 150px;
+            padding: 20px;
+            background: #0f172a;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        .spectrum-bar-interactive {
+            width: 20px;
+            background: linear-gradient(180deg, #3b82f6 0%, #1e40af 100%);
+            border-radius: 4px 4px 0 0;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .spectrum-bar-interactive:hover {
+            background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%);
+            transform: scaleY(1.1);
+        }
+        .spectrum-bar-interactive .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .spectrum-bar-interactive:hover .tooltip { opacity: 1; }
+
+        /* Historical Timeline */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+            margin: 20px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #1e3a5f;
+        }
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .timeline-item:nth-child(odd) { flex-direction: row-reverse; }
+        .timeline-content {
+            width: 45%;
+            padding: 16px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background: #1e3a5f;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #1e3a5f;
+            z-index: 1;
+            margin: 0 20px;
+        }
+        .timeline-year {
+            font-weight: 700;
+            color: #1e3a5f;
+            font-size: 1.1em;
+        }
+        .timeline-title {
+            font-weight: 600;
+            margin: 4px 0;
+        }
+        .timeline-desc {
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+
         .tab-container { margin: 16px 0; }
         .tab-buttons { display: flex; gap: 4px; border-bottom: 1px solid #e5e7eb; }
         .tab-btn {
@@ -249,6 +549,61 @@
                     </select>
                 </div>
                 <button class="btn" onclick="analyzeSignal()">Transmit Signal</button>
+            </div>
+
+            <!-- Telegraph Key Animation -->
+            <div class="telegraph-key" id="telegraphKey">
+                <div class="key-light" id="keyLight"></div>
+                <div class="key-base">
+                    <div class="key-lever" id="keyLever">
+                        <div class="key-knob"></div>
+                    </div>
+                </div>
+                <div class="key-speaker">
+                    <div class="speaker-cone"></div>
+                </div>
+            </div>
+
+            <!-- Audio Controls -->
+            <div class="audio-controls" id="audioControls" style="display: none;">
+                <button class="audio-btn" id="playBtn" onclick="toggleAudio()">
+                    <span id="playIcon">▶</span>
+                </button>
+                <div class="audio-waveform" id="waveformDisplay">
+                    <!-- Waveform bars will be generated by JS -->
+                </div>
+                <div class="audio-speed">
+                    <label>Speed:</label>
+                    <select id="audioSpeed" onchange="updateAudioSpeed()">
+                        <option value="0.5">0.5x</option>
+                        <option value="1" selected>1x</option>
+                        <option value="1.5">1.5x</option>
+                        <option value="2">2x</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Transmission Progress -->
+            <div class="transmission-progress" id="transmissionProgress" style="display: none;">
+                <div class="progress-stage" id="stage1">Encoding</div>
+                <span class="progress-arrow">→</span>
+                <div class="progress-stage" id="stage2">Modulation</div>
+                <span class="progress-arrow">→</span>
+                <div class="progress-stage" id="stage3">Transmission</div>
+                <span class="progress-arrow">→</span>
+                <div class="progress-stage" id="stage4">Filtering</div>
+                <span class="progress-arrow">→</span>
+                <div class="progress-stage" id="stage5">Sampling</div>
+                <span class="progress-arrow">→</span>
+                <div class="progress-stage" id="stage6">Decoding</div>
+            </div>
+
+            <!-- Live Signal Animation -->
+            <div class="signal-animation-container" id="signalAnimation" style="display: none;">
+                <div class="grid-overlay"></div>
+                <canvas id="signalCanvas" style="width: 100%; height: 100%;"></canvas>
+                <div class="signal-dot" id="signalDot"></div>
+                <div class="signal-label">LIVE SIGNAL</div>
             </div>
         </div>
 
@@ -597,6 +952,81 @@
             </div>
         </div>
 
+        <!-- Historical Timeline -->
+        <div class="step" id="timeline">
+            <div class="step-header" onclick="toggleStep('timeline')">
+                <span class="step-number" style="background: #f59e0b;">⏱</span>
+                <span class="step-title">Historical Context: The Road to Nyquist</span>
+            </div>
+            <div class="step-content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1837</div>
+                            <div class="timeline-title">Morse Code Invented</div>
+                            <div class="timeline-desc">Samuel Morse develops the telegraph and Morse code, enabling long-distance electrical communication.</div>
+                        </div>
+                        <div class="timeline-dot"></div>
+                        <div style="width: 45%;"></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div style="width: 45%;"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-year">1864</div>
+                            <div class="timeline-title">Maxwell's Equations</div>
+                            <div class="timeline-desc">James Clerk Maxwell publishes his electromagnetic theory, providing the mathematical foundation for all electrical communication.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1876</div>
+                            <div class="timeline-title">Telephone Invented</div>
+                            <div class="timeline-desc">Alexander Graham Bell patents the telephone, demonstrating voice transmission over wires.</div>
+                        </div>
+                        <div class="timeline-dot"></div>
+                        <div style="width: 45%;"></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div style="width: 45%;"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-year">1924</div>
+                            <div class="timeline-title">Nyquist's First Paper</div>
+                            <div class="timeline-desc">"Certain Factors Affecting Telegraph Speed" - Nyquist begins exploring the theoretical limits of telegraph transmission.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content" style="background: linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 100%); color: white;">
+                            <div class="timeline-year" style="color: #60a5fa;">1928</div>
+                            <div class="timeline-title" style="color: white;">THIS PAPER</div>
+                            <div class="timeline-desc" style="color: rgba(255,255,255,0.8);">"Certain Topics in Telegraph Transmission Theory" - The landmark paper establishing the Nyquist rate and sampling theorem foundations.</div>
+                        </div>
+                        <div class="timeline-dot" style="background: #f59e0b; box-shadow: 0 0 0 2px #f59e0b;"></div>
+                        <div style="width: 45%;"></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div style="width: 45%;"></div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-year">1948</div>
+                            <div class="timeline-title">Shannon's Information Theory</div>
+                            <div class="timeline-desc">Claude Shannon publishes "A Mathematical Theory of Communication", building on Nyquist's work to create information theory.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-year">Today</div>
+                            <div class="timeline-title">Digital Communications</div>
+                            <div class="timeline-desc">Every digital system - WiFi, 5G, streaming, internet - uses principles from Nyquist's 1928 paper.</div>
+                        </div>
+                        <div class="timeline-dot"></div>
+                        <div style="width: 45%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Summary Section -->
         <div class="step" id="summary">
             <div class="step-header" onclick="toggleStep('summary')">
@@ -630,6 +1060,58 @@
                         <p>AM requires 2× bandwidth. SSB and phase discrimination restore efficiency.</p>
                     </div>
                 </div>
+
+                <!-- Fun Facts -->
+                <div style="margin-top: 24px; padding: 20px; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 8px;">
+                    <h4 style="color: #92400e; margin-bottom: 12px;">Did You Know?</h4>
+                    <ul style="color: #78350f; font-size: 0.9em; margin-left: 20px;">
+                        <li style="margin-bottom: 8px;">Harry Nyquist was born in Sweden in 1889 and emigrated to the US at age 18.</li>
+                        <li style="margin-bottom: 8px;">He worked at AT&T Bell Labs for 37 years and held 138 patents!</li>
+                        <li style="margin-bottom: 8px;">The "Nyquist frequency" in digital audio (44.1 kHz for CDs) is named after him.</li>
+                        <li style="margin-bottom: 8px;">His work is why your phone can stream video - bandwidth efficiency matters!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="step" id="quiz">
+            <div class="step-header" onclick="toggleStep('quiz')">
+                <span class="step-number" style="background: #ec4899;">?</span>
+                <span class="step-title">Test Your Knowledge: Quick Quiz</span>
+            </div>
+            <div class="step-content">
+                <div id="quizContainer">
+                    <div id="quizQuestion" style="font-size: 1.1em; font-weight: 600; margin-bottom: 16px;"></div>
+                    <div id="quizOptions" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                    <div id="quizFeedback" style="margin-top: 16px; padding: 12px; border-radius: 6px; display: none;"></div>
+                    <div style="margin-top: 16px; display: flex; gap: 12px;">
+                        <button class="btn" onclick="nextQuestion()" id="nextBtn" style="display: none;">Next Question</button>
+                        <button class="btn" onclick="startQuiz()" id="restartBtn" style="background: #6b7280;">Restart Quiz</button>
+                    </div>
+                    <div id="quizScore" style="margin-top: 16px; font-weight: 600;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Morse Code Practice -->
+        <div class="step" id="practice">
+            <div class="step-header" onclick="toggleStep('practice')">
+                <span class="step-number" style="background: #14b8a6;">⌨</span>
+                <span class="step-title">Practice: Decode Morse Code</span>
+            </div>
+            <div class="step-content">
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 12px;">Listen to the Morse code and type the letter:</div>
+                    <div id="practiceDisplay" style="font-size: 3em; font-family: 'Courier New', monospace; letter-spacing: 8px; padding: 20px; background: #1f2937; color: #10b981; border-radius: 8px; margin-bottom: 16px;">· · ·</div>
+                    <button class="btn" onclick="playPracticeCode()" style="margin-bottom: 16px;">Play Sound</button>
+                    <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+                        <input type="text" id="practiceInput" maxlength="1" style="width: 60px; height: 60px; font-size: 2em; text-align: center; text-transform: uppercase; border: 2px solid #d1d5db; border-radius: 8px;" onkeyup="checkPracticeAnswer(event)">
+                    </div>
+                    <div id="practiceFeedback" style="font-size: 1.2em; font-weight: 600;"></div>
+                    <div id="practiceScore" style="margin-top: 12px; color: #6b7280;">Score: <span id="practiceCorrect">0</span> / <span id="practiceTotal">0</span></div>
+                    <button class="btn" onclick="newPracticeQuestion()" style="margin-top: 12px; background: #14b8a6;">New Letter</button>
+                </div>
             </div>
         </div>
     </div>
@@ -644,6 +1126,192 @@
         // Store data for interactive features
         let currentElements = [];
         let progressiveData = null;
+
+        // Audio context for Morse code playback
+        let audioContext = null;
+        let isPlaying = false;
+        let currentMorseCode = '';
+        let audioSpeed = 1;
+        let animationFrameId = null;
+
+        // Initialize audio context
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // Play a beep tone
+        function playTone(frequency, duration) {
+            return new Promise(resolve => {
+                initAudio();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.value = frequency;
+                oscillator.type = 'sine';
+
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + duration / 1000);
+
+                setTimeout(resolve, duration);
+            });
+        }
+
+        // Play Morse code audio
+        async function playMorseCode(morse) {
+            const dotDuration = 100 / audioSpeed;
+            const dashDuration = 300 / audioSpeed;
+            const gapDuration = 100 / audioSpeed;
+            const letterGap = 300 / audioSpeed;
+            const wordGap = 700 / audioSpeed;
+
+            const keyLever = document.getElementById('keyLever');
+            const keyLight = document.getElementById('keyLight');
+
+            for (let i = 0; i < morse.length && isPlaying; i++) {
+                const char = morse[i];
+
+                if (char === '.') {
+                    keyLever.classList.add('pressed');
+                    keyLight.classList.add('on');
+                    await playTone(700, dotDuration);
+                    keyLever.classList.remove('pressed');
+                    keyLight.classList.remove('on');
+                    await new Promise(r => setTimeout(r, gapDuration));
+                } else if (char === '-') {
+                    keyLever.classList.add('pressed');
+                    keyLight.classList.add('on');
+                    await playTone(700, dashDuration);
+                    keyLever.classList.remove('pressed');
+                    keyLight.classList.remove('on');
+                    await new Promise(r => setTimeout(r, gapDuration));
+                } else if (char === ' ') {
+                    if (i + 1 < morse.length && morse[i + 1] === ' ') {
+                        await new Promise(r => setTimeout(r, wordGap));
+                        i++;
+                    } else {
+                        await new Promise(r => setTimeout(r, letterGap));
+                    }
+                }
+            }
+
+            isPlaying = false;
+            document.getElementById('playBtn').classList.remove('playing');
+            document.getElementById('playIcon').textContent = '▶';
+        }
+
+        // Toggle audio playback
+        function toggleAudio() {
+            if (isPlaying) {
+                isPlaying = false;
+                document.getElementById('playBtn').classList.remove('playing');
+                document.getElementById('playIcon').textContent = '▶';
+            } else {
+                isPlaying = true;
+                document.getElementById('playBtn').classList.add('playing');
+                document.getElementById('playIcon').textContent = '⏸';
+                playMorseCode(currentMorseCode);
+            }
+        }
+
+        // Update audio speed
+        function updateAudioSpeed() {
+            audioSpeed = parseFloat(document.getElementById('audioSpeed').value);
+        }
+
+        // Generate waveform display
+        function generateWaveformBars(elements) {
+            const container = document.getElementById('waveformDisplay');
+            container.innerHTML = '';
+
+            const maxBars = 60;
+            const step = Math.max(1, Math.floor(elements.length / maxBars));
+
+            for (let i = 0; i < elements.length && container.children.length < maxBars; i += step) {
+                const bar = document.createElement('div');
+                bar.className = 'waveform-bar';
+                bar.style.height = (elements[i] * 30 + 5) + 'px';
+                container.appendChild(bar);
+            }
+        }
+
+        // Animate signal transmission
+        function animateSignal(elements, duration = 5000) {
+            const canvas = document.getElementById('signalCanvas');
+            const ctx = canvas.getContext('2d');
+            const dot = document.getElementById('signalDot');
+
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+
+            const startTime = Date.now();
+            const totalPoints = elements.length;
+
+            function draw() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const currentIndex = Math.floor(progress * totalPoints);
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Draw signal trace
+                ctx.beginPath();
+                ctx.strokeStyle = '#10b981';
+                ctx.lineWidth = 2;
+
+                for (let i = 0; i <= currentIndex && i < totalPoints; i++) {
+                    const x = (i / totalPoints) * canvas.width;
+                    const y = canvas.height / 2 - (elements[i] - 0.5) * (canvas.height * 0.6);
+
+                    if (i === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                ctx.stroke();
+
+                // Update dot position
+                if (currentIndex < totalPoints) {
+                    const x = (currentIndex / totalPoints) * canvas.width;
+                    const y = canvas.height / 2 - (elements[currentIndex] - 0.5) * (canvas.height * 0.6);
+                    dot.style.left = x + 'px';
+                    dot.style.top = y + 'px';
+                }
+
+                if (progress < 1) {
+                    animationFrameId = requestAnimationFrame(draw);
+                }
+            }
+
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+            draw();
+        }
+
+        // Animate transmission progress stages
+        async function animateProgress() {
+            const stages = ['stage1', 'stage2', 'stage3', 'stage4', 'stage5', 'stage6'];
+
+            for (let i = 0; i < stages.length; i++) {
+                // Set current stage as active
+                document.getElementById(stages[i]).classList.add('active');
+
+                await new Promise(r => setTimeout(r, 300));
+
+                // Mark as complete and move to next
+                document.getElementById(stages[i]).classList.remove('active');
+                document.getElementById(stages[i]).classList.add('complete');
+            }
+        }
 
         // Chart configuration
         const chartConfig = {
@@ -754,6 +1422,24 @@
                 const eyeData = await eyeRes.json();
 
                 currentElements = data.step1_encoding.elements;
+                currentMorseCode = data.step1_encoding.morse_code;
+
+                // Show audio controls and animations
+                document.getElementById('audioControls').style.display = 'flex';
+                document.getElementById('transmissionProgress').style.display = 'flex';
+                document.getElementById('signalAnimation').style.display = 'block';
+
+                // Generate waveform visualization
+                generateWaveformBars(currentElements);
+
+                // Reset progress stages
+                for (let i = 1; i <= 6; i++) {
+                    document.getElementById('stage' + i).classList.remove('active', 'complete');
+                }
+
+                // Start animations
+                animateProgress();
+                animateSignal(currentElements, 3000);
 
                 // Open all steps
                 for (let i = 1; i <= 7; i++) {
@@ -1392,6 +2078,271 @@
                 </table>
             `;
         }
+
+        // ============ QUIZ FUNCTIONALITY ============
+        const quizQuestions = [
+            {
+                question: "What is the Nyquist Rate formula?",
+                options: ["S = B", "S = 2B", "S = B/2", "S = 4B"],
+                correct: 1,
+                explanation: "The Nyquist Rate states that maximum signaling speed S = 2B, where B is the bandwidth in Hz."
+            },
+            {
+                question: "What does 'nondistorting wave' mean in Nyquist's paper?",
+                options: [
+                    "A wave that never changes shape",
+                    "A wave that produces correct values at sampling instants",
+                    "A wave with no harmonics",
+                    "A perfectly rectangular wave"
+                ],
+                correct: 1,
+                explanation: "A nondistorting wave may be deformed, but produces correct values at the sampling instants."
+            },
+            {
+                question: "Why does carrier wave (AM) telegraphy require twice the bandwidth?",
+                options: [
+                    "Because of noise",
+                    "Because of the carrier frequency",
+                    "Because it creates upper and lower sidebands",
+                    "Because of phase distortion"
+                ],
+                correct: 2,
+                explanation: "AM modulation creates both upper and lower sidebands around the carrier, doubling bandwidth."
+            },
+            {
+                question: "What is the Shape Factor F(ω) in Nyquist's analysis?",
+                options: [
+                    "The message being transmitted",
+                    "The channel response",
+                    "A factor depending only on the wave form",
+                    "The noise level"
+                ],
+                correct: 2,
+                explanation: "The Shape Factor depends only on the wave form, not on the intelligence (message) transmitted."
+            },
+            {
+                question: "What is 'band redundancy' in telegraph transmission?",
+                options: [
+                    "Using multiple frequency bands for reliability",
+                    "Frequency bands of width S contain identical information",
+                    "Transmitting the same message twice",
+                    "Using backup channels"
+                ],
+                correct: 1,
+                explanation: "Nyquist showed that frequency bands of width equal to signaling speed contain redundant information."
+            },
+            {
+                question: "In Morse code, how many time units is a dash?",
+                options: ["1 unit", "2 units", "3 units", "5 units"],
+                correct: 2,
+                explanation: "A dash is 3 time units, while a dot is 1 time unit."
+            },
+            {
+                question: "What technique recovers bandwidth efficiency in carrier telegraphy?",
+                options: [
+                    "Amplitude modulation",
+                    "Single Sideband (SSB)",
+                    "Frequency doubling",
+                    "Phase inversion"
+                ],
+                correct: 1,
+                explanation: "Single Sideband transmission removes one sideband, recovering the bandwidth efficiency of DC telegraphy."
+            },
+            {
+                question: "What does the Eye Diagram visualize?",
+                options: [
+                    "Frequency spectrum",
+                    "Intersymbol Interference (ISI)",
+                    "Carrier frequency",
+                    "Noise level"
+                ],
+                correct: 1,
+                explanation: "The Eye Diagram overlays symbol periods to visualize ISI and signal quality."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            quizScore = 0;
+            quizAnswered = false;
+            document.getElementById('quizScore').textContent = '';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuestionIndex >= quizQuestions.length) {
+                showQuizResults();
+                return;
+            }
+
+            const q = quizQuestions[currentQuestionIndex];
+            document.getElementById('quizQuestion').textContent = `Q${currentQuestionIndex + 1}/${quizQuestions.length}: ${q.question}`;
+
+            const optionsDiv = document.getElementById('quizOptions');
+            optionsDiv.innerHTML = q.options.map((opt, i) => `
+                <button class="quiz-option" onclick="selectAnswer(${i})" style="
+                    padding: 12px 16px;
+                    border: 2px solid #e5e7eb;
+                    border-radius: 6px;
+                    background: white;
+                    text-align: left;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                " onmouseover="this.style.borderColor='#1e3a5f'" onmouseout="this.style.borderColor='#e5e7eb'">
+                    ${String.fromCharCode(65 + i)}. ${opt}
+                </button>
+            `).join('');
+
+            document.getElementById('quizFeedback').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'none';
+            quizAnswered = false;
+        }
+
+        function selectAnswer(index) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const q = quizQuestions[currentQuestionIndex];
+            const buttons = document.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById('quizFeedback');
+
+            buttons.forEach((btn, i) => {
+                btn.style.cursor = 'default';
+                if (i === q.correct) {
+                    btn.style.background = '#ecfdf5';
+                    btn.style.borderColor = '#10b981';
+                } else if (i === index && index !== q.correct) {
+                    btn.style.background = '#fef2f2';
+                    btn.style.borderColor = '#ef4444';
+                }
+            });
+
+            if (index === q.correct) {
+                quizScore++;
+                feedback.style.background = '#ecfdf5';
+                feedback.style.color = '#065f46';
+                feedback.innerHTML = `<strong>Correct!</strong> ${q.explanation}`;
+            } else {
+                feedback.style.background = '#fef2f2';
+                feedback.style.color = '#991b1b';
+                feedback.innerHTML = `<strong>Incorrect.</strong> ${q.explanation}`;
+            }
+
+            feedback.style.display = 'block';
+            document.getElementById('nextBtn').style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            showQuestion();
+        }
+
+        function showQuizResults() {
+            const percentage = Math.round((quizScore / quizQuestions.length) * 100);
+            let message, color;
+
+            if (percentage >= 80) {
+                message = "Excellent! You've mastered Nyquist's theory!";
+                color = '#10b981';
+            } else if (percentage >= 60) {
+                message = "Good job! Review the concepts you missed.";
+                color = '#f59e0b';
+            } else {
+                message = "Keep studying! Try the visualization again.";
+                color = '#ef4444';
+            }
+
+            document.getElementById('quizQuestion').textContent = 'Quiz Complete!';
+            document.getElementById('quizOptions').innerHTML = '';
+            document.getElementById('quizFeedback').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('quizScore').innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 3em; color: ${color};">${percentage}%</div>
+                    <div style="font-size: 1.2em; margin: 12px 0;">${quizScore} out of ${quizQuestions.length} correct</div>
+                    <div style="color: ${color};">${message}</div>
+                </div>
+            `;
+        }
+
+        // ============ MORSE CODE PRACTICE ============
+        const morseAlphabet = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+            'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+            'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+            'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+            'Y': '-.--', 'Z': '--..'
+        };
+
+        let practiceAnswer = '';
+        let practiceCorrect = 0;
+        let practiceTotal = 0;
+
+        function newPracticeQuestion() {
+            const letters = Object.keys(morseAlphabet);
+            practiceAnswer = letters[Math.floor(Math.random() * letters.length)];
+            const morse = morseAlphabet[practiceAnswer];
+
+            // Display with visual dots and dashes
+            const display = morse.split('').map(c => c === '.' ? '·' : '—').join(' ');
+            document.getElementById('practiceDisplay').textContent = display;
+            document.getElementById('practiceInput').value = '';
+            document.getElementById('practiceFeedback').textContent = '';
+            document.getElementById('practiceInput').focus();
+        }
+
+        function checkPracticeAnswer(event) {
+            const input = document.getElementById('practiceInput').value.toUpperCase();
+            if (input.length === 0) return;
+
+            practiceTotal++;
+            const feedback = document.getElementById('practiceFeedback');
+
+            if (input === practiceAnswer) {
+                practiceCorrect++;
+                feedback.textContent = '✓ Correct!';
+                feedback.style.color = '#10b981';
+            } else {
+                feedback.textContent = `✗ It was "${practiceAnswer}"`;
+                feedback.style.color = '#ef4444';
+            }
+
+            document.getElementById('practiceCorrect').textContent = practiceCorrect;
+            document.getElementById('practiceTotal').textContent = practiceTotal;
+
+            // Auto-advance after a short delay
+            setTimeout(newPracticeQuestion, 1500);
+        }
+
+        async function playPracticeCode() {
+            if (!practiceAnswer) return;
+            const morse = morseAlphabet[practiceAnswer];
+
+            initAudio();
+            const dotDuration = 100;
+            const dashDuration = 300;
+            const gapDuration = 100;
+
+            for (let char of morse) {
+                if (char === '.') {
+                    await playTone(700, dotDuration);
+                    await new Promise(r => setTimeout(r, gapDuration));
+                } else if (char === '-') {
+                    await playTone(700, dashDuration);
+                    await new Promise(r => setTimeout(r, gapDuration));
+                }
+            }
+        }
+
+        // Initialize quiz and practice on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            startQuiz();
+            newPracticeQuestion();
+        });
     </script>
 </body>
 </html>
