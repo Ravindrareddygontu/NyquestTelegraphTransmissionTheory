@@ -760,6 +760,260 @@
             color: #fcd34d;
         }
 
+        /* Speed Control Styles */
+        .speed-control-container {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid #0ea5e9;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        .dark-mode .speed-control-container {
+            background: linear-gradient(135deg, #1e3a5f, #0c4a6e);
+        }
+        .speed-control-header {
+            font-weight: 600;
+            color: #0369a1;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dark-mode .speed-control-header { color: #7dd3fc; }
+        .speed-control-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .speed-btn {
+            padding: 8px 20px;
+            border: 2px solid #0ea5e9;
+            background: white;
+            color: #0369a1;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .speed-btn:hover {
+            background: #e0f2fe;
+            transform: scale(1.05);
+        }
+        .speed-btn.active {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: white;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+        }
+        .dark-mode .speed-btn {
+            background: #1e3a5f;
+            color: #7dd3fc;
+        }
+        .dark-mode .speed-btn.active {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: white;
+        }
+        .speed-info {
+            font-size: 0.85em;
+            color: #64748b;
+        }
+        .speed-info span { font-weight: 600; color: #0369a1; }
+        .dark-mode .speed-info span { color: #7dd3fc; }
+
+        /* Educational Content Styles */
+        .tx-education-section {
+            margin-top: 24px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fefce8, #fef9c3);
+            border-radius: 16px;
+            border: 2px solid #eab308;
+        }
+        .dark-mode .tx-education-section {
+            background: linear-gradient(135deg, #422006, #451a03);
+            border-color: #f59e0b;
+        }
+        .tx-edu-header {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #a16207;
+            margin: 0 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dark-mode .tx-edu-header { color: #fcd34d; }
+
+        .tx-concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .tx-concept-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid #eab308;
+            transition: transform 0.2s ease;
+        }
+        .tx-concept-card:hover { transform: translateY(-3px); }
+        .dark-mode .tx-concept-card {
+            background: rgba(0,0,0,0.2);
+            border-left-color: #f59e0b;
+        }
+        .tx-concept-icon { font-size: 2em; margin-bottom: 8px; }
+        .tx-concept-title {
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 8px;
+        }
+        .dark-mode .tx-concept-title { color: #fcd34d; }
+        .tx-concept-desc {
+            font-size: 0.85em;
+            color: #78716c;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        .dark-mode .tx-concept-desc { color: #d6d3d1; }
+        .tx-concept-formula {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8em;
+            background: #fef3c7;
+            padding: 6px 10px;
+            border-radius: 6px;
+            color: #92400e;
+        }
+        .dark-mode .tx-concept-formula {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+        }
+
+        /* Real-World Examples */
+        .tx-realworld-section { margin-bottom: 20px; }
+        .tx-realworld-header {
+            font-weight: 600;
+            color: #a16207;
+            margin-bottom: 12px;
+        }
+        .dark-mode .tx-realworld-header { color: #fcd34d; }
+        .tx-realworld-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+        .tx-realworld-item {
+            background: white;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            transition: transform 0.2s ease;
+        }
+        .tx-realworld-item:hover { transform: scale(1.03); }
+        .dark-mode .tx-realworld-item { background: rgba(0,0,0,0.2); }
+        .tx-realworld-icon { font-size: 2em; margin-bottom: 6px; }
+        .tx-realworld-name {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+        .dark-mode .tx-realworld-name { color: #e5e7eb; }
+        .tx-realworld-specs {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            font-size: 0.75em;
+            color: #6b7280;
+        }
+
+        /* Nyquist Insight Box */
+        .tx-nyquist-insight {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        .dark-mode .tx-nyquist-insight {
+            background: linear-gradient(135deg, #064e3b, #065f46);
+        }
+        .tx-nyquist-header {
+            font-weight: 700;
+            color: #047857;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dark-mode .tx-nyquist-header { color: #6ee7b7; }
+        .tx-nyquist-content p {
+            color: #065f46;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .dark-mode .tx-nyquist-content p { color: #a7f3d0; }
+        .tx-nyquist-formula {
+            background: white;
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+            margin: 12px 0;
+        }
+        .dark-mode .tx-nyquist-formula { background: rgba(0,0,0,0.2); }
+        .formula-main {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #047857;
+            margin-bottom: 6px;
+        }
+        .dark-mode .formula-main { color: #6ee7b7; }
+        .formula-desc {
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+
+        /* What to Observe Section */
+        .tx-observe-section { margin-bottom: 16px; }
+        .tx-observe-header {
+            font-weight: 600;
+            color: #a16207;
+            margin-bottom: 12px;
+        }
+        .dark-mode .tx-observe-header { color: #fcd34d; }
+        .tx-observe-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .tx-observe-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+        .dark-mode .tx-observe-item { background: rgba(0,0,0,0.2); }
+        .tx-observe-num {
+            background: linear-gradient(135deg, #eab308, #ca8a04);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .tx-observe-text {
+            color: #374151;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        .dark-mode .tx-observe-text { color: #e5e7eb; }
+
         /* Confetti Animation */
         .confetti-container {
             position: fixed;
@@ -1697,7 +1951,67 @@
                 </div>
                 <div id="step4-content"></div>
 
-                <!-- NEW: Animated Signal Through Transmission Line Visualization -->
+                <!-- Connection to Next Step -->
+                <div class="next-step-box">
+                    <h4>Connection to Step 5</h4>
+                    <p>Now let's watch the signal <strong>travel through the transmission line</strong> and see how it gets transformed in real-time!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step Connector 4→5 -->
+        <div class="step-connector" id="connector4-5" style="display: none;">
+            <div class="step-connector-arrow">
+                <div class="arrow-line"></div>
+                <div class="arrow-head">▼</div>
+            </div>
+            <div class="step-connector-label">📡 Signal Traveling Through Channel 〰️</div>
+        </div>
+
+        <!-- Step 5: Live Signal Transmission -->
+        <div class="step" id="step5">
+            <div class="step-header" onclick="toggleStep(5)">
+                <span class="step-number">⑤</span>
+                <span class="step-title">📡 Live Signal Transmission Through Channel</span>
+            </div>
+            <div class="step-content">
+                <!-- What Happens Here -->
+                <div class="what-happens-box">
+                    <h4>What Happens in This Step?</h4>
+                    <p>Watch the signal travel from transmitter to receiver through the communication channel.
+                    See how the channel's frequency response transforms the signal in real-time!</p>
+                </div>
+
+                <!-- Input/Output Summary -->
+                <div class="io-summary">
+                    <div class="io-box input-box">
+                        <div class="io-label">📤 Input</div>
+                        <div class="io-value">Sharp rectangular wave from TX</div>
+                    </div>
+                    <div class="io-arrow">➡️</div>
+                    <div class="io-box output-box">
+                        <div class="io-label">📥 Output</div>
+                        <div class="io-value" id="step5-output">Filtered signal at RX</div>
+                    </div>
+                </div>
+
+                <!-- Speed Control -->
+                <div class="speed-control-container">
+                    <div class="speed-control-header">
+                        <span>⏱️</span> Animation Speed Control
+                    </div>
+                    <div class="speed-control-buttons">
+                        <button class="speed-btn" data-speed="0.5" onclick="setAnimationSpeed(0.5)">0.5×</button>
+                        <button class="speed-btn active" data-speed="1" onclick="setAnimationSpeed(1)">1×</button>
+                        <button class="speed-btn" data-speed="2" onclick="setAnimationSpeed(2)">2×</button>
+                        <button class="speed-btn" data-speed="3" onclick="setAnimationSpeed(3)">3×</button>
+                    </div>
+                    <div class="speed-info">
+                        Current: <span id="currentSpeedDisplay">1×</span> | Duration: <span id="animationDurationDisplay">3.0s</span>
+                    </div>
+                </div>
+
+                <!-- Animated Signal Through Transmission Line Visualization -->
                 <div class="transmission-line-container" id="transmissionLineContainer">
                     <h4 class="tx-header">
                         <span>📡</span> Live Signal Transmission
@@ -1802,17 +2116,156 @@
                     </div>
                 </div>
 
+                <!-- Educational Content: Transmission Line Theory -->
+                <div class="tx-education-section">
+                    <h4 class="tx-edu-header">📚 Understanding Signal Transmission</h4>
+
+                    <!-- Key Concepts Grid -->
+                    <div class="tx-concepts-grid">
+                        <div class="tx-concept-card">
+                            <div class="tx-concept-icon">🌊</div>
+                            <div class="tx-concept-title">Signal Propagation</div>
+                            <div class="tx-concept-desc">
+                                Electrical signals travel through transmission lines as electromagnetic waves.
+                                The speed depends on the medium - about 2/3 the speed of light in copper cables.
+                            </div>
+                            <div class="tx-concept-formula">v = c / √εᵣ ≈ 2×10⁸ m/s</div>
+                        </div>
+
+                        <div class="tx-concept-card">
+                            <div class="tx-concept-icon">📉</div>
+                            <div class="tx-concept-title">Attenuation</div>
+                            <div class="tx-concept-desc">
+                                Signal strength decreases with distance due to resistance and dielectric losses.
+                                Higher frequencies attenuate faster than lower frequencies.
+                            </div>
+                            <div class="tx-concept-formula">A(f) = α₀ + α₁√f dB/km</div>
+                        </div>
+
+                        <div class="tx-concept-card">
+                            <div class="tx-concept-icon">⏰</div>
+                            <div class="tx-concept-title">Propagation Delay</div>
+                            <div class="tx-concept-desc">
+                                Time for signal to travel from TX to RX. Critical for synchronization
+                                in high-speed digital systems and real-time communications.
+                            </div>
+                            <div class="tx-concept-formula">τ = d / v (typically 5 ns/m)</div>
+                        </div>
+
+                        <div class="tx-concept-card">
+                            <div class="tx-concept-icon">🔄</div>
+                            <div class="tx-concept-title">Dispersion</div>
+                            <div class="tx-concept-desc">
+                                Different frequency components travel at different speeds, causing pulse spreading.
+                                This is why sharp edges become rounded - the "smearing" effect.
+                            </div>
+                            <div class="tx-concept-formula">Δτ = β₂ × Δf × L</div>
+                        </div>
+                    </div>
+
+                    <!-- Real-World Examples -->
+                    <div class="tx-realworld-section">
+                        <h5 class="tx-realworld-header">🌍 Real-World Transmission Lines</h5>
+                        <div class="tx-realworld-grid">
+                            <div class="tx-realworld-item">
+                                <div class="tx-realworld-icon">📞</div>
+                                <div class="tx-realworld-name">Telephone Lines</div>
+                                <div class="tx-realworld-specs">
+                                    <span>Bandwidth: 3.4 kHz</span>
+                                    <span>Distance: ~10 km</span>
+                                </div>
+                            </div>
+                            <div class="tx-realworld-item">
+                                <div class="tx-realworld-icon">📺</div>
+                                <div class="tx-realworld-name">Coaxial Cable</div>
+                                <div class="tx-realworld-specs">
+                                    <span>Bandwidth: 1 GHz</span>
+                                    <span>Distance: ~500 m</span>
+                                </div>
+                            </div>
+                            <div class="tx-realworld-item">
+                                <div class="tx-realworld-icon">🌐</div>
+                                <div class="tx-realworld-name">Fiber Optic</div>
+                                <div class="tx-realworld-specs">
+                                    <span>Bandwidth: 100+ THz</span>
+                                    <span>Distance: 100+ km</span>
+                                </div>
+                            </div>
+                            <div class="tx-realworld-item">
+                                <div class="tx-realworld-icon">📡</div>
+                                <div class="tx-realworld-name">Wireless (RF)</div>
+                                <div class="tx-realworld-specs">
+                                    <span>Bandwidth: Variable</span>
+                                    <span>Distance: km to global</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nyquist's Insight -->
+                    <div class="tx-nyquist-insight">
+                        <div class="tx-nyquist-header">
+                            <span>💡</span> Nyquist's Key Insight (1928)
+                        </div>
+                        <div class="tx-nyquist-content">
+                            <p>
+                                <strong>The channel acts as a filter.</strong> Nyquist recognized that every transmission medium
+                                has a finite bandwidth B, which limits the rate at which we can send distinct signal elements.
+                            </p>
+                            <div class="tx-nyquist-formula">
+                                <div class="formula-main">S<sub>max</sub> = 2B symbols/second</div>
+                                <div class="formula-desc">Maximum signaling rate through a channel of bandwidth B</div>
+                            </div>
+                            <p>
+                                This is why we see the signal edges become rounded - the channel removes the high-frequency
+                                components needed for sharp transitions. The animation above shows this transformation in action!
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- What to Observe -->
+                    <div class="tx-observe-section">
+                        <h5 class="tx-observe-header">👀 What to Observe in the Animation</h5>
+                        <div class="tx-observe-list">
+                            <div class="tx-observe-item">
+                                <span class="tx-observe-num">1</span>
+                                <div class="tx-observe-text">
+                                    <strong>Sharp → Rounded:</strong> Watch how the rectangular edges become smooth curves
+                                </div>
+                            </div>
+                            <div class="tx-observe-item">
+                                <span class="tx-observe-num">2</span>
+                                <div class="tx-observe-text">
+                                    <strong>Filter Effect:</strong> The orange zone shows where frequency filtering occurs
+                                </div>
+                            </div>
+                            <div class="tx-observe-item">
+                                <span class="tx-observe-num">3</span>
+                                <div class="tx-observe-text">
+                                    <strong>Color Change:</strong> Signal packet changes from blue (original) to green (filtered)
+                                </div>
+                            </div>
+                            <div class="tx-observe-item">
+                                <span class="tx-observe-num">4</span>
+                                <div class="tx-observe-text">
+                                    <strong>Transformation Chart:</strong> See the gradual interpolation from original to final signal
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Connection to Next Step -->
                 <div class="next-step-box">
-                    <h4>Connection to Step 5</h4>
-                    <p>With some frequency components removed, the signal at the receiver won't look exactly like the original.
-                    Let's see what the <strong>reconstructed signal</strong> looks like.</p>
+                    <h4>Connection to Step 6</h4>
+                    <p>Now that we've seen how the signal travels through the channel, let's examine the
+                    <strong>reconstructed signal</strong> at the receiver in detail.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Step Connector 4→5 -->
-        <div class="step-connector" id="connector4-5" style="display: none;">
+        <!-- Step Connector 5→6 -->
+        <div class="step-connector" id="connector5-6" style="display: none;">
             <div class="step-connector-arrow">
                 <div class="arrow-line"></div>
                 <div class="arrow-head">▼</div>
@@ -1820,10 +2273,10 @@
             <div class="step-connector-label">📻 Received Signal 〰️</div>
         </div>
 
-        <!-- Step 5: Signal Reconstruction -->
-        <div class="step" id="step5">
-            <div class="step-header" onclick="toggleStep(5)">
-                <span class="step-number">⑤</span>
+        <!-- Step 6: Signal Reconstruction -->
+        <div class="step" id="step6">
+            <div class="step-header" onclick="toggleStep(6)">
+                <span class="step-number">⑥</span>
                 <span class="step-title">🔮 Signal Reconstruction at Receiver</span>
             </div>
             <div class="step-content">
@@ -1838,7 +2291,7 @@
                 <!-- Input/Output Visual -->
                 <div class="io-visual">
                     <div class="io-box input-box">
-                        <div class="io-label">📥 Input (from Step 4)</div>
+                        <div class="io-label">📥 Input (from Step 5)</div>
                         <div class="io-value">🔇 Limited Frequencies ▁▂▃░░</div>
                     </div>
                     <div class="io-arrow">⟹</div>
@@ -1855,11 +2308,11 @@
                 <div class="chart-container" style="height: 180px;">
                     <canvas id="reconstructedChart"></canvas>
                 </div>
-                <div id="step5-content"></div>
+                <div id="step6-content"></div>
 
                 <!-- Connection to Next Step -->
                 <div class="next-step-box">
-                    <h4>Connection to Step 6</h4>
+                    <h4>Connection to Step 7</h4>
                     <p>The signal looks different, but can we still <strong>read the original message</strong>?
                     Nyquist's key insight: if we sample at the <strong>right moments</strong> (center of each bit),
                     we can still decode correctly.</p>
@@ -1867,8 +2320,8 @@
             </div>
         </div>
 
-        <!-- Step Connector 5→6 -->
-        <div class="step-connector" id="connector5-6" style="display: none;">
+        <!-- Step Connector 6→7 -->
+        <div class="step-connector" id="connector6-7" style="display: none;">
             <div class="step-connector-arrow">
                 <div class="arrow-line"></div>
                 <div class="arrow-head">▼</div>
@@ -1876,10 +2329,10 @@
             <div class="step-connector-label">⏱️ Sample & Decide 🎯</div>
         </div>
 
-        <!-- Step 6: Sampling and Decoding -->
-        <div class="step" id="step6">
-            <div class="step-header" onclick="toggleStep(6)">
-                <span class="step-number">⑥</span>
+        <!-- Step 7: Sampling and Decoding -->
+        <div class="step" id="step7">
+            <div class="step-header" onclick="toggleStep(7)">
+                <span class="step-number">⑦</span>
                 <span class="step-title">🎯 Sampling and Decoding</span>
             </div>
             <div class="step-content">
@@ -1895,13 +2348,13 @@
                 <!-- Input/Output Visual -->
                 <div class="io-visual">
                     <div class="io-box input-box">
-                        <div class="io-label">📥 Input (from Step 5)</div>
+                        <div class="io-label">📥 Input (from Step 6)</div>
                         <div class="io-value">🔮 Smooth Wave ∿∿∿∿</div>
                     </div>
                     <div class="io-arrow">⟹</div>
                     <div class="io-box output-box">
                         <div class="io-label">📤 Output</div>
-                        <div class="io-value" id="step6-output">🎯 Binary: ①⓪①①⓪ ✓</div>
+                        <div class="io-value" id="step7-output">🎯 Binary: ①⓪①①⓪ ✓</div>
                     </div>
                 </div>
 
@@ -1912,19 +2365,19 @@
                 <div class="chart-container" style="height: 180px;">
                     <canvas id="samplingChart"></canvas>
                 </div>
-                <div id="step6-content"></div>
+                <div id="step7-content"></div>
 
                 <!-- Connection to Next Step -->
                 <div class="next-step-box">
-                    <h4>Connection to Step 7</h4>
+                    <h4>Connection to Step 8</h4>
                     <p>Let's compare the <strong>original message</strong> with the <strong>decoded message</strong>
                     and analyze any errors. This will show us the limits of the communication system.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Step Connector 6→7 -->
-        <div class="step-connector" id="connector6-7" style="display: none;">
+        <!-- Step Connector 7→8 -->
+        <div class="step-connector" id="connector7-8" style="display: none;">
             <div class="step-connector-arrow">
                 <div class="arrow-line"></div>
                 <div class="arrow-head">▼</div>
@@ -1932,10 +2385,10 @@
             <div class="step-connector-label">⚖️ Compare & Verify ✓</div>
         </div>
 
-        <!-- Step 7: Results -->
-        <div class="step" id="step7">
-            <div class="step-header" onclick="toggleStep(7)">
-                <span class="step-number">⑦</span>
+        <!-- Step 8: Results -->
+        <div class="step" id="step8">
+            <div class="step-header" onclick="toggleStep(8)">
+                <span class="step-number">⑧</span>
                 <span class="step-title">📊 Transmission Analysis</span>
             </div>
             <div class="step-content">
@@ -1947,7 +2400,7 @@
                     <strong>sufficient bandwidth</strong> for reliable communication at this signaling speed.</p>
                 </div>
 
-                <div id="step7-content"></div>
+                <div id="step8-content"></div>
             </div>
         </div>
 
@@ -2889,7 +3342,7 @@
                 document.getElementById('signalFlowOverview').style.display = 'block';
 
                 // Show step connectors
-                const connectors = ['connector1-2', 'connector2-3', 'connector3-4', 'connector4-5', 'connector5-6', 'connector6-7'];
+                const connectors = ['connector1-2', 'connector2-3', 'connector3-4', 'connector4-5', 'connector5-6', 'connector6-7', 'connector7-8'];
                 connectors.forEach(id => {
                     const el = document.getElementById(id);
                     if (el) el.style.display = 'flex';
@@ -2923,14 +3376,14 @@
                     data.step4_channel.bandwidth
                 );
 
-                // Step 5: Reconstruction
-                updateStep5(data.step2_rectangular_wave, data.step5_reconstruction);
+                // Step 6: Reconstruction
+                updateStep6(data.step2_rectangular_wave, data.step5_reconstruction);
 
-                // Step 6: Sampling
-                updateStep6(data.step5_reconstruction, data.step6_sampling, data.step1_encoding.elements);
+                // Step 7: Sampling
+                updateStep7(data.step5_reconstruction, data.step6_sampling, data.step1_encoding.elements);
 
-                // Step 7: Results
-                updateStep7(data);
+                // Step 8: Results
+                updateStep8(data);
 
                 // Advanced Concepts
                 updateShapeDiscrimination(shapeData);
@@ -3178,6 +3631,31 @@
         // Store transmission data for replay
         let txAnimationData = null;
         let txAnimationId = null;
+        let txAnimationSpeed = 1; // Speed multiplier (0.5, 1, 2, 3)
+        const baseAnimationDuration = 3000; // Base duration in ms
+
+        function setAnimationSpeed(speed) {
+            txAnimationSpeed = speed;
+
+            // Update button states
+            document.querySelectorAll('.speed-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (parseFloat(btn.dataset.speed) === speed) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update display
+            const currentDuration = baseAnimationDuration / speed;
+            document.getElementById('currentSpeedDisplay').textContent = speed + '×';
+            document.getElementById('animationDurationDisplay').textContent = (currentDuration / 1000).toFixed(1) + 's';
+
+            // Update CSS transition for signal packet
+            const signalPacket = document.getElementById('signalPacket');
+            if (signalPacket) {
+                signalPacket.style.transition = `left ${currentDuration / 1000}s ease-in-out, background 1s ease`;
+            }
+        }
 
         function updateTransmissionLine(originalSignal, reconstructedSignal, channelType, bandwidth) {
             // Store data for replay
@@ -3333,8 +3811,11 @@
             // Draw mini waveform on packet
             drawPacketWave(originalSignal.slice(0, 20), false);
 
+            // Update signal packet transition based on current speed
+            const animationDuration = baseAnimationDuration / txAnimationSpeed;
+            signalPacket.style.transition = `left ${animationDuration / 1000}s ease-in-out, background 1s ease`;
+
             // Animation timeline
-            const animationDuration = 3000; // 3 seconds
             let startTime = null;
 
             function animate(timestamp) {
@@ -3439,7 +3920,7 @@
             }
         }
 
-        function updateStep5(original, reconstructed) {
+        function updateStep6(original, reconstructed) {
             if (reconstructedChart) reconstructedChart.destroy();
             const labels = original.signal.map((_, i) => (i / 50).toFixed(1));
             reconstructedChart = new Chart(document.getElementById('reconstructedChart'), {
@@ -3467,7 +3948,7 @@
                 options: {...chartConfig, plugins: {legend: {display: true, position: 'top'}}}
             });
 
-            document.getElementById('step5-content').innerHTML = `
+            document.getElementById('step6-content').innerHTML = `
                 <div class="info-panel">
                     <strong>Observation:</strong> The reconstructed signal (green) shows rounding at transitions
                     due to missing high-frequency components. However, at sampling instants (center of each time unit),
@@ -3476,7 +3957,7 @@
             `;
         }
 
-        function updateStep6(reconstructed, sampling, originalElements) {
+        function updateStep7(reconstructed, sampling, originalElements) {
             if (samplingChart) samplingChart.destroy();
 
             // Create proper x-axis values for the signal (time in time units)
@@ -3589,7 +4070,7 @@
             const originalBits = originalElements.map(e => e.value !== undefined ? e.value : e);
             const errors = decodedBits.filter((d, i) => d !== originalBits[i]).length;
 
-            document.getElementById('step6-content').innerHTML = `
+            document.getElementById('step7-content').innerHTML = `
                 <div class="info-panel">
                     <strong>Sampling:</strong> At the center of each time unit, we sample the received signal
                     and compare to threshold 0.5.<br>
@@ -3599,19 +4080,19 @@
                 </div>
             `;
 
-            // Update step 6 output display
-            const step6Output = document.getElementById('step6-output');
-            if (step6Output) {
+            // Update step 7 output display
+            const step7Output = document.getElementById('step7-output');
+            if (step7Output) {
                 const decodedStr = decodedBits.join('');
                 if (errors === 0) {
-                    step6Output.innerHTML = `Binary: ${decodedStr} <span style="color: #10b981;">✓ Perfect!</span>`;
+                    step7Output.innerHTML = `Binary: ${decodedStr} <span style="color: #10b981;">✓ Perfect!</span>`;
                 } else {
-                    step6Output.innerHTML = `Binary: ${decodedStr} <span style="color: #ef4444;">(${errors} error${errors > 1 ? 's' : ''})</span>`;
+                    step7Output.innerHTML = `Binary: ${decodedStr} <span style="color: #ef4444;">(${errors} error${errors > 1 ? 's' : ''})</span>`;
                 }
             }
         }
 
-        function updateStep7(data) {
+        function updateStep8(data) {
             const analysis = data.step7_analysis;
             const encoding = data.step1_encoding;
             const nyquist = data.nyquist_info;
@@ -3623,7 +4104,7 @@
             const isBandwidthSufficient = channelBW >= minBandwidth;
             const isSuccess = analysis.success;
 
-            document.getElementById('step7-content').innerHTML = `
+            document.getElementById('step8-content').innerHTML = `
                 <div class="result-panel ${isSuccess ? 'success' : 'error'}">
                     <strong>${isSuccess ? 'Transmission Successful' : 'Transmission Errors Detected'}</strong><br>
                     Errors: ${analysis.errors} out of ${numElements} elements
