@@ -1008,7 +1008,13 @@
                         <input type="range" id="bandwidth" min="3" max="30" value="15" style="width: 120px;">
                         <span id="bandwidthValue" class="slider-value" style="min-width: 40px; font-weight: bold; color: #3b82f6;">15 Hz</span>
                     </div>
-                    <small style="color: #6b7280; font-size: 0.75em;">↔️ Drag to change!</small>
+                    <div id="bandwidthRequirement" style="font-size: 0.75em; margin-top: 4px;">
+                        <span style="color: #6b7280;">Required: </span>
+                        <span id="minBandwidthValue" style="font-weight: bold; color: #10b981;">--</span>
+                    </div>
+                    <div id="bandwidthWarning" style="display: none; font-size: 0.75em; color: #ef4444; margin-top: 2px; font-weight: bold;">
+                        ⚠️ B too low! Errors expected.
+                    </div>
                 </div>
                 <div class="input-group">
                     <label>Channel Type</label>
@@ -2182,10 +2188,77 @@
             document.getElementById('carrier-' + tab).classList.add('active');
         }
 
+        // Calculate minimum bandwidth based on message
+        function calculateMinBandwidth(text) {
+            // Morse code timing: dot=1, dash=3, inter-element=1, inter-letter=3, inter-word=7
+            // Each character in Morse creates signal elements
+            const morseCode = {
+                'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+                'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+                'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+                'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+                'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---',
+                '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
+                '8': '---..', '9': '----.', ' ': ' '
+            };
+
+            let numElements = 0;
+            const upperText = text.toUpperCase();
+            for (let i = 0; i < upperText.length; i++) {
+                const char = upperText[i];
+                if (char === ' ') {
+                    numElements += 7; // word space
+                } else if (morseCode[char]) {
+                    const morse = morseCode[char];
+                    for (let j = 0; j < morse.length; j++) {
+                        numElements += (morse[j] === '.') ? 1 : 3; // dot or dash
+                        if (j < morse.length - 1) numElements += 1; // inter-element space
+                    }
+                    if (i < upperText.length - 1 && upperText[i+1] !== ' ') {
+                        numElements += 3; // inter-letter space
+                    }
+                }
+            }
+
+            // Nyquist: B_min = S/2 where S is signaling speed
+            // For our simulation, signaling speed = number of elements
+            // Minimum bandwidth = numElements / 2 (rounded up)
+            return Math.ceil(numElements / 2);
+        }
+
+        // Update bandwidth requirement display
+        function updateBandwidthRequirement() {
+            const text = document.getElementById('inputText').value || 'SOS';
+            const currentBandwidth = parseInt(document.getElementById('bandwidth').value);
+            const minBandwidth = calculateMinBandwidth(text);
+
+            document.getElementById('minBandwidthValue').textContent = minBandwidth + ' Hz (min)';
+
+            const warningEl = document.getElementById('bandwidthWarning');
+            const bandwidthValueEl = document.getElementById('bandwidthValue');
+
+            if (currentBandwidth < minBandwidth) {
+                warningEl.style.display = 'block';
+                bandwidthValueEl.style.color = '#ef4444'; // red
+            } else {
+                warningEl.style.display = 'none';
+                bandwidthValueEl.style.color = '#10b981'; // green
+            }
+        }
+
         // Update bandwidth display
         document.getElementById('bandwidth').addEventListener('input', function() {
-            document.getElementById('bandwidthValue').textContent = this.value;
+            document.getElementById('bandwidthValue').textContent = this.value + ' Hz';
+            updateBandwidthRequirement();
         });
+
+        // Update when message changes
+        document.getElementById('inputText').addEventListener('input', function() {
+            updateBandwidthRequirement();
+        });
+
+        // Initial calculation
+        updateBandwidthRequirement();
 
         // Harmonic slider for progressive building
         document.getElementById('harmonicSlider').addEventListener('input', function() {
@@ -2569,14 +2642,49 @@
             const analysis = data.step7_analysis;
             const encoding = data.step1_encoding;
             const nyquist = data.nyquist_info;
+            const channelBW = data.step4_channel.bandwidth;
 
+            // Calculate minimum required bandwidth
+            const numElements = encoding.elements.length;
+            const minBandwidth = Math.ceil(numElements / 2);
+            const isBandwidthSufficient = channelBW >= minBandwidth;
             const isSuccess = analysis.success;
 
             document.getElementById('step7-content').innerHTML = `
                 <div class="result-panel ${isSuccess ? 'success' : 'error'}">
                     <strong>${isSuccess ? 'Transmission Successful' : 'Transmission Errors Detected'}</strong><br>
-                    Errors: ${analysis.errors} out of ${encoding.elements.length} elements
+                    Errors: ${analysis.errors} out of ${numElements} elements
                     (${(analysis.error_rate * 100).toFixed(1)}% error rate)
+                </div>
+
+                <!-- Bandwidth Analysis Box -->
+                <div style="background: ${isBandwidthSufficient ? 'linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%)' : 'linear-gradient(135deg, #fee2e2 0%, #fef2f2 100%)'};
+                            border: 2px solid ${isBandwidthSufficient ? '#10b981' : '#ef4444'};
+                            border-radius: 12px; padding: 16px; margin: 16px 0;">
+                    <h4 style="margin: 0 0 12px 0; color: ${isBandwidthSufficient ? '#059669' : '#dc2626'};">
+                        ${isBandwidthSufficient ? '✓ Bandwidth Analysis: SUFFICIENT' : '✗ Bandwidth Analysis: INSUFFICIENT'}
+                    </h4>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center;">
+                        <div style="background: white; padding: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                            <div style="font-size: 0.8em; color: #6b7280;">Signal Elements (S)</div>
+                            <div style="font-size: 1.5em; font-weight: bold; color: #3b82f6;">${numElements}</div>
+                            <div style="font-size: 0.75em; color: #9ca3af;">symbols to transmit</div>
+                        </div>
+                        <div style="background: white; padding: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                            <div style="font-size: 0.8em; color: #6b7280;">Min Required (B<sub>min</sub> = S/2)</div>
+                            <div style="font-size: 1.5em; font-weight: bold; color: #f59e0b;">${minBandwidth} Hz</div>
+                            <div style="font-size: 0.75em; color: #9ca3af;">Nyquist limit</div>
+                        </div>
+                        <div style="background: white; padding: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                            <div style="font-size: 0.8em; color: #6b7280;">Channel Bandwidth (B)</div>
+                            <div style="font-size: 1.5em; font-weight: bold; color: ${isBandwidthSufficient ? '#10b981' : '#ef4444'};">${channelBW} Hz</div>
+                            <div style="font-size: 0.75em; color: #9ca3af;">${isBandwidthSufficient ? 'OK' : 'Too low!'}</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; padding: 10px; background: white; border-radius: 8px; text-align: center;">
+                        <strong>Nyquist Formula:</strong> B<sub>min</sub> = S / 2 → ${numElements} / 2 = ${minBandwidth} Hz
+                        ${!isBandwidthSufficient ? `<br><span style="color: #ef4444;">You need at least ${minBandwidth - channelBW} more Hz of bandwidth!</span>` : ''}
+                    </div>
                 </div>
 
                 <div class="two-col">
@@ -2587,9 +2695,8 @@
                             <div class="explanation">Maximum signaling speed through a channel of bandwidth B Hz</div>
                         </div>
                         <p style="font-size: 0.9em; color: #6b7280; margin-top: 8px;">
-                            This means for a bandwidth of ${data.step4_channel.bandwidth} Hz,
-                            you can transmit up to ${data.step4_channel.bandwidth * 2} symbols/second
-                            without intersymbol interference at sampling instants.
+                            With B = ${channelBW} Hz, max speed = ${channelBW * 2} symbols/sec.
+                            Your signal has ${numElements} elements, so ${isBandwidthSufficient ? 'transmission is reliable.' : 'errors are expected.'}
                         </p>
                     </div>
                     <div>
