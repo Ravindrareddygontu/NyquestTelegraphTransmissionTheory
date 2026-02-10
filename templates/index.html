@@ -584,139 +584,241 @@
             font-family: monospace;
         }
 
-        /* Telegraph Key Animation - Enhanced 3D */
-        .telegraph-key {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-            padding: 30px;
-            background: linear-gradient(180deg, #3d3d3d 0%, #1a1a1a 50%, #0d0d0d 100%);
+        /* Signal Flow Overview */
+        .signal-flow-overview {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            border: 2px solid var(--accent);
             border-radius: 16px;
+            padding: 20px;
             margin: 20px 0;
-            box-shadow:
-                0 10px 30px rgba(0,0,0,0.5),
-                inset 0 1px 0 rgba(255,255,255,0.1);
-            perspective: 1000px;
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(30, 58, 95, 0.15);
         }
-        .telegraph-key::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            animation: shine 3s infinite;
+        .flow-title {
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 16px;
         }
-        @keyframes shine {
-            100% { left: 200%; }
-        }
-        .key-base {
-            width: 220px;
-            height: 70px;
-            background: linear-gradient(180deg, #a0522d 0%, #8b4513 30%, #654321 100%);
-            border-radius: 10px;
-            position: relative;
-            box-shadow:
-                0 8px 16px rgba(0,0,0,0.4),
-                inset 0 2px 0 rgba(255,255,255,0.2),
-                inset 0 -2px 0 rgba(0,0,0,0.3);
-            transform: rotateX(10deg);
-        }
-        .key-base::before {
-            content: '';
-            position: absolute;
-            top: 5px;
-            left: 10px;
-            right: 10px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            border-radius: 2px;
-        }
-        .key-lever {
-            position: absolute;
-            width: 140px;
-            height: 14px;
-            background: linear-gradient(180deg, #d4d4d4 0%, #a0a0a0 50%, #707070 100%);
-            border-radius: 7px;
-            top: 12px;
-            left: 40px;
-            transform-origin: left center;
-            transition: transform 0.08s ease-out;
-            box-shadow:
-                0 4px 8px rgba(0,0,0,0.4),
-                inset 0 1px 0 rgba(255,255,255,0.5);
-        }
-        .key-lever.pressed {
-            transform: rotate(8deg);
-            box-shadow:
-                0 2px 4px rgba(0,0,0,0.4),
-                inset 0 1px 0 rgba(255,255,255,0.5);
-        }
-        .key-knob {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: radial-gradient(circle at 35% 35%, #4a4a4a, #1a1a1a, #000);
-            border-radius: 50%;
-            right: -12px;
-            top: -8px;
-            box-shadow:
-                0 4px 8px rgba(0,0,0,0.5),
-                inset 0 2px 4px rgba(255,255,255,0.1);
-        }
-        .key-light {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 40% 40%, #555, #222);
-            box-shadow:
-                inset 0 3px 6px rgba(0,0,0,0.6),
-                0 2px 4px rgba(0,0,0,0.3);
-            transition: all 0.08s ease-out;
-            position: relative;
-        }
-        .key-light::after {
-            content: '';
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            width: 8px;
-            height: 8px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-        }
-        .key-light.on {
-            background: radial-gradient(circle at 40% 40%, #ff6666, #ff0000, #cc0000);
-            box-shadow:
-                0 0 30px #ff4444,
-                0 0 60px #ff4444,
-                0 0 90px rgba(255,68,68,0.5),
-                inset 0 -3px 6px rgba(0,0,0,0.3);
-        }
-        .key-speaker {
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #1a1a1a 0%, #0a0a0a 100%);
-            border-radius: 50%;
+        .flow-steps {
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 3px solid #333;
+            gap: 8px;
+            flex-wrap: wrap;
         }
-        .speaker-cone {
-            width: 40px;
-            height: 40px;
-            background: repeating-radial-gradient(circle, #222 0px, #222 2px, #333 2px, #333 4px);
-            border-radius: 50%;
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 90px;
+        }
+        .flow-step:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+            border-color: var(--accent);
+        }
+        .flow-step.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+        }
+        .flow-step.active .flow-label {
+            color: white;
+        }
+        .flow-step.complete {
+            background: #10b981;
+            border-color: #10b981;
+        }
+        .flow-step.complete .flow-label {
+            color: white;
+        }
+        .flow-icon {
+            font-size: 1.5em;
+            margin-bottom: 6px;
+        }
+        .flow-label {
+            font-size: 0.75em;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        .flow-arrow {
+            font-size: 1.5em;
+            color: var(--accent);
+            font-weight: bold;
+            animation: pulse-arrow 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse-arrow {
+            0%, 100% { opacity: 0.5; transform: translateX(0); }
+            50% { opacity: 1; transform: translateX(3px); }
         }
 
-        /* Transmission Progress */
-        .transmission-progress {
+        /* Step Connector Arrows */
+        .step-connector {
             display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 0;
+            position: relative;
+        }
+        .step-connector-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--accent);
+        }
+        .step-connector-arrow .arrow-line {
+            width: 4px;
+            height: 40px;
+            background: linear-gradient(180deg, var(--accent), var(--accent-light));
+            border-radius: 2px;
+        }
+        .step-connector-arrow .arrow-head {
+            font-size: 2em;
+            line-height: 1;
+            margin-top: -8px;
+        }
+        .step-connector-label {
+            position: absolute;
+            left: 50%;
+            transform: translateX(30px);
+            background: var(--bg-tertiary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            color: var(--accent);
+            font-weight: 600;
+            border: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        /* What Happens Here Box */
+        .what-happens-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+            border: 1px solid #0ea5e9;
+            border-left: 4px solid #0ea5e9;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        body.dark-mode .what-happens-box {
+            background: linear-gradient(135deg, #1e3a5f 0%, #1a2942 100%);
+            border-color: #3b82f6;
+        }
+        .what-happens-box h4 {
+            color: #0369a1;
+            margin: 0 0 10px 0;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        body.dark-mode .what-happens-box h4 {
+            color: #60a5fa;
+        }
+        .what-happens-box p {
+            color: #0c4a6e;
+            margin: 0;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        body.dark-mode .what-happens-box p {
+            color: #bfdbfe;
+        }
+
+        /* Connection to Next Step Box */
+        .next-step-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);
+            border: 1px solid #f59e0b;
+            border-left: 4px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        body.dark-mode .next-step-box {
+            background: linear-gradient(135deg, #422006 0%, #2c1503 100%);
+            border-color: #fbbf24;
+        }
+        .next-step-box h4 {
+            color: #b45309;
+            margin: 0 0 10px 0;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        body.dark-mode .next-step-box h4 {
+            color: #fcd34d;
+        }
+        .next-step-box p {
+            color: #78350f;
+            margin: 0;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        body.dark-mode .next-step-box p {
+            color: #fef3c7;
+        }
+
+        /* Input/Output Visual */
+        .io-visual {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 16px 0;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+        .io-box {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .io-box.input-box {
+            background: #dbeafe;
+            border: 2px solid #3b82f6;
+        }
+        body.dark-mode .io-box.input-box {
+            background: #1e3a5f;
+        }
+        .io-box.output-box {
+            background: #d1fae5;
+            border: 2px solid #10b981;
+        }
+        body.dark-mode .io-box.output-box {
+            background: #064e3b;
+        }
+        .io-box .io-label {
+            font-size: 0.7em;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        .io-box .io-value {
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        .io-arrow {
+            font-size: 1.5em;
+            color: var(--accent);
+        }
+
+        /* Keep old transmission progress for backwards compatibility (hidden) */
+        .transmission-progress {
+            display: none;
             align-items: center;
             gap: 8px;
             padding: 16px;
@@ -918,59 +1020,40 @@
                 <button class="btn" onclick="analyzeSignal()">Transmit Signal</button>
             </div>
 
-            <!-- Telegraph Key Animation -->
-            <div class="telegraph-key" id="telegraphKey">
-                <div class="key-light" id="keyLight"></div>
-                <div class="key-base">
-                    <div class="key-lever" id="keyLever">
-                        <div class="key-knob"></div>
+            <!-- Signal Flow Overview - Shows how all steps connect -->
+            <div class="signal-flow-overview" id="signalFlowOverview" style="display: none;">
+                <div class="flow-title">📡 Signal Transmission Pipeline</div>
+                <div class="flow-steps">
+                    <div class="flow-step active" data-step="1">
+                        <div class="flow-icon">📝</div>
+                        <div class="flow-label">Message</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step" data-step="2">
+                        <div class="flow-icon">📊</div>
+                        <div class="flow-label">Rectangular Wave</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step" data-step="3">
+                        <div class="flow-icon">🎵</div>
+                        <div class="flow-label">Frequency Components</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step" data-step="4">
+                        <div class="flow-icon">📡</div>
+                        <div class="flow-label">Channel Filter</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step" data-step="5">
+                        <div class="flow-icon">🔄</div>
+                        <div class="flow-label">Reconstruct</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step" data-step="6">
+                        <div class="flow-icon">✅</div>
+                        <div class="flow-label">Decode</div>
                     </div>
                 </div>
-                <div class="key-speaker">
-                    <div class="speaker-cone"></div>
-                </div>
-            </div>
-
-            <!-- Audio Controls -->
-            <div class="audio-controls" id="audioControls" style="display: none;">
-                <button class="audio-btn" id="playBtn" onclick="toggleAudio()">
-                    <span id="playIcon">▶</span>
-                </button>
-                <div class="audio-waveform" id="waveformDisplay">
-                    <!-- Waveform bars will be generated by JS -->
-                </div>
-                <div class="audio-speed">
-                    <label>Speed:</label>
-                    <select id="audioSpeed" onchange="updateAudioSpeed()">
-                        <option value="0.5">0.5x</option>
-                        <option value="1" selected>1x</option>
-                        <option value="1.5">1.5x</option>
-                        <option value="2">2x</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Transmission Progress -->
-            <div class="transmission-progress" id="transmissionProgress" style="display: none;">
-                <div class="progress-stage" id="stage1">Encoding</div>
-                <span class="progress-arrow">→</span>
-                <div class="progress-stage" id="stage2">Modulation</div>
-                <span class="progress-arrow">→</span>
-                <div class="progress-stage" id="stage3">Transmission</div>
-                <span class="progress-arrow">→</span>
-                <div class="progress-stage" id="stage4">Filtering</div>
-                <span class="progress-arrow">→</span>
-                <div class="progress-stage" id="stage5">Sampling</div>
-                <span class="progress-arrow">→</span>
-                <div class="progress-stage" id="stage6">Decoding</div>
-            </div>
-
-            <!-- Live Signal Animation -->
-            <div class="signal-animation-container" id="signalAnimation" style="display: none;">
-                <div class="grid-overlay"></div>
-                <canvas id="signalCanvas" style="width: 100%; height: 100%;"></canvas>
-                <div class="signal-dot" id="signalDot"></div>
-                <div class="signal-label">LIVE SIGNAL</div>
             </div>
         </div>
 
@@ -991,6 +1074,15 @@
             </div>
         </div>
 
+        <!-- Step Connector 1→2 -->
+        <div class="step-connector" id="connector1-2" style="display: none;">
+            <div class="step-connector-arrow">
+                <div class="arrow-line"></div>
+                <div class="arrow-head">▼</div>
+            </div>
+            <div class="step-connector-label">Bits → Electrical Signal</div>
+        </div>
+
         <!-- Step 2: Signal Generation -->
         <div class="step" id="step2">
             <div class="step-header" onclick="toggleStep(2)">
@@ -998,6 +1090,27 @@
                 <span class="step-title">Rectangular Wave Generation (DC Telegraph)</span>
             </div>
             <div class="step-content">
+                <!-- What Happens Here -->
+                <div class="what-happens-box">
+                    <h4>💡 What happens here?</h4>
+                    <p>We convert the binary message (0s and 1s) into an <strong>electrical signal</strong>.
+                    Each bit becomes a voltage level: <strong>1 = high voltage</strong>, <strong>0 = low voltage</strong>.
+                    This creates a "staircase" or rectangular wave pattern.</p>
+                </div>
+
+                <!-- Input/Output Visual -->
+                <div class="io-visual" id="step2-io">
+                    <div class="io-box input-box">
+                        <div class="io-label">Input (from Step 1)</div>
+                        <div class="io-value" id="step2-input">Binary: 10110</div>
+                    </div>
+                    <div class="io-arrow">➜</div>
+                    <div class="io-box output-box">
+                        <div class="io-label">Output</div>
+                        <div class="io-value">Rectangular Wave ▃▅▃▅▅</div>
+                    </div>
+                </div>
+
                 <div class="formula-box">
                     <div class="formula">f(t) = m<sub>k</sub> for kT ≤ t < (k+1)T</div>
                     <div class="explanation">The signal takes value m<sub>k</sub> (0 or 1) during each time unit T</div>
@@ -1006,7 +1119,23 @@
                     <canvas id="rectangularChart"></canvas>
                 </div>
                 <div id="step2-content"></div>
+
+                <!-- Connection to Next Step -->
+                <div class="next-step-box">
+                    <h4>➡️ Connection to Step 3</h4>
+                    <p>This rectangular wave contains <strong>sharp edges</strong> (sudden transitions).
+                    To understand how the channel will affect it, we need to break it down into its <strong>frequency components</strong> using Fourier analysis.</p>
+                </div>
             </div>
+        </div>
+
+        <!-- Step Connector 2→3 -->
+        <div class="step-connector" id="connector2-3" style="display: none;">
+            <div class="step-connector-arrow">
+                <div class="arrow-line"></div>
+                <div class="arrow-head">▼</div>
+            </div>
+            <div class="step-connector-label">Analyze Frequencies</div>
         </div>
 
         <!-- Step 3: Fourier Decomposition -->
@@ -1016,19 +1145,40 @@
                 <span class="step-title">Fourier Series Decomposition</span>
             </div>
             <div class="step-content">
+                <!-- What Happens Here -->
+                <div class="what-happens-box">
+                    <h4>💡 What happens here?</h4>
+                    <p>We break down the rectangular wave into <strong>simple sine waves</strong> of different frequencies.
+                    Think of it like splitting white light into a rainbow! The sharp corners require <strong>high-frequency components</strong>,
+                    while the flat parts are represented by <strong>low-frequency components</strong>.</p>
+                </div>
+
+                <!-- Input/Output Visual -->
+                <div class="io-visual">
+                    <div class="io-box input-box">
+                        <div class="io-label">Input (from Step 2)</div>
+                        <div class="io-value">Rectangular Wave ▃▅▃▅▅</div>
+                    </div>
+                    <div class="io-arrow">➜</div>
+                    <div class="io-box output-box">
+                        <div class="io-label">Output</div>
+                        <div class="io-value">Frequency Spectrum 📊</div>
+                    </div>
+                </div>
+
                 <div class="formula-box">
                     <div class="formula">f(t) = a₀ + Σ[aₖcos(kω₀t) + bₖsin(kω₀t)]</div>
                     <div class="explanation">Any periodic signal can be expressed as a sum of sinusoidal waves at harmonic frequencies</div>
                 </div>
                 <div class="two-col">
                     <div>
-                        <strong style="font-size: 0.9em; color: #374151;">Frequency Spectrum</strong>
+                        <strong style="font-size: 0.9em; color: var(--text-primary);">Frequency Spectrum</strong>
                         <div class="chart-container" style="height: 180px;">
                             <canvas id="spectrumChart"></canvas>
                         </div>
                     </div>
                     <div>
-                        <strong style="font-size: 0.9em; color: #374151;">Fourier Coefficients</strong>
+                        <strong style="font-size: 0.9em; color: var(--text-primary);">Fourier Coefficients</strong>
                         <div id="fourierTable" style="max-height: 200px; overflow-y: auto;"></div>
                     </div>
                 </div>
@@ -1036,7 +1186,24 @@
                     <strong>Key Insight (Nyquist):</strong> The rectangular wave contains infinite harmonics,
                     but we only need frequencies up to the signaling rate for correct reconstruction at sampling points.
                 </div>
+
+                <!-- Connection to Next Step -->
+                <div class="next-step-box">
+                    <h4>➡️ Connection to Step 4</h4>
+                    <p>Now that we know which frequencies are in our signal, we can see what happens when the
+                    <strong>communication channel</strong> blocks some of them. Real channels have <strong>limited bandwidth</strong>
+                    and cannot pass all frequencies.</p>
+                </div>
             </div>
+        </div>
+
+        <!-- Step Connector 3→4 -->
+        <div class="step-connector" id="connector3-4" style="display: none;">
+            <div class="step-connector-arrow">
+                <div class="arrow-line"></div>
+                <div class="arrow-head">▼</div>
+            </div>
+            <div class="step-connector-label">Send Through Channel</div>
         </div>
 
         <!-- Step 4: Channel Transmission -->
@@ -1046,6 +1213,27 @@
                 <span class="step-title">Channel Transmission (Bandwidth Limiting)</span>
             </div>
             <div class="step-content">
+                <!-- What Happens Here -->
+                <div class="what-happens-box">
+                    <h4>💡 What happens here?</h4>
+                    <p>The signal travels through a <strong>communication channel</strong> (wire, radio, fiber optic).
+                    Every channel has a <strong>maximum frequency it can carry</strong> (bandwidth).
+                    High frequencies get <strong>blocked or weakened</strong>, like how a wall muffles high-pitched sounds!</p>
+                </div>
+
+                <!-- Input/Output Visual -->
+                <div class="io-visual">
+                    <div class="io-box input-box">
+                        <div class="io-label">Input (from Step 3)</div>
+                        <div class="io-value">All Frequencies 🎵🎶🎵</div>
+                    </div>
+                    <div class="io-arrow">📡</div>
+                    <div class="io-box output-box">
+                        <div class="io-label">Output</div>
+                        <div class="io-value">Limited Frequencies 🎵</div>
+                    </div>
+                </div>
+
                 <div class="formula-box">
                     <div class="formula">H(f) = { 1 if |f| ≤ B, 0 otherwise } (ideal filter)</div>
                     <div class="explanation">The channel acts as a low-pass filter, blocking frequencies above bandwidth B</div>
@@ -1054,7 +1242,23 @@
                     <canvas id="channelResponseChart"></canvas>
                 </div>
                 <div id="step4-content"></div>
+
+                <!-- Connection to Next Step -->
+                <div class="next-step-box">
+                    <h4>➡️ Connection to Step 5</h4>
+                    <p>With some frequency components removed, the signal at the receiver won't look exactly like the original.
+                    Let's see what the <strong>reconstructed signal</strong> looks like!</p>
+                </div>
             </div>
+        </div>
+
+        <!-- Step Connector 4→5 -->
+        <div class="step-connector" id="connector4-5" style="display: none;">
+            <div class="step-connector-arrow">
+                <div class="arrow-line"></div>
+                <div class="arrow-head">▼</div>
+            </div>
+            <div class="step-connector-label">Received Signal</div>
         </div>
 
         <!-- Step 5: Signal Reconstruction -->
@@ -1064,6 +1268,27 @@
                 <span class="step-title">Signal Reconstruction at Receiver</span>
             </div>
             <div class="step-content">
+                <!-- What Happens Here -->
+                <div class="what-happens-box">
+                    <h4>💡 What happens here?</h4>
+                    <p>At the receiver, we combine the frequency components that <strong>made it through the channel</strong>.
+                    The result looks <strong>smoother</strong> than the original rectangular wave because the sharp edges
+                    (high frequencies) were removed. Compare the <strong>green line</strong> (received) with the <strong>blue line</strong> (original)!</p>
+                </div>
+
+                <!-- Input/Output Visual -->
+                <div class="io-visual">
+                    <div class="io-box input-box">
+                        <div class="io-label">Input (from Step 4)</div>
+                        <div class="io-value">Limited Frequencies 🎵</div>
+                    </div>
+                    <div class="io-arrow">➜</div>
+                    <div class="io-box output-box">
+                        <div class="io-label">Output</div>
+                        <div class="io-value">Smooth Wave 〰️</div>
+                    </div>
+                </div>
+
                 <div class="formula-box">
                     <div class="formula">f̂(t) = Σ(k=0 to B) [aₖcos(kω₀t) + bₖsin(kω₀t)]</div>
                     <div class="explanation">Reconstructed signal from limited frequency components</div>
@@ -1072,7 +1297,24 @@
                     <canvas id="reconstructedChart"></canvas>
                 </div>
                 <div id="step5-content"></div>
+
+                <!-- Connection to Next Step -->
+                <div class="next-step-box">
+                    <h4>➡️ Connection to Step 6</h4>
+                    <p>The signal looks different, but can we still <strong>read the original message</strong>?
+                    Nyquist's key insight: if we sample at the <strong>right moments</strong> (center of each bit),
+                    we can still decode correctly!</p>
+                </div>
             </div>
+        </div>
+
+        <!-- Step Connector 5→6 -->
+        <div class="step-connector" id="connector5-6" style="display: none;">
+            <div class="step-connector-arrow">
+                <div class="arrow-line"></div>
+                <div class="arrow-head">▼</div>
+            </div>
+            <div class="step-connector-label">Sample & Decide</div>
         </div>
 
         <!-- Step 6: Sampling and Decoding -->
@@ -1082,6 +1324,28 @@
                 <span class="step-title">Sampling and Decoding</span>
             </div>
             <div class="step-content">
+                <!-- What Happens Here -->
+                <div class="what-happens-box">
+                    <h4>💡 What happens here?</h4>
+                    <p>We <strong>sample</strong> the received signal at the <strong>center of each time slot</strong>
+                    (marked with dots on the chart). Then we make a decision: if the value is <strong>&gt; 0.5, it's a 1</strong>;
+                    if <strong>&lt; 0.5, it's a 0</strong>. This is Nyquist's brilliant insight: even distorted signals
+                    can be decoded correctly if sampled at the right time!</p>
+                </div>
+
+                <!-- Input/Output Visual -->
+                <div class="io-visual">
+                    <div class="io-box input-box">
+                        <div class="io-label">Input (from Step 5)</div>
+                        <div class="io-value">Smooth Wave 〰️</div>
+                    </div>
+                    <div class="io-arrow">➜</div>
+                    <div class="io-box output-box">
+                        <div class="io-label">Output</div>
+                        <div class="io-value" id="step6-output">Binary: 10110 ✓</div>
+                    </div>
+                </div>
+
                 <div class="formula-box">
                     <div class="formula">m̂ₖ = f̂((k + 0.5)T) → threshold → decoded bit</div>
                     <div class="explanation">Sample at the center of each time unit and compare to threshold (0.5)</div>
@@ -1090,7 +1354,23 @@
                     <canvas id="samplingChart"></canvas>
                 </div>
                 <div id="step6-content"></div>
+
+                <!-- Connection to Next Step -->
+                <div class="next-step-box">
+                    <h4>➡️ Connection to Step 7</h4>
+                    <p>Let's compare the <strong>original message</strong> with the <strong>decoded message</strong>
+                    and analyze any errors. This will show us the limits of the communication system!</p>
+                </div>
             </div>
+        </div>
+
+        <!-- Step Connector 6→7 -->
+        <div class="step-connector" id="connector6-7" style="display: none;">
+            <div class="step-connector-arrow">
+                <div class="arrow-line"></div>
+                <div class="arrow-head">▼</div>
+            </div>
+            <div class="step-connector-label">Compare Results</div>
         </div>
 
         <!-- Step 7: Results -->
@@ -1100,6 +1380,14 @@
                 <span class="step-title">Transmission Analysis</span>
             </div>
             <div class="step-content">
+                <!-- What Happens Here -->
+                <div class="what-happens-box">
+                    <h4>💡 What happens here?</h4>
+                    <p>We compare the <strong>original message</strong> with the <strong>decoded message</strong>
+                    and calculate the <strong>error rate</strong>. This tells us if our channel has
+                    <strong>sufficient bandwidth</strong> for reliable communication at this speed.</p>
+                </div>
+
                 <div id="step7-content"></div>
             </div>
         </div>
@@ -1965,22 +2253,18 @@
                 currentElements = data.step1_encoding.elements;
                 currentMorseCode = data.step1_encoding.morse_code;
 
-                // Show audio controls and animations
-                document.getElementById('audioControls').style.display = 'flex';
-                document.getElementById('transmissionProgress').style.display = 'flex';
-                document.getElementById('signalAnimation').style.display = 'block';
+                // Show signal flow overview
+                document.getElementById('signalFlowOverview').style.display = 'block';
 
-                // Generate waveform visualization
-                generateWaveformBars(currentElements);
+                // Show step connectors
+                const connectors = ['connector1-2', 'connector2-3', 'connector3-4', 'connector4-5', 'connector5-6', 'connector6-7'];
+                connectors.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = 'flex';
+                });
 
-                // Reset progress stages
-                for (let i = 1; i <= 6; i++) {
-                    document.getElementById('stage' + i).classList.remove('active', 'complete');
-                }
-
-                // Start animations
-                animateProgress();
-                animateSignal(currentElements, 3000);
+                // Animate flow steps
+                animateFlowSteps();
 
                 // Open all steps
                 for (let i = 1; i <= 7; i++) {
@@ -1991,7 +2275,7 @@
                 updateStep1(data.step1_encoding);
 
                 // Step 2: Rectangular wave
-                updateStep2(data.step2_rectangular_wave);
+                updateStep2(data.step2_rectangular_wave, data.step1_encoding.elements);
 
                 // Step 3: Fourier
                 updateStep3(data.step3_fourier);
@@ -2022,6 +2306,44 @@
             }
         }
 
+        // Animate the flow steps to show progression
+        function animateFlowSteps() {
+            const flowSteps = document.querySelectorAll('.flow-step');
+            flowSteps.forEach((step, index) => {
+                step.classList.remove('active', 'complete');
+            });
+
+            let currentStep = 0;
+            const interval = setInterval(() => {
+                if (currentStep > 0) {
+                    flowSteps[currentStep - 1].classList.remove('active');
+                    flowSteps[currentStep - 1].classList.add('complete');
+                }
+                if (currentStep < flowSteps.length) {
+                    flowSteps[currentStep].classList.add('active');
+                    currentStep++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 400);
+        }
+
+        // Update flow step to show active state
+        function setFlowStepActive(stepNum) {
+            const flowSteps = document.querySelectorAll('.flow-step');
+            flowSteps.forEach((step, index) => {
+                if (index + 1 < stepNum) {
+                    step.classList.add('complete');
+                    step.classList.remove('active');
+                } else if (index + 1 === stepNum) {
+                    step.classList.add('active');
+                    step.classList.remove('complete');
+                } else {
+                    step.classList.remove('active', 'complete');
+                }
+            });
+        }
+
         function updateStep1(encoding) {
             const content = document.getElementById('step1-content');
             content.innerHTML = `
@@ -2049,7 +2371,7 @@
             `;
         }
 
-        function updateStep2(wave) {
+        function updateStep2(wave, elements) {
             if (rectangularChart) rectangularChart.destroy();
             const labels = wave.signal.map((_, i) => (i / 50).toFixed(1));
             rectangularChart = new Chart(document.getElementById('rectangularChart'), {
@@ -2066,6 +2388,12 @@
                 },
                 options: {...chartConfig, scales: {...chartConfig.scales, y: {min: -0.2, max: 1.2}}}
             });
+
+            // Update the input display if elements are provided
+            if (elements && document.getElementById('step2-input')) {
+                const binaryStr = elements.map(e => e.value).join('');
+                document.getElementById('step2-input').textContent = `Binary: ${binaryStr}`;
+            }
         }
 
         function updateStep3(fourier) {
@@ -2209,6 +2537,11 @@
                 options: {...chartConfig, plugins: {legend: {display: true, position: 'top'}}}
             });
 
+            // Calculate decoded bits and error status
+            const decodedBits = sampling.samples.map(s => s.decoded);
+            const originalBits = originalElements.map(e => e.value !== undefined ? e.value : e);
+            const errors = decodedBits.filter((d, i) => d !== originalBits[i]).length;
+
             document.getElementById('step6-content').innerHTML = `
                 <div class="info-panel">
                     <strong>Sampling:</strong> At the center of each time unit, we sample the received signal
@@ -2218,6 +2551,17 @@
                     <span style="color: #ef4444;">● Red = error</span>
                 </div>
             `;
+
+            // Update step 6 output display
+            const step6Output = document.getElementById('step6-output');
+            if (step6Output) {
+                const decodedStr = decodedBits.join('');
+                if (errors === 0) {
+                    step6Output.innerHTML = `Binary: ${decodedStr} <span style="color: #10b981;">✓ Perfect!</span>`;
+                } else {
+                    step6Output.innerHTML = `Binary: ${decodedStr} <span style="color: #ef4444;">(${errors} error${errors > 1 ? 's' : ''})</span>`;
+                }
+            }
         }
 
         function updateStep7(data) {
